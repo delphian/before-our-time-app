@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.Location.LocationEditorPage"
+             Title="Location Editor">
+    <ContentPage.Resources>
+        <converters:NotBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand">
+            <ActivityIndicator Color="Blue" 
+                               IsRunning="{Binding Working}" 
+                               IsVisible="{Binding Working}" 
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         IsVisible="{Binding Working, Converter={StaticResource inverter}}">
+                <StackLayout VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand">
+                    <FlexLayout VerticalOptions="Start"
+                                HorizontalOptions="FillAndExpand"
+                                Direction="Row"
+                                JustifyContent="SpaceEvenly">
+                        <Picker x:Name="LocationPicker"
+                                VerticalOptions="Start"
+                                HorizontalOptions="FillAndExpand"
+                                Title="Choose a Location"
+                                Margin="0"
+                                ItemsSource="{Binding VMLocations}" 
+                                SelectedItem="{Binding VMSelectedLocation}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedIndexChanged="LocationPicker_OnSelectedIndexChanged"
+                                FlexLayout.Basis="70%"
+                                FlexLayout.Shrink="1" />
+                        <Button Text="Copy UUID"
+                                Clicked="Button_Clicked"
+                                VerticalOptions="End"
+                                MinimumWidthRequest="100"
+                                FlexLayout.Grow="1"
+                                FlexLayout.Basis="30%"></Button>
+                    </FlexLayout>
+                    <StackLayout VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="FillAndExpand"
+                                 Padding="10"
+                                 BackgroundColor="#f0f0f0">
+                        <Label Text="{Binding VMSelectedLocation.ItemId}"
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                FlexLayout.AlignSelf="Start"
+                                FlexLayout.Grow="1"
+                                FlexLayout.Basis="80%"></Label>
+                        <Entry Text="{Binding VMSelectedLocation.Name}"></Entry>
+                        <Editor Text="{Binding VMSelectedLocation.Description}" 
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="#ffffff"></Editor>
+                        <FlexLayout VerticalOptions="End"
+                                    HorizontalOptions="FillAndExpand"
+                                    Direction="Row"
+                                    JustifyContent="SpaceEvenly">
+                            <Button Text="Update"
+                                    Clicked="ButtonUpdate_Clicked"
+                                    Margin="0, 0, 4, 0"
+                                    BackgroundColor="LightGreen"
+                                    FlexLayout.Basis="50%"></Button>
+                            <Button Text="Edit JSON"
+                                    Clicked="ButtonJson_Clicked"
+                                    Margin="4, 0, 0, 0"
+                                    BackgroundColor="LightGreen"
+                                    FlexLayout.Basis="50%"></Button>
+                        </FlexLayout>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

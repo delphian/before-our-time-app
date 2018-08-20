@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
+             x:Class="BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select.SelectCharacterPage">
+    <ContentPage.Resources>
+        <converters:NotBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout
+                IsVisible="{Binding SvcWorking}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand">
+                <ActivityIndicator 
+                    Color="Blue" 
+                    IsRunning="{Binding SvcWorking}" 
+                    IsVisible="{Binding SvcWorking}" 
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand">
+                </ActivityIndicator>
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         IsVisible="{Binding SvcWorking, Converter={StaticResource inverter}}">
+                <StackLayout VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="CenterAndExpand"
+                             IsVisible="{Binding LoggedIn, Converter={StaticResource inverter}}">
+                    <Label Text="Please login first"></Label>
+                </StackLayout>
+                <StackLayout VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding LoggedIn}">
+                    <Label Text="Please create a character"
+                           IsVisible="{Binding CharactersPresent, Converter={StaticResource inverter}}">
+                    </Label>
+                    <ListView 
+                        x:Name="CharacterListView"
+                        IsVisible="{Binding CharactersPresent}"
+                        ItemsSource="{Binding Characters}" 
+                        ItemSelected="CharacterListView_ItemSelected"
+                        HorizontalOptions="FillAndExpand">
+                        <ListView.Header>
+                            <Label Text="Select character to play:" />
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding Name}" Detail="{Binding Description}" TextColor="DarkGray" DetailColor="LightGray" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding Playing}">
+                    <Label Text="Currently playing:"></Label>
+                    <Label Text="{Binding Character.Name}"></Label>
+                    <Button Text="Play" 
+                            Clicked="ButtonPlay_OnClicked"
+                            VerticalOptions="Start"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="4"
+                            CornerRadius="10"
+                            BackgroundColor="#80cc80">
+                    </Button>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"             
+             x:Class="BeforeOurTime.MobileApp.Pages.Game.GamePage"
+             Title="{Binding LocationName}">
+    <ContentPage.Content>
+        <StackLayout 
+            Margin="10"
+            HorizontalOptions="Start">
+            <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+            <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+
+            <Label Text="Exits:" FontAttributes="Bold" />
+            <local:ScrollListView 
+                x:Name="ExitsScrollListView"
+                ListOrientation="Horizontal"
+                ItemsSource="{Binding Exits}"
+                Grid.Column="{Binding ExitElements}"
+			    VerticalOptions="Fill"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
+                SelectedItemChanged="ScrollListView_ItemSelected">
+                <local:ScrollListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:ItemButtonControl
+                            Name="{Binding Name}"
+                            Description="{Binding Description}"
+                            Image="{Binding ImageIcon.Value}"
+                            ImageDefault="location"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
+                    </DataTemplate>
+                </local:ScrollListView.ItemTemplate>
+            </local:ScrollListView>
+
+            <Label Text="Characters:" FontAttributes="Bold" />
+            <local:ScrollListView 
+                ListOrientation="Horizontal"
+                ItemsSource="{Binding Characters}"
+                Spacing="4"
+                HeightRequest="40"
+                VerticalOptions="Fill"
+                HorizontalOptions="FillAndExpand">
+                <local:ScrollListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:ItemButtonControl
+                            Name="{Binding Name}"
+                            Description="{Binding Description}"
+                            Image="{Binding ImageIcon.Value}"
+                            ImageDefault="character"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
+                    </DataTemplate>
+                </local:ScrollListView.ItemTemplate>
+            </local:ScrollListView>
+            
+            <Label Text="{Binding EventStream}" 
+                   HorizontalOptions="StartAndExpand" 
+                   VerticalOptions="EndAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

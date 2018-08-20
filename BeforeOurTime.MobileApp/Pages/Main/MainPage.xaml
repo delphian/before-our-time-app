@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeforeOurTime.MobileApp.Pages.Main.MainPage"
+             Title="Before Our Time">
+    <StackLayout>
+        <Frame BorderColor="#d0d0d0" Margin="10" BackgroundColor="#f8f8f8" HeightRequest="40" IsEnabled="{Binding Connected}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTappedAccount"/>
+            </Frame.GestureRecognizers>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Label Text="Account" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+            </StackLayout>
+        </Frame>
+        <Frame BorderColor="#d0d0d0" Margin="10" BackgroundColor="#f8f8f8" HeightRequest="40" IsEnabled="{Binding Playable}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTappedPlay"/>
+            </Frame.GestureRecognizers>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Label Text="Play" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+            </StackLayout>
+        </Frame>
+        <Frame BorderColor="#d0d0d0" Margin="10" BackgroundColor="#f8f8f8" HeightRequest="40">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTappedServer"/>
+            </Frame.GestureRecognizers>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Label Text="Server" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</ContentPage>

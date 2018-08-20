@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
+             x:Class="BeforeOurTime.MobileApp.Pages.Login.LoginPage"
+             Title="The Gatekeeper">
+    <ContentPage.Resources>
+        <converters:NotBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="10">
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             WidthRequest="600"
+                             IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverter}}">
+                    <Label Text="{Binding Gatekeeper}"></Label>
+                </StackLayout>
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             WidthRequest="600"
+                             IsVisible="{Binding IsLoggedIn}">
+                    <Label Text="The Gatekeeper is flashing you a toothy grin while eagerly beckoning for you to enter. You have the brief impression of a man who is famished."
+                           TextColor="DarkGreen"></Label>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="10">
+                <Frame BorderColor="#e0e0e0"
+                       BackgroundColor="#f8f8f8"
+                       VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="10"
+                       WidthRequest="400"
+                       IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverter}}">
+                    <StackLayout Margin="0">
+                        <Entry Text="{Binding Email}"
+                               Placeholder="Email"></Entry>
+                        <Entry Text="{Binding Password}"
+                               Placeholder="Password"
+                               IsPassword="True"></Entry>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Text="Greet Warmly"
+                                    Clicked="ButtonLogIn_OnClicked"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontAttributes="None"
+                                    BorderRadius="10"
+                                    BackgroundColor="#80f080"
+                                    IsVisible="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                            <Button Text="Make Introductions"
+                                    Clicked="ButtonRegister_OnClicked"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    FontAttributes="None"
+                                    BorderRadius="10"
+                                    BackgroundColor="#f0f080"
+                                    IsVisible="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                            <ActivityIndicator Color="Blue" 
+                                               Grid.Row="0"
+                                               Grid.ColumnSpan="2"
+                                               IsRunning="{Binding Working}" 
+                                               IsVisible="{Binding Working}" 
+                                               VerticalOptions="CenterAndExpand"></ActivityIndicator>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             WidthRequest="400"
+                             IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverter}}">
+                    <Button Text="Depart from Fantasm"
+                            Clicked="ButtonDepart_OnClicked"
+                            BorderRadius="10"
+                            BackgroundColor="#f0f080"></Button>
+                </StackLayout>
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             Margin="0"
+                             Padding="0"
+                             WidthRequest="400"
+                             IsVisible="{Binding IsLoggedIn}">
+                    <Label Text="{Binding Account.AccountId}"></Label>
+                    <Label Text="{Binding Account.Name}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           Margin="0, 0, 0, 10"
+                           FontAttributes="Italic"></Label>
+                    <Button Text="Thank Gatekeeper and Pass Through"
+                            Clicked="ButtonChooseCharacter_OnClicked"
+                            BorderRadius="10"
+                            BackgroundColor="#80f080"></Button>
+                    <Button Text="Mmm... No"
+                            Clicked="ButtonLogOut_OnClicked"
+                            BorderRadius="10"
+                            BackgroundColor="#f0f080"></Button>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

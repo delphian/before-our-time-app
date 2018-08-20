@@ -1,0 +1,2 @@
+MainPackage=C:\projects\BeforeOurTime\before-our-time-client\BeforeOurTime.MobileApp.UWP\bin\x64\Release\BeforeOurTime.MobileApp.UWP_0.1.14.0_x64.appx
+SymbolPackage=C:\Users\bryan\Desktop\BeforeOurTime.MobileApp.UWP_0.1.14.0_Test\BeforeOurTime.MobileApp.UWP_0.1.14.0_x64.appxsym

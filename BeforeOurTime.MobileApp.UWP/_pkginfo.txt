@@ -1,0 +1,1 @@
+C:\projects\BeforeOurTime\before-our-time-client\BeforeOurTime.MobileApp.UWP\bin\ARM\Release\Upload\BeforeOurTime.MobileApp.UWP_0.1.14.0\BeforeOurTime.MobileApp.UWP_0.1.14.0_x86_x64_arm.appxbundle

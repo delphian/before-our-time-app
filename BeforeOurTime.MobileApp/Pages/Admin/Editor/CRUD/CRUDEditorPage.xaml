@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.CRUDEditorPage"
+             Title="CRUD JSON Item Editor"
+             BackgroundColor="#f0f0f0">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="10">
+            <StackLayout VerticalOptions="Start"
+                         HorizontalOptions="FillAndExpand">
+                <Entry Text="{Binding ItemId}" 
+                       VerticalOptions="Start"
+                       HorizontalOptions="StartAndExpand" 
+                       Placeholder="Item UUID"></Entry>
+                <FlexLayout Direction="Row"
+                            AlignItems="Center"
+                            JustifyContent="SpaceEvenly">
+                    <Button Text="Read" 
+                            Clicked="ButtonItemRead_OnClicked"
+                            BackgroundColor="LightGreen"
+                            Margin="0, 0, 4, 0"
+                            FlexLayout.Basis="50%"></Button>
+                    <Button Text="Create"
+                            BackgroundColor="LightGreen"
+                            Margin="4, 0, 0, 0"
+                            FlexLayout.Basis="50%"></Button>
+                </FlexLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand">
+                <Editor Text="{Binding ItemJson}" 
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#ffffff"></Editor>
+                <FlexLayout Direction="Row"
+                            AlignItems="Center"
+                            JustifyContent="SpaceEvenly">
+                    <Button Text="Update"
+                            Clicked="ButtonItemUpdate_OnClicked"
+                            BackgroundColor="Yellow"
+                            Margin="0, 0, 4, 0"
+                            FlexLayout.Basis="50%"></Button>
+                    <Button Text="Delete"
+                            Clicked="ButtonItemDelete_OnClicked"
+                            BackgroundColor="Red"
+                            Margin="4, 0, 0, 0"
+                            FlexLayout.Basis="50%"></Button>
+                </FlexLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="End"
+                         HorizontalOptions="FillAndExpand">
+                <Button Text="+"
+                        Clicked="ButtonAddLocation_OnClicked"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Start">
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

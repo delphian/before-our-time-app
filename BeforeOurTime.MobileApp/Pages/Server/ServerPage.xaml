@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
+             x:Class="BeforeOurTime.MobileApp.Pages.Server.ServerPage"
+             Title="Connect to World">
+    <ContentPage.Resources>
+        <converters:NotBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="10">
+                <Label Text="Darkness everywhere. Conciousness is such a pain. Several small globes shine in the distance, possibly you could approach one, if you understand the risk... Otherwise, perhaps, it would be best to simply forget and return to the void."
+                       HorizontalOptions="CenterAndExpand"
+                       WidthRequest="600"
+                       IsVisible="{Binding IsConnected, Converter={StaticResource inverter}}" />
+                <Label Text="Someone, or something, fantastic in appearance, has manifested itself nearby. It looks friendly enough. Not dangerous. Not dangerous at all."
+                       TextColor="DarkGreen"
+                       HorizontalOptions="CenterAndExpand"
+                       WidthRequest="600"
+                       IsVisible="{Binding IsConnected}" />
+            </StackLayout>
+            <StackLayout VerticalOptions="StartAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="10">
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             WidthRequest="400"
+                             Margin="0"
+                             Padding="0"
+                             IsVisible="{Binding IsConnected}">
+                    <Button Text="Approach the Fantasm"
+                            Clicked="ButtonExplore_OnClicked"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="10"
+                            BackgroundColor="#80f080"></Button>
+                    <Button Text="Retreat in Fear"
+                            Clicked="ButtonDisonnect_OnClicked"
+                            HorizontalOptions="FillAndExpand"
+                            CornerRadius="10"
+                            BackgroundColor="#f0f080"></Button>
+                </StackLayout>
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="CenterAndExpand"
+                             WidthRequest="400"
+                             Margin="0"
+                             Padding="0"
+                             IsVisible="{Binding IsConnected, Converter={StaticResource inverter}}">
+                    <Label Text="{Binding Error}" 
+                           TextColor="Red" 
+                           Margin="0"
+                           IsVisible="{Binding IsError}"/>
+                    <Picker x:Name="ServerPicker"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0"
+                            ItemsSource="{Binding ConnectionStrings}" 
+                            ItemDisplayBinding="{Binding .}"
+                            SelectedItem="{Binding ConnectionString}"
+                            SelectedIndexChanged="ServerPicker_OnSelectedIndexChanged" />
+                    <Button Text="Focus Your Will and Draw Near"
+                            Clicked="ButtonConnect_OnClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0"
+                            CornerRadius="10"
+                            BackgroundColor="#80f080"
+                            IsVisible="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                    <ActivityIndicator Color="Blue" 
+                                       IsRunning="{Binding Working}" 
+                                       IsVisible="{Binding Working}" 
+                                       VerticalOptions="CenterAndExpand"></ActivityIndicator>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="End"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="4">
+                <Button Text="Error Logs" 
+                        Clicked="ButtonErrorLog_OnClicked"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#eeee80"></Button>
+                <Button Text="Clear Cache" 
+                        Clicked="ButtonClearCache_OnClicked"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#ee8080"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
