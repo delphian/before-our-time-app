@@ -53,6 +53,12 @@
       <DependentUpon>EditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Exit\ExitEditorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Exit\ExitEditorPage.xaml.cs">
+      <DependentUpon>ExitEditorPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Exit\ViewModelExit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPage.xaml.cs">
       <DependentUpon>LocationEditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -204,6 +210,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Debug\Errors\DebugErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Exit\ExitEditorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

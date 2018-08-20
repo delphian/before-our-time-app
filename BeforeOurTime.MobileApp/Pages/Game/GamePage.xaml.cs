@@ -2,9 +2,10 @@
 using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Messages.Locations.CreateLocation;
+using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Requests.Go;
 using BeforeOurTime.Models.Messages.Requests.List;
-using BeforeOurTime.Models.Messages.Requests.LocationAttributes;
 using BeforeOurTime.Models.Messages.Responses.List;
 using System;
 using System.Collections.Generic;
@@ -60,8 +61,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             try
             {
-                var result = await Container.Resolve<IMessageService>().SendRequestAsync<ListLocationResponse>(
-                    new CreateLocationQuickRequest()
+                var result = await Container.Resolve<IMessageService>()
+                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
                     {
                     });
                 if (!result.IsSuccess())

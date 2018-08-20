@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Messages.Requests.LocationAttributes;
+using BeforeOurTime.Models.Messages.Locations.CreateLocation;
+using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Responses.List;
 using System;
 using System.Collections.Generic;
@@ -35,12 +38,17 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             Container = container;
             BindingContext = ViewModel = new CRUDEditorPageViewModel(container, itemId);
             // Allow other page to load items into the json editor
-            MessagingCenter.Subscribe<ContentPage, string>(this, "Load", async (sender, guid) =>
+            MessagingCenter.Subscribe<ContentPage, Guid>(this, "LocationEditorPage:Load", async (sender, guid) =>
             {
-                ViewModel.ItemId = guid;
+                ViewModel.ItemId = guid.ToString();
                 await ViewModel.ReadItem();
             });
-		}
+            MessagingCenter.Subscribe<ContentPage, Guid>(this, "ExitEditorPage:Load", async (sender, guid) =>
+            {
+                ViewModel.ItemId = guid.ToString();
+                await ViewModel.ReadItem();
+            });
+        }
         public CRUDEditorPage(IContainer container) : this(container, null) { }
         /// <summary>
         /// Read an item
@@ -101,10 +109,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         {
             try
             {
-                var result = await Container.Resolve<IMessageService>().SendRequestAsync<ListLocationResponse>(
-                    new CreateLocationQuickRequest()
-                    {
-                    });
+                var result = await Container.Resolve<IMessageService>()
+                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
+                        {
+                        });
                 if (!result.IsSuccess())
                 {
                     throw new Exception("Unable to create location");
