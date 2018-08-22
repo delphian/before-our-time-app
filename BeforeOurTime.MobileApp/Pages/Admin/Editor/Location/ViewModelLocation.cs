@@ -45,14 +45,5 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             set { _description = value; NotifyPropertyChanged("Description"); }
         }
         private string _description { set; get; }
-        /// <summary>
-        /// Location exits
-        /// </summary>
-        public List<ViewModelExit> Exits
-        {
-            get { return _exits; }
-            set { _exits = value; NotifyPropertyChanged("Exits"); }
-        }
-        private List<ViewModelExit> _exits { set; get; }
     }
 }

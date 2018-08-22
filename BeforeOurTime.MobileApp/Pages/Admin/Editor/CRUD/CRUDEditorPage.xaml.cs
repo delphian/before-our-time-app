@@ -38,12 +38,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             Container = container;
             BindingContext = ViewModel = new CRUDEditorPageViewModel(container, itemId);
             // Allow other page to load items into the json editor
-            MessagingCenter.Subscribe<ContentPage, Guid>(this, "LocationEditorPage:Load", async (sender, guid) =>
-            {
-                ViewModel.ItemId = guid.ToString();
-                await ViewModel.ReadItem();
-            });
-            MessagingCenter.Subscribe<ContentPage, Guid>(this, "ExitEditorPage:Load", async (sender, guid) =>
+            MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>
             {
                 ViewModel.ItemId = guid.ToString();
                 await ViewModel.ReadItem();

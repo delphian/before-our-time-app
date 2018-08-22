@@ -33,7 +33,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             Container = container;
             BindingContext = ViewModel = new ExitEditorPageViewModel(Container);
             // Allow other pages to load items into the editor
-            MessagingCenter.Subscribe<LocationEditorPage, Guid>(this, "Load", async (sender, guid) =>
+            MessagingCenter.Subscribe<ContentPage, Guid>(this, "ExitEditorPage:Load", async (sender, guid) =>
             {
                 await ViewModel.ReadItem(guid);
             });
@@ -86,7 +86,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
         private void ButtonJson_Clicked(object sender, EventArgs e)
         {
             Guid.TryParse(ViewModel.VMSelectedExit.ItemId, out Guid itemId);
-            MessagingCenter.Send<ContentPage, Guid>(this, "ExitEditorPage:Load", itemId);
+            MessagingCenter.Send<ContentPage, Guid>(this, "CRUDEditorPage:Load", itemId);
             ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
                 .Where(x => x.GetType() == typeof(CRUDEditorPage))
                 .First();

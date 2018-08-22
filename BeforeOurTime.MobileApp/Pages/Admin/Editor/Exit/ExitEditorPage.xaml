@@ -40,12 +40,6 @@
                                  HorizontalOptions="FillAndExpand"
                                  Padding="10"
                                  BackgroundColor="#f0f0f0">
-                        <Label Text="{Binding VMSelectedExit.ItemId}"
-                                FontAttributes="Bold"
-                                FontSize="Small"
-                                FlexLayout.AlignSelf="Start"
-                                FlexLayout.Grow="1"
-                                FlexLayout.Basis="80%"></Label>
                         <Entry Text="{Binding VMSelectedExit.Name}"></Entry>
                         <Editor Text="{Binding VMSelectedExit.Description}" 
                                 VerticalOptions="FillAndExpand"

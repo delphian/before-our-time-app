@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Items.Attributes.Exits;
 using BeforeOurTime.Models.Items.Attributes.Locations;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,34 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         public ViewModelLocation VMSelectedLocation
         {
             get { return _vmSelectedLocation; }
-            set { _vmSelectedLocation = value; NotifyPropertyChanged("VMSelectedLocation"); }
+            set {
+                _vmSelectedLocation = value;
+                NotifyPropertyChanged("VMSelectedLocation");
+            }
         }
         private ViewModelLocation _vmSelectedLocation { set; get; }
+        /// <summary>
+        /// List of all exits for selected location
+        /// </summary>
+        public List<ViewModelExit> VMExits
+        {
+            get { return _vmExits; }
+            set { _vmExits = value; NotifyPropertyChanged("VMExits"); }
+        }
+        private List<ViewModelExit> _vmExits { set; get; }
+        /// <summary>
+        /// Selected exit view model
+        /// </summary>
+        public ViewModelExit VMSelectedExit
+        {
+            get { return _vmSelectedExit; }
+            set
+            {
+                _vmSelectedExit = value;
+                NotifyPropertyChanged("VMSelectedExit");
+            }
+        }
+        private ViewModelExit _vmSelectedExit { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -80,18 +106,57 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             }
         }
         /// <summary>
+        /// Load all exits for a given location
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public async Task LoadExits(ViewModelLocation location)
+        {
+            Working = true;
+            try
+            {
+                var childrenIds = _locations
+                    .Where(x => x.Id.ToString() == location.ItemId)
+                    .SelectMany(x => x.ChildrenIds)
+                    .ToList();
+                var children = await ItemService.ReadAsync(childrenIds);
+                VMExits = children
+                    .Where(x => x.HasAttribute<ExitAttribute>())
+                    .Select(x => new ViewModelExit()
+                        {
+                            ItemId = x.Id,
+                            ExitId = x.GetAttribute<ExitAttribute>().Id,
+                            Name = x.Name,
+                            Description = x.Description
+                        })
+                    .ToList();
+            }
+            finally
+            {
+                Working = false;
+            }
+        }
+        /// <summary>
         /// Update currently loaded location
         /// </summary>
         /// <returns></returns>
         public async Task UpdateSelectedLocation()
         {
-            var item = _locations
-                .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
-                .FirstOrDefault();
-            var location = item.GetAttribute<LocationAttribute>();
-            location.Name = VMSelectedLocation.Name;
-            location.Description = VMSelectedLocation.Description;
-            await ItemService.UpdateAsync(new List<Item>() { item });
+            Working = true;
+            try
+            {
+                var item = _locations
+                    .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
+                    .FirstOrDefault();
+                var location = item.GetAttribute<LocationAttribute>();
+                location.Name = VMSelectedLocation.Name;
+                location.Description = VMSelectedLocation.Description;
+                await ItemService.UpdateAsync(new List<Item>() { item });
+            }
+            finally
+            {
+                Working = false;
+            }
         }
     }
 }

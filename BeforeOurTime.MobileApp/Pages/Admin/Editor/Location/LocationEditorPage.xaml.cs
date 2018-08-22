@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using Plugin.Clipboard;
 using System;
 using System.Collections.Generic;
@@ -53,18 +54,22 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void LocationPicker_OnSelectedIndexChanged(object sender, EventArgs e)
+        public async void LocationPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            // For now, do nothing
+            await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
         }
         /// <summary>
-        /// Copy item id to clipboard
+        /// Switch to exit editor after exit is selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Clicked(object sender, EventArgs e)
+        public void ExitPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            CrossClipboard.Current.SetText(ViewModel.VMSelectedLocation.ItemId);
+            var itemId = ViewModel.VMSelectedExit.ItemId;
+            MessagingCenter.Send<ContentPage, Guid>(this, "ExitEditorPage:Load", itemId);
+            ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
+                .Where(x => x.GetType() == typeof(ExitEditorPage))
+                .First();
         }
         /// <summary>
         /// Update location
@@ -91,7 +96,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         private void ButtonJson_Clicked(object sender, EventArgs e)
         {
             Guid.TryParse(ViewModel.VMSelectedLocation.ItemId, out Guid itemId);
-            MessagingCenter.Send<ContentPage, Guid>(this, "LocationEditorPage:Load", itemId);
+            MessagingCenter.Send<ContentPage, Guid>(this, "CRUDEditorPage:Load", itemId);
             ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
                 .Where(x => x.GetType() == typeof(CRUDEditorPage))
                 .First();
