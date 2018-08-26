@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor
             Container = container;
             this.Children.Add(new LocationEditorPage(Container) { Title = "Locations" });
             this.Children.Add(new ExitEditorPage(Container) { Title = "Exits" });
+            this.Children.Add(new GraphEditorPage(Container) { Title = "Graph" });
             this.Children.Add(new CRUDEditorPage(Container) { Title = "JSON Editor" });
         }
     }
