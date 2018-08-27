@@ -6,7 +6,9 @@
     <ContentPage.Content>
         <StackLayout>
             <local:TreeViewControl
-                Source="{Binding Testing}">
+                Source="{Binding ItemGraph}"
+                Formatter="{Binding FormatItemTitle}"
+                TitleProperty="Name">
             </local:TreeViewControl>
         </StackLayout>
     </ContentPage.Content>

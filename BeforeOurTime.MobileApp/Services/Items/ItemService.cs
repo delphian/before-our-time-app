@@ -5,6 +5,7 @@ using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.CRUD.Items.DeleteItem;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
+using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
 using BeforeOurTime.Models.Messages.CRUD.Items.UpdateItem;
 using BeforeOurTime.Models.Messages.Requests;
 using BeforeOurTime.Models.Messages.Responses;
@@ -47,6 +48,19 @@ namespace BeforeOurTime.MobileApp.Services.Items
                 ItemIds = itemIds
             });
             return response.ReadItemEvent.Items;
+        }
+        /// <summary>
+        /// Read item graph
+        /// </summary>
+        /// <param name="itemIds">Item to begin graph with</param>
+        /// <returns></returns>
+        public async Task<ItemGraph> ReadGraphAsync(Guid? itemId = null)
+        {
+            var response = await MessageService.SendRequestAsync<ReadItemGraphResponse>(new ReadItemGraphRequest()
+            {
+                ItemId = itemId
+            });
+            return response.ReadItemGraphEvent.ItemGraph;
         }
         /// <summary>
         /// Read multiple items based on a list of item attribute types

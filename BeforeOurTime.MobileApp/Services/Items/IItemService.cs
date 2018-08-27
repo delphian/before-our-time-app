@@ -1,5 +1,6 @@
 ﻿using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages;
+using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
 using BeforeOurTime.Models.Messages.Requests;
 using BeforeOurTime.Models.Messages.Responses;
 using System;
@@ -20,6 +21,12 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
         Task<List<Item>> ReadAsync(List<Guid> itemIds);
+        /// <summary>
+        /// Read item graph
+        /// </summary>
+        /// <param name="itemIds">Item to begin graph with</param>
+        /// <returns></returns>
+        Task<ItemGraph> ReadGraphAsync(Guid? itemId = null);
         /// <summary>
         /// Read multiple items based on a list of item attribute types
         /// </summary>

@@ -31,5 +31,19 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph
             Container = container;
             BindingContext = ViewModel = new GraphEditorPageViewModel(container);
         }
+        /// <summary>
+        /// Refresh list of locations from server each time page appears
+        /// </summary>
+        protected override async void OnAppearing()
+        {
+            try
+            {
+                await ViewModel.LoadItemGraphAsync();
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Unable to load item graph. " + e.Message, "Sadness");
+            }
+        }
     }
 }
