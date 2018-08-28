@@ -180,9 +180,9 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
                 var endOfMessage = false;
                 do
                 {
-                    var remainingBytes = byteMessage.Count() - (offset * 1024);
+                    var remainingBytes = byteMessage.Count() - offset;
                     var sendBytes = Math.Min(1024, remainingBytes);
-                    var segment = new ArraySegment<byte>(byteMessage, offset, remainingBytes);
+                    var segment = new ArraySegment<byte>(byteMessage, offset, sendBytes);
                     offset += 1024;
                     endOfMessage = remainingBytes == sendBytes;
                     await Client.SendAsync(segment, WebSocketMessageType.Text, endOfMessage, Cts.Token);
