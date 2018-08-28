@@ -66,6 +66,22 @@ namespace BeforeOurTime.MobileApp.Controls.TreeView
             get => (string)GetValue(TitlePropertyProperty);
             set => SetValue(TitlePropertyProperty, value);
         }
+        /// <summary>
+        /// On click callback
+        /// </summary>
+        public static readonly BindableProperty ClickedProperty =
+            BindableProperty.Create(
+                "Clicked",
+                typeof(ICommand),
+                typeof(TreeViewControl),
+                default(ICommand),
+                BindingMode.TwoWay,
+                propertyChanged: ClickedChanged);
+        public ICommand Clicked
+        {
+            get => (ICommand)GetValue(ClickedProperty);
+            set => SetValue(ClickedProperty, value);
+        }
         public StackLayout TreeView { set; get; } = new StackLayout();
         /// <summary>
         /// Constructor
@@ -106,8 +122,7 @@ namespace BeforeOurTime.MobileApp.Controls.TreeView
                             label.GestureRecognizers.Add(new TapGestureRecognizer()
                             {
                                 Command = new Command(() => {
-                                    var x = item;
-                                    var z = 1;
+                                    Clicked.Execute(item);
                                 })
                             });
                             treeView.Children.Add(label);
@@ -185,6 +200,20 @@ namespace BeforeOurTime.MobileApp.Controls.TreeView
                 treeViewControl.Source,
                 treeViewControl.Content as StackLayout,
                 treeViewControl.TitleProperty);
+        }
+        /// <summary>
+        /// Update bindable property
+        /// </summary>
+        /// <param name="bindable"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
+        private static void ClickedChanged(
+            BindableObject bindable,
+            object oldValue,
+            object newValue)
+        {
+            var treeViewControl = bindable as TreeViewControl;
+            treeViewControl.Clicked = newValue as ICommand;
         }
     }
 }

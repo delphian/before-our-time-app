@@ -8,6 +8,7 @@
             <local:TreeViewControl
                 Source="{Binding ItemGraph}"
                 Formatter="{Binding FormatItemTitle}"
+                Clicked="{Binding TreeViewControl_OnClicked}"
                 TitleProperty="Name">
             </local:TreeViewControl>
         </StackLayout>

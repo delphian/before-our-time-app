@@ -29,7 +29,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph
         {
             InitializeComponent();
             Container = container;
-            BindingContext = ViewModel = new GraphEditorPageViewModel(container);
+            BindingContext = ViewModel = new GraphEditorPageViewModel(container, this);
         }
         /// <summary>
         /// Refresh list of locations from server each time page appears
