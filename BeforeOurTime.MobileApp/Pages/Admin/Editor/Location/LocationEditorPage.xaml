@@ -27,14 +27,25 @@
                         <Picker x:Name="LocationPicker"
                                 VerticalOptions="Start"
                                 HorizontalOptions="FillAndExpand"
-                                Title="Choose a Location"
-                                Margin="0"
+                                Title="Edit Location"
+                                Margin="2"
                                 ItemsSource="{Binding VMLocations}" 
                                 SelectedItem="{Binding VMSelectedLocation}"
                                 ItemDisplayBinding="{Binding Name}"
                                 SelectedIndexChanged="LocationPicker_OnSelectedIndexChanged"
-                                FlexLayout.Basis="100%"
-                                FlexLayout.Shrink="1" />
+                                FlexLayout.Basis="60%"
+                                FlexLayout.Grow="1" />
+                        <Picker x:Name="ExitPicker"
+                                VerticalOptions="End"
+                                HorizontalOptions="FillAndExpand"
+                                Title="Edit Exit"
+                                Margin="2"
+                                ItemsSource="{Binding VMExits}"
+                                SelectedItem="{Binding VMSelectedExit}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedIndexChanged="ExitPicker_OnSelectedIndexChanged"
+                                FlexLayout.Basis="40%"
+                                FlexLayout.Shrink="1"></Picker>
                     </FlexLayout>
                     <StackLayout VerticalOptions="FillAndExpand"
                                  HorizontalOptions="FillAndExpand"
@@ -45,28 +56,25 @@
                                 VerticalOptions="FillAndExpand"
                                 HorizontalOptions="FillAndExpand"
                                 BackgroundColor="#ffffff"></Editor>
-                        <Picker x:Name="ExitPicker"
-                                VerticalOptions="End"
-                                HorizontalOptions="FillAndExpand"
-                                Title="Edit Exit"
-                                ItemsSource="{Binding VMExits}"
-                                SelectedItem="{Binding VMSelectedExit}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedIndexChanged="ExitPicker_OnSelectedIndexChanged"></Picker>
                         <FlexLayout VerticalOptions="End"
                                     HorizontalOptions="FillAndExpand"
                                     Direction="Row"
                                     JustifyContent="SpaceEvenly">
                             <Button Text="Update"
                                     Clicked="ButtonUpdate_Clicked"
-                                    Margin="0, 0, 4, 0"
                                     BackgroundColor="LightGreen"
-                                    FlexLayout.Basis="50%"></Button>
+                                    Margin="2"
+                                    FlexLayout.Basis="33%"></Button>
                             <Button Text="Edit JSON"
                                     Clicked="ButtonJson_Clicked"
-                                    Margin="4, 0, 0, 0"
                                     BackgroundColor="LightGreen"
-                                    FlexLayout.Basis="50%"></Button>
+                                    Margin="2"
+                                    FlexLayout.Basis="33%"></Button>
+                            <Button Text="Create From Here"
+                                    Clicked="ButtonAddLocation_OnClicked"
+                                    BackgroundColor="LightGreen"
+                                    Margin="2"
+                                    FlexLayout.Basis="33%"></Button>
                         </FlexLayout>
                     </StackLayout>
                 </StackLayout>

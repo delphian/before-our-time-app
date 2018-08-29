@@ -49,14 +49,6 @@
                             FlexLayout.Basis="50%"></Button>
                 </FlexLayout>
             </StackLayout>
-            <StackLayout VerticalOptions="End"
-                         HorizontalOptions="FillAndExpand">
-                <Button Text="+"
-                        Clicked="ButtonAddLocation_OnClicked"
-                        VerticalOptions="Start"
-                        HorizontalOptions="Start">
-                </Button>
-            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

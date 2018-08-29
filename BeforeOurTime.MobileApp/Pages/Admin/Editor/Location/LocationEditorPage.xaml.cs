@@ -1,6 +1,10 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
+using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Messages.Locations.CreateLocation;
+using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using Plugin.Clipboard;
 using System;
 using System.Collections.Generic;
@@ -100,6 +104,31 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
                 .Where(x => x.GetType() == typeof(CRUDEditorPage))
                 .First();
+        }
+        /// <summary>
+        /// Add a default location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonAddLocation_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var result = await Container.Resolve<IMessageService>()
+                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
+                    {
+                        FromLocationItemId = ((Item)LocationPicker.SelectedItem).Id
+                    });
+                if (!result.IsSuccess())
+                {
+                    throw new Exception("Unable to create location");
+                }
+                await DisplayAlert("Success", "Done!", "OK, Thank You");
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Unable to create location", "OK, But Why?");
+            }
         }
     }
 }

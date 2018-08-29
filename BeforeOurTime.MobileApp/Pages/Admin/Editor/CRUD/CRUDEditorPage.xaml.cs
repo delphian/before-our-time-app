@@ -95,29 +95,5 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
                 await DisplayAlert("Error", ex.Message, "I Did Not Consent!");
             }
         }
-        /// <summary>
-        /// Add a default location
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ButtonAddLocation_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var result = await Container.Resolve<IMessageService>()
-                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
-                        {
-                        });
-                if (!result.IsSuccess())
-                {
-                    throw new Exception("Unable to create location");
-                }
-                await DisplayAlert("Success", "Done!", "OK, Thank You");
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Error", "Unable to create location", "OK, But Why?");
-            }
-        }
     }
 }
