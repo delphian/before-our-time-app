@@ -15,5 +15,11 @@ namespace BeforeOurTime.MobileApp.Services.Loggers
         /// </summary>
         /// <returns>List of logs strings</returns>
         Task<List<string>> GetLogs();
+        /// <summary>
+        /// Log simple error message with detailed exception history
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        void Log(string message, Exception exception);
     }
 }

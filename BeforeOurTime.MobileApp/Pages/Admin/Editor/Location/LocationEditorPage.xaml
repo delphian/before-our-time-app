@@ -10,16 +10,11 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand"
                      HorizontalOptions="FillAndExpand">
-            <ActivityIndicator Color="Blue" 
-                               IsRunning="{Binding Working}" 
-                               IsVisible="{Binding Working}" 
-                               VerticalOptions="CenterAndExpand"
-                               HorizontalOptions="CenterAndExpand"></ActivityIndicator>
             <StackLayout VerticalOptions="FillAndExpand"
-                         HorizontalOptions="FillAndExpand"
-                         IsVisible="{Binding Working, Converter={StaticResource inverter}}">
+                         HorizontalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="FillAndExpand"
-                             HorizontalOptions="FillAndExpand">
+                             HorizontalOptions="FillAndExpand"
+                             Padding="10">
                     <FlexLayout VerticalOptions="Start"
                                 HorizontalOptions="FillAndExpand"
                                 Direction="Row"
@@ -44,6 +39,7 @@
                                 SelectedItem="{Binding VMSelectedExit}"
                                 ItemDisplayBinding="{Binding Name}"
                                 SelectedIndexChanged="ExitPicker_OnSelectedIndexChanged"
+                                IsEnabled="{Binding LocationSelected}"
                                 FlexLayout.Basis="40%"
                                 FlexLayout.Shrink="1"></Picker>
                     </FlexLayout>
@@ -64,17 +60,25 @@
                                     Clicked="ButtonUpdate_Clicked"
                                     BackgroundColor="LightGreen"
                                     Margin="2"
-                                    FlexLayout.Basis="33%"></Button>
-                            <Button Text="Edit JSON"
+                                    FlexLayout.Basis="25%"></Button>
+                            <Button Text="JSON"
+                                    IsEnabled="{Binding LocationSelected}"
                                     Clicked="ButtonJson_Clicked"
                                     BackgroundColor="LightGreen"
                                     Margin="2"
-                                    FlexLayout.Basis="33%"></Button>
+                                    FlexLayout.Basis="25%"></Button>
                             <Button Text="Create From Here"
+                                    IsEnabled="{Binding LocationSelected}"
                                     Clicked="ButtonAddLocation_OnClicked"
                                     BackgroundColor="LightGreen"
                                     Margin="2"
-                                    FlexLayout.Basis="33%"></Button>
+                                    FlexLayout.Basis="25%"></Button>
+                            <Button Text="Delete"
+                                    IsEnabled="{Binding LocationSelected}"
+                                    Clicked="ButtonDelete_Clicked"
+                                    BackgroundColor="Red"
+                                    Margin="2"
+                                    FlexLayout.Basis="25%"></Button>
                         </FlexLayout>
                     </StackLayout>
                 </StackLayout>

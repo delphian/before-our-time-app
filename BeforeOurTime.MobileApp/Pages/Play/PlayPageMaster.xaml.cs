@@ -1,4 +1,5 @@
-﻿using BeforeOurTime.MobileApp.Pages.Admin.Editor;
+﻿using BeforeOurTime.MobileApp.Pages.Admin.Debug.Errors;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor;
 using BeforeOurTime.MobileApp.Pages.Game;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,11 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                     new PlayPageMenuItem {
                         Id = 1,
                         Title = "Item Editor",
-                        TargetType = typeof(EditorPage) }
+                        TargetType = typeof(EditorPage) },
+                    new PlayPageMenuItem {
+                        Id = 2,
+                        Title = "Logs",
+                        TargetType = typeof(DebugErrorPage) }
                 });
             }
             

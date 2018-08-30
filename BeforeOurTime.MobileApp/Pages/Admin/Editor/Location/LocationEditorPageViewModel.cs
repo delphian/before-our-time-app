@@ -1,8 +1,14 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.MobileApp.Services.Loggers;
+using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Items.Attributes.Exits;
 using BeforeOurTime.Models.Items.Attributes.Locations;
+using BeforeOurTime.Models.Messages.Locations.CreateLocation;
+using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
+using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
+using BeforeOurTime.Models.Messages.Locations.Locations.DeleteLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +20,17 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
     public class LocationEditorPageViewModel : BotPageVM, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
+        /// Record errors and information during program execution
+        /// </summary>
+        private ILoggerService LoggerService { set; get; }
+        /// <summary>
         /// Item service for CRUD operations
         /// </summary>
-        protected IItemService ItemService { set; get; }
+        private IItemService ItemService { set; get; }
+        /// <summary>
+        /// Manage IMessage messages between client and server
+        /// </summary>
+        private IMessageService MessageService { set; get; }
         /// <summary>
         /// List of all locations 
         /// </summary>
@@ -57,20 +71,27 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         public ViewModelExit VMSelectedExit
         {
             get { return _vmSelectedExit; }
-            set
-            {
-                _vmSelectedExit = value;
-                NotifyPropertyChanged("VMSelectedExit");
-            }
+            set { _vmSelectedExit = value; NotifyPropertyChanged("VMSelectedExit"); }
         }
         private ViewModelExit _vmSelectedExit { set; get; }
+        /// <summary>
+        /// Indicate if a location is currently selected in the editor
+        /// </summary>
+        public bool LocationSelected
+        {
+            get { return _locationSelected; }
+            set { _locationSelected = value; NotifyPropertyChanged("LocationSelected"); }
+        }
+        private bool _locationSelected { set; get; } = false; 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection controller</param>
         public LocationEditorPageViewModel(IContainer container) : base(container)
         {
+            LoggerService = container.Resolve<ILoggerService>();
             ItemService = container.Resolve<IItemService>();
+            MessageService = container.Resolve<IMessageService>();
         }
         /// <summary>
         /// Load all items with a location attribute
@@ -99,6 +120,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     });
                     VMLocations = vmLocations;
                 }
+            }
+            catch (Exception e)
+            {
+                LoggerService.Log("Unable to load locations", e);
+                throw e;
             }
             finally
             {
@@ -131,6 +157,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         })
                     .ToList();
             }
+            catch (Exception e)
+            {
+                LoggerService.Log("Unable to load exits", e);
+                throw e;
+            }
             finally
             {
                 Working = false;
@@ -152,6 +183,69 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 location.Name = VMSelectedLocation.Name;
                 location.Description = VMSelectedLocation.Description;
                 await ItemService.UpdateAsync(new List<Item>() { item });
+            }
+            catch (Exception e)
+            {
+                LoggerService.Log("Unable to update location", e);
+                throw e;
+            }
+            finally
+            {
+                Working = false;
+            }
+        }
+        /// <summary>
+        /// Create new location and link through exits to existing selected location
+        /// </summary>
+        public async Task CreateFromSelectedLocation()
+        {
+            Working = true;
+            try
+            {
+                Guid.TryParse(VMSelectedLocation.ItemId, out Guid fromLocationItemId);
+                var result = await MessageService
+                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
+                    {
+                        FromLocationItemId = fromLocationItemId
+                    });
+                if (!result.IsSuccess())
+                {
+                    throw new Exception(result._responseMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                LoggerService.Log("Unable to create location", e);
+                throw e;
+            }
+            finally
+            {
+                Working = false;
+            }
+        }
+        /// <summary>
+        /// Delete currently selected location
+        /// </summary>
+        public async Task DeleteSelectedLocation()
+        {
+            Working = true;
+            try
+            {
+                Guid.TryParse(VMSelectedLocation.ItemId, out Guid locationItemId);
+                var result = await MessageService
+                    .SendRequestAsync<DeleteLocationResponse>(new DeleteLocationRequest()
+                    {
+                        LocationItemId = locationItemId
+                    });
+                if (!result.IsSuccess())
+                {
+                    throw new Exception(result._responseMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                LoggerService.Log("Unable to delete location", e);
+                throw e;
             }
             finally
             {

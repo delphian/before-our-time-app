@@ -45,7 +45,11 @@ namespace BeforeOurTime.MobileApp.Services.Loggers
                 Logs.Add(logLevel.ToString() + ": " + DateTime.Now.ToString() + ": " + state.ToString());
             }
         }
-
+        /// <summary>
+        /// Log simple error message with detailed exception history
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
         public void Log(string message, Exception exception)
         {
             var traverse = exception;
