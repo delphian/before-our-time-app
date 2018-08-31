@@ -241,6 +241,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
+                _vmLocations.Remove(VMSelectedLocation);
+                VMLocations = _vmLocations;
+                VMSelectedLocation = null;
+                LocationSelected = false;
             }
             catch (Exception e)
             {
