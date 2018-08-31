@@ -141,6 +141,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             Working = true;
             try
             {
+                if (location == null)
+                {
+                    throw new Exception("Invalid location");
+                }
                 var childrenIds = _locations
                     .Where(x => x.Id.ToString() == location.ItemId)
                     .SelectMany(x => x.ChildrenIds)
@@ -212,6 +216,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
+                var vmLocations = VMLocations;
+                vmLocations.Add(new ViewModelLocation()
+                {
+                    ItemId = result.CreateLocationEvent.Item.Id.ToString(),
+                    LocationId = result.CreateLocationEvent.Item.GetAttribute<LocationAttribute>().Id.ToString(),
+                    Name = result.CreateLocationEvent.Item.Name,
+                    Description = result.CreateLocationEvent.Item.Description
+                });
+                (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
             }
             catch (Exception e)
             {
@@ -241,9 +254,12 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
-                _vmLocations.Remove(VMSelectedLocation);
-                VMLocations = _vmLocations;
+                var vmLocations = VMLocations;
+                vmLocations.Remove(VMSelectedLocation);
+                (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
                 VMSelectedLocation = null;
+                VMSelectedExit = null;
+                VMExits = new List<ViewModelExit>();
                 LocationSelected = false;
             }
             catch (Exception e)

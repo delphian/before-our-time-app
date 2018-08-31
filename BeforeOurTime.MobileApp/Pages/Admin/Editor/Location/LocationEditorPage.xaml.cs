@@ -61,8 +61,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// <param name="e"></param>
         public async void LocationPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
-            ViewModel.LocationSelected = true;
+            if (LocationPicker.SelectedItem != null)
+            {
+                await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
+                ViewModel.LocationSelected = true;
+            }
         }
         /// <summary>
         /// Switch to exit editor after exit is selected
@@ -71,11 +74,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// <param name="e"></param>
         public void ExitPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            var itemId = ViewModel.VMSelectedExit.ItemId;
-            MessagingCenter.Send<ContentPage, Guid>(this, "ExitEditorPage:Load", itemId);
-            ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
-                .Where(x => x.GetType() == typeof(ExitEditorPage))
-                .First();
+            if (ExitPicker.SelectedItem != null)
+            {
+                var itemId = ViewModel.VMSelectedExit.ItemId;
+                MessagingCenter.Send<ContentPage, Guid>(this, "ExitEditorPage:Load", itemId);
+                ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
+                    .Where(x => x.GetType() == typeof(ExitEditorPage))
+                    .First();
+            }
         }
         /// <summary>
         /// Update location
