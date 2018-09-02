@@ -37,13 +37,16 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             var item = e.SelectedItem as PlayPageMenuItem;
             if (item == null)
                 return;
-
-            var page = (Page)Activator.CreateInstance(item.TargetType, Container);
-            page.Title = item.Title;
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-
+            if (item.Id == 3)
+            {
+                Navigation.PopAsync();
+            } else
+            {
+                var page = (Page)Activator.CreateInstance(item.TargetType, Container);
+                page.Title = item.Title;
+                Detail = new NavigationPage(page);
+                IsPresented = false;
+            }
             MasterPage.ListView.SelectedItem = null;
         }
     }

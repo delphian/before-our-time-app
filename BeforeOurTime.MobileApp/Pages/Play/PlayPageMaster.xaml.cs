@@ -47,6 +47,10 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                     new PlayPageMenuItem {
                         Id = 2,
                         Title = "Logs",
+                        TargetType = typeof(DebugErrorPage) },
+                    new PlayPageMenuItem {
+                        Id = 3,
+                        Title = "Exit",
                         TargetType = typeof(DebugErrorPage) }
                 });
             }
