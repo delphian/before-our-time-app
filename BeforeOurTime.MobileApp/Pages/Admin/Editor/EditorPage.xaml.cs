@@ -32,7 +32,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor
             this.Children.Add(new LocationEditorPage(Container) { Title = "Locations" });
             this.Children.Add(new ExitEditorPage(Container) { Title = "Exits" });
             this.Children.Add(new GraphEditorPage(Container) { Title = "Graph" });
-            this.Children.Add(new CRUDEditorPage(Container) { Title = "JSON Editor" });
+            this.Children.Add(new JsonEditorPage(Container) { Title = "JSON Editor" });
             this.Children.Add(new BackupEditorPage(Container) { Title = "Backup" });
         }
     }

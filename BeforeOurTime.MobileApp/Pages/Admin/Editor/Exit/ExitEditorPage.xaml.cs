@@ -88,7 +88,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             Guid.TryParse(ViewModel.VMSelectedExit.ItemId, out Guid itemId);
             MessagingCenter.Send<ContentPage, Guid>(this, "CRUDEditorPage:Load", itemId);
             ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
-                .Where(x => x.GetType() == typeof(CRUDEditorPage))
+                .Where(x => x.GetType() == typeof(JsonEditorPage))
                 .First();
         }
     }

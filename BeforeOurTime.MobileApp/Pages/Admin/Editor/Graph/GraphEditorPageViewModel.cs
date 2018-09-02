@@ -70,7 +70,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph
                 var itemId = itemGraph.Id;
                 MessagingCenter.Send<ContentPage, Guid>(CodeBehind, "CRUDEditorPage:Load", itemId);
                 ((TabbedPage)CodeBehind.Parent).CurrentPage = ((TabbedPage)CodeBehind.Parent).Children
-                    .Where(x => x.GetType() == typeof(CRUDEditorPage))
+                    .Where(x => x.GetType() == typeof(JsonEditorPage))
                     .First();
             });
         }

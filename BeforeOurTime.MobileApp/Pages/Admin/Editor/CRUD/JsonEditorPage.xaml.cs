@@ -17,7 +17,7 @@ using Xamarin.Forms.Xaml;
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CRUDEditorPage : ContentPage
+	public partial class JsonEditorPage : ContentPage
 	{
         /// <summary>
         /// Dependency injection container
@@ -32,7 +32,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         /// </summary>
         /// <param name="container">Dependency injection container</param>
         /// <param name="itemId">When provided automatically load this item for editing</param>
-		public CRUDEditorPage (IContainer container, Guid? itemId = null)
+		public JsonEditorPage (IContainer container, Guid? itemId = null)
 		{
 			InitializeComponent ();
             Container = container;
@@ -44,7 +44,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
                 await ViewModel.ReadItem();
             });
         }
-        public CRUDEditorPage(IContainer container) : this(container, null) { }
+        public JsonEditorPage(IContainer container) : this(container, null) { }
         /// <summary>
         /// Read an item
         /// </summary>
