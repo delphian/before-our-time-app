@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
 {
-    public class CRUDEditorPageViewModel : BotPageVM, System.ComponentModel.INotifyPropertyChanged
+    public class JsonEditorPageViewModel : BotPageVM, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
         /// Item service for CRUD operations
@@ -58,7 +58,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         /// </summary>
         /// <param name="container">Dependency injection controller</param>
         /// <param name="itemId">When provided automatically load this item for editing</param>
-        public CRUDEditorPageViewModel(IContainer container, Guid? ItemId = null) : base(container)
+        public JsonEditorPageViewModel(IContainer container, Guid? ItemId = null) : base(container)
         {
             ItemService = Container.Resolve<IItemService>();
             if (ItemId != null)

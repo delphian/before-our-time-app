@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select;
 using BeforeOurTime.MobileApp.Services.Characters;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,9 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Create
             try
             {
                 await ViewModel.CreateAccountCharacterAsync();
-                await Navigation.PopAsync();
+                ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
+                    .Where(x => x.GetType() == typeof(SelectCharacterPage))
+                    .First();
             }
             catch(Exception ex)
             {

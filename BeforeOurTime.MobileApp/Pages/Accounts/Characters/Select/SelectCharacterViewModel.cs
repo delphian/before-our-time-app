@@ -47,6 +47,15 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         }
         private Item _character { set; get; }
         /// <summary>
+        /// Play button title featuring selected character's name
+        /// </summary>
+        public string PlayButtonTitle
+        {
+            get { return _playButtonTitle; }
+            set { _playButtonTitle = value; NotifyPropertyChanged("PlayButtonTitle"); }
+        }
+        private string _playButtonTitle { set; get; }
+        /// <summary>
         /// Account is currently playing a character
         /// </summary>
         public bool Playing
@@ -96,8 +105,9 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// <summary>
         /// Get all characters for logged in account
         /// </summary>
+        /// <param name="force">Force update from server</param>
         /// <returns></returns>
-        public async Task GetAccountCharacters()
+        public async Task GetAccountCharacters(bool force = false)
         {
             SvcWorking = true;
             try
@@ -107,7 +117,8 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
                 {
                     throw new Exception("Account not logged in");
                 }
-                Characters = await Container.Resolve<ICharacterService>().GetAccountCharactersAsync(accountId.Value);
+                Characters = await Container.Resolve<ICharacterService>()
+                    .GetAccountCharactersAsync(accountId.Value, force);
                 CharactersPresent = Characters.Count > 0;
             }
             finally
@@ -127,6 +138,7 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
                 SvcWorking = true;
                 await Container.Resolve<ICharacterService>().PlayAccountCharacterAsync(accountCharacter);
                 Character = Container.Resolve<ICharacterService>().GetCharacter();
+                PlayButtonTitle = "Play " + Character.Name;
             }
             finally
             {

@@ -20,18 +20,15 @@
                     HorizontalOptions="CenterAndExpand">
                 </ActivityIndicator>
             </StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand"
+            <StackLayout VerticalOptions="FillAndExpand"
                          HorizontalOptions="FillAndExpand"
                          IsVisible="{Binding SvcWorking, Converter={StaticResource inverter}}">
-                <StackLayout VerticalOptions="CenterAndExpand"
-                             HorizontalOptions="CenterAndExpand"
-                             IsVisible="{Binding LoggedIn, Converter={StaticResource inverter}}">
-                    <Label Text="Please login first"></Label>
-                </StackLayout>
-                <StackLayout VerticalOptions="CenterAndExpand"
+                <StackLayout VerticalOptions="FillAndExpand"
                              HorizontalOptions="FillAndExpand"
                              IsVisible="{Binding LoggedIn}">
                     <Label Text="Please create a character"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
                            IsVisible="{Binding CharactersPresent, Converter={StaticResource inverter}}">
                     </Label>
                     <ListView 
@@ -39,27 +36,33 @@
                         IsVisible="{Binding CharactersPresent}"
                         ItemsSource="{Binding Characters}" 
                         ItemSelected="CharacterListView_ItemSelected"
-                        HorizontalOptions="FillAndExpand">
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0, 10, 0, 0">
                         <ListView.Header>
-                            <Label Text="Select character to play:" />
+                            <Label Text="Select Character to Play" 
+                                   FontSize="Medium"
+                                   Margin="0, 0, 0, 10"/>
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextCell Text="{Binding Name}" Detail="{Binding Description}" TextColor="DarkGray" DetailColor="LightGray" />
+                                <TextCell Text="{Binding Name}" 
+                                          Detail="{Binding Description}" 
+                                          TextColor="Black" 
+                                          DetailColor="DarkGray" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
                 <StackLayout VerticalOptions="CenterAndExpand"
                              HorizontalOptions="FillAndExpand"
+                             Margin="40, 0, 40, 40"
                              IsVisible="{Binding Playing}">
-                    <Label Text="Currently playing:"></Label>
-                    <Label Text="{Binding Character.Name}"></Label>
-                    <Button Text="Play" 
+                    <Button Text="{Binding PlayButtonTitle}"
+                            FontSize="Medium"
                             Clicked="ButtonPlay_OnClicked"
                             VerticalOptions="Start"
                             HorizontalOptions="FillAndExpand"
-                            Margin="4"
                             CornerRadius="10"
                             BackgroundColor="#80cc80">
                     </Button>

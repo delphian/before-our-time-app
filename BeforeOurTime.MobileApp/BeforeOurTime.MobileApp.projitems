@@ -46,11 +46,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Debug\Errors\DebugErrorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Backup\BackupEditorPage.xaml.cs">
+      <DependentUpon>BackupEditorPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Backup\BackupEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\CRUDEditorPage.xaml.cs">
       <DependentUpon>CRUDEditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\CRUDEditorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\JsonEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\EditorPage.xaml.cs">
       <DependentUpon>EditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -229,6 +234,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Graph\GraphEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Backup\BackupEditorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

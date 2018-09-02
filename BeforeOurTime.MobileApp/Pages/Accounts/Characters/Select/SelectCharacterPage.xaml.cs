@@ -35,11 +35,12 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// <summary>
         /// Get all characters for logged in account
         /// </summary>
-        private async Task GetAccountCharacters()
+        /// <param name="force">Force update from server</param>
+        private async Task GetAccountCharacters(bool force = false)
         {
             try
             {
-                await ViewModel.GetAccountCharacters();
+                await ViewModel.GetAccountCharacters(force);
             }
             catch (Exception e)
             {
@@ -56,7 +57,7 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// </summary>
         protected override async void OnAppearing()
         {
-            await GetAccountCharacters();
+            await GetAccountCharacters(true);
         }
         /// <summary>
         /// Open game page when play button is clicked

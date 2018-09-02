@@ -41,7 +41,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
-        public async Task<List<Item>> ReadAsync(List<Guid> itemIds)
+        public async Task<List<Item>> ReadAsync(List<Guid> itemIds = null)
         {
             var response = await MessageService.SendRequestAsync<ReadItemResponse>(new ReadItemRequest()
             {

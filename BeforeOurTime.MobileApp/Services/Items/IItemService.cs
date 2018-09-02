@@ -20,7 +20,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
-        Task<List<Item>> ReadAsync(List<Guid> itemIds);
+        Task<List<Item>> ReadAsync(List<Guid> itemIds = null);
         /// <summary>
         /// Read item graph
         /// </summary>

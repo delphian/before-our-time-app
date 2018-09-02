@@ -26,7 +26,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         /// <summary>
         /// View model
         /// </summary>
-        public CRUDEditorPageViewModel ViewModel { set; get; }
+        public JsonEditorPageViewModel ViewModel { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -36,7 +36,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
 		{
 			InitializeComponent ();
             Container = container;
-            BindingContext = ViewModel = new CRUDEditorPageViewModel(container, itemId);
+            BindingContext = ViewModel = new JsonEditorPageViewModel(container, itemId);
             // Allow other page to load items into the json editor
             MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>
             {
