@@ -216,6 +216,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
+                _locations.Add(result.CreateLocationEvent.Item);
                 var vmLocations = VMLocations;
                 vmLocations.Add(new ViewModelLocation()
                 {
@@ -254,6 +255,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
+                _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault());
                 var vmLocations = VMLocations;
                 vmLocations.Remove(VMSelectedLocation);
                 (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
