@@ -1,5 +1,5 @@
-﻿using BeforeOurTime.MobileApp.Pages.Admin;
-using BeforeOurTime.MobileApp.Pages.Game;
+﻿using BeforeOurTime.MobileApp.Pages.Admin.Debug;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,36 +12,32 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BeforeOurTime.MobileApp.Pages.Play
+namespace BeforeOurTime.MobileApp.Pages.Admin
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PlayPageMaster : ContentPage
+    public partial class AdminPageMaster : ContentPage
     {
         public ListView ListView;
 
-        public PlayPageMaster()
+        public AdminPageMaster()
         {
             InitializeComponent();
 
-            BindingContext = new PlayPageMasterViewModel();
+            BindingContext = new AdminPageMasterViewModel();
             ListView = MenuItemsListView;
         }
 
-        class PlayPageMasterViewModel : INotifyPropertyChanged
+        class AdminPageMasterViewModel : INotifyPropertyChanged
         {
-            public ObservableCollection<PlayPageMenuItem> MenuItems { get; set; }
+            public ObservableCollection<AdminPageMenuItem> MenuItems { get; set; }
             
-            public PlayPageMasterViewModel()
+            public AdminPageMasterViewModel()
             {
-                MenuItems = new ObservableCollection<PlayPageMenuItem>(new[]
+                MenuItems = new ObservableCollection<AdminPageMenuItem>(new[]
                 {
-                    new PlayPageMenuItem {
-                        Id = 0,
-                        Title = "Admin",
-                        TargetType = typeof(AdminPage) },
-                    new PlayPageMenuItem {
-                        Id = 1,
-                        Title = "Exit" }
+                    new AdminPageMenuItem { Id = 0, Title = "Item Editor", TargetType = typeof(EditorPage) },
+                    new AdminPageMenuItem { Id = 1, Title = "Logs", TargetType = typeof(DebugPage) },
+                    new AdminPageMenuItem { Id = 2, Title = "Exit", TargetType = null }
                 });
             }
             

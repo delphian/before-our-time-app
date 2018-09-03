@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +8,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BeforeOurTime.MobileApp.Pages.Play
+namespace BeforeOurTime.MobileApp.Pages.Admin
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PlayPage : MasterDetailPage
+    public partial class AdminPage : MasterDetailPage
     {
         /// <summary>
         /// Dependency injection container
@@ -21,32 +20,27 @@ namespace BeforeOurTime.MobileApp.Pages.Play
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="container">Dependency injection controller</param>
-        public PlayPage(IContainer container)
+        /// <param name="container">Dependency injection container</param>
+        public AdminPage(IContainer container)
         {
             InitializeComponent();
             Container = container;
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
-            Detail = new Game.GamePage(Container);
+            Detail = new AdminPageDetail(Container);
         }
         /// <summary>
-        /// Naviate to new page when menu item is clicked
+        /// Navigate to new page when menu item is clicked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as PlayPageMenuItem;
+            var item = e.SelectedItem as AdminPageMenuItem;
             if (item == null)
                 return;
             if (item.TargetType == null)
             {
                 await Navigation.PopAsync();
-            }
-            else if (item.TargetType == typeof(AdminPage))
-            {
-                var page = (Page)Activator.CreateInstance(item.TargetType, Container);
-                await Navigation.PushAsync(page);
             }
             else
             {
