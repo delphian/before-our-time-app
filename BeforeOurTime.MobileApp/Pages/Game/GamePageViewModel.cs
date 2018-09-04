@@ -15,6 +15,7 @@ using System.Text;
 using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
+using BeforeOurTime.Models.Messages.Locations.ReadLocationSummary;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -103,7 +104,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             var GameService = container.Resolve<IGameService>();
             GameService.GetLocationSummary().ContinueWith((summaryTask) =>
             {
-                ProcessListLocationResponse(summaryTask.Result.GetMessageAsType<ListLocationResponse>());
+                ProcessListLocationResponse(summaryTask.Result.GetMessageAsType<ReadLocationSummaryResponse>());
             });
             GameService.OnMessage += OnMessage;
         }
@@ -114,9 +115,9 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         private void OnMessage(IMessage message)
         {
             EventStream = DateTime.Now + " " + message.GetMessageName();
-            if (message.IsMessageType<ListLocationResponse>())
+            if (message.IsMessageType<ReadLocationSummaryResponse>())
             {
-                ProcessListLocationResponse(message.GetMessageAsType<ListLocationResponse>());
+                ProcessListLocationResponse(message.GetMessageAsType<ReadLocationSummaryResponse>());
             }
             if (message.IsMessageType<ArrivalEvent>())
             {
@@ -127,15 +128,14 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 ProcessDepartureEvent(message.GetMessageAsType<DepartureEvent>());
             }
         }
-        private void ProcessListLocationResponse(ListLocationResponse listLocationResponse)
+        private void ProcessListLocationResponse(ReadLocationSummaryResponse listLocationResponse)
         {
             LocationName = listLocationResponse.Item.Name;
             LocationDescription = listLocationResponse.Item.Description;
-            Objects = listLocationResponse.Objects;
             Characters = listLocationResponse.Characters;
             ProcessExits(listLocationResponse);
         }
-        private void ProcessExits(ListLocationResponse listLocationResponse)
+        private void ProcessExits(ReadLocationSummaryResponse listLocationResponse)
         {
             Exits = listLocationResponse.Exits.Select(x => x.Item).ToList();
         }
