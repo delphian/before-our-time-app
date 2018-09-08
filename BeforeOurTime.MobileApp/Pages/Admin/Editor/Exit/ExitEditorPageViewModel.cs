@@ -2,7 +2,8 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Attributes.Exits;
+using BeforeOurTime.Models.ItemAttributes.Exits;
+using BeforeOurTime.Models.Items.Exits;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
 using Newtonsoft.Json;
 using System;
@@ -22,7 +23,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
         /// <summary>
         /// List of all locations 
         /// </summary>
-        private List<Item> _exits { set; get; }
+        private List<ExitItem> _exits { set; get; }
         /// <summary>
         /// List of all locations as view models
         /// </summary>
@@ -55,13 +56,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
         /// <returns></returns>
         public async Task ReadItem(Guid itemId)
         {
-            Item exitItem = (await ItemService.ReadAsync(new List<Guid>() { itemId }))?.FirstOrDefault();
+            ExitItem exitItem = (await ItemService.ReadAsync(new List<Guid>() { itemId }))?
+                .FirstOrDefault()
+                .GetAsItem<ExitItem>();
             VMSelectedExit = new ViewModelExit()
             {
                 ItemId = exitItem.Id.ToString(),
                 ExitId = exitItem.GetAttribute<ExitAttribute>().Id.ToString(),
-                Name = exitItem.Name,
-                Description = exitItem.Description
+                Name = exitItem.Visible.Name,
+                Description = exitItem.Visible.Description
             };
         }
         /// <summary>
@@ -73,11 +76,12 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             Working = true;
             try
             {
-                if (_exits == null)
+                if (_exits == null || _exits.Count == 0)
                 {
-                    _exits = await ItemService.ReadByTypeAsync(new List<string>() {
+                    var items = await ItemService.ReadByTypeAsync(new List<string>() {
                         typeof(ExitAttribute).ToString()
                     });
+                    _exits = items.Select(x => x.GetAsItem<ExitItem>()).ToList();
                     var vmExits = new List<ViewModelExit>();
                     _exits.ForEach((exit) =>
                     {
@@ -85,8 +89,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
                         {
                             ItemId = exit.Id.ToString(),
                             ExitId = exit.GetAttribute<ExitAttribute>().Id.ToString(),
-                            Name = exit.Name,
-                            Description = exit.Description
+                            Name = exit.Visible.Name,
+                            Description = exit.Visible.Description
                         });
                     });
                     VMExits = vmExits;

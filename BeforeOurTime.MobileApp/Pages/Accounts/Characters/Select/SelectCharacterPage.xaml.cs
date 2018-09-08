@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Items.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +78,7 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         {
             try
             {
-                await ViewModel.PlayAccountCharacter((Item)CharacterListView.SelectedItem);
+                await ViewModel.PlayAccountCharacter((CharacterItem)CharacterListView.SelectedItem);
             }
             catch (Exception ex)
             {

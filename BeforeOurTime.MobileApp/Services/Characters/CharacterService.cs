@@ -1,6 +1,7 @@
 ﻿using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Items.Characters;
 using BeforeOurTime.Models.Messages.Requests.Create;
 using BeforeOurTime.Models.Messages.Requests.List;
 using BeforeOurTime.Models.Messages.Requests.Login;
@@ -44,7 +45,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// <summary>
         /// Account character currently being played
         /// </summary>
-        private Item Character { set; get; }
+        private CharacterItem Character { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -66,14 +67,14 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// <param name="accountId">Unique account identifier</param>
         /// <param name="force">Bypass cache and force load from server</param>
         /// <returns></returns>
-        public async Task<List<Item>> GetAccountCharactersAsync(Guid accountId, bool force = false)
+        public async Task<List<CharacterItem>> GetAccountCharactersAsync(Guid accountId, bool force = false)
         {
-            var characters = new List<Item>();
+            var characters = new List<CharacterItem>();
             var key = $"account_{accountId}_characters";
             force = true;
             if (Application.Current.Properties.ContainsKey(key) && !force)
             {
-                characters = JsonConvert.DeserializeObject<List<Item>>(Application.Current.Properties[key] as string);
+                characters = JsonConvert.DeserializeObject<List<CharacterItem>>(Application.Current.Properties[key] as string);
             }
             else
             {
@@ -120,7 +121,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// </summary>
         /// <param name="character">Item of account character that should be played</param>
         /// <returns>True on success, false on failure</returns>
-        public async Task PlayAccountCharacterAsync(Item character)
+        public async Task PlayAccountCharacterAsync(CharacterItem character)
         {
             if (!AccountService.IsLoggedIn())
             {
@@ -173,7 +174,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// Get the account character currently being played
         /// </summary>
         /// <returns></returns>
-        public Item GetCharacter()
+        public CharacterItem GetCharacter()
         {
             return Character;
         }

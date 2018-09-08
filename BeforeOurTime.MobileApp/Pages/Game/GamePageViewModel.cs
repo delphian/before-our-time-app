@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Attributes.Players;
-using BeforeOurTime.Models.Items.Attributes.Characters;
+using BeforeOurTime.Models.ItemAttributes.Players;
+using BeforeOurTime.Models.ItemAttributes.Characters;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.Events.Arrivals;
 using BeforeOurTime.Models.Messages.Events.Departures;
@@ -16,6 +16,8 @@ using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Messages.Locations.ReadLocationSummary;
+using BeforeOurTime.Models.Items.Characters;
+using BeforeOurTime.Models.Items.Exits;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -33,13 +35,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Player's character
         /// </summary>
         private Item Me { set; get; }
-        private int _exitElements { set; get; }
         public int ExitElements
         {
             get { return _exitElements; }
             set { _exitElements = value; NotifyPropertyChanged("ExitElements"); }
         }
-        private string _locationName { set; get; } = "Before Our Time";
+        private int _exitElements { set; get; }
         /// <summary>
         /// Short name of the current location
         /// </summary>
@@ -47,7 +48,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             get { return _locationName; }
             set { _locationName = value; NotifyPropertyChanged("LocationName"); }
         }
-        private string _locationDescription { set; get; }
+        private string _locationName { set; get; } = "Before Our Time";
         /// <summary>
         /// Long description of the current location
         /// </summary>
@@ -56,16 +57,16 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             get { return _locationDescription; }
             set { _locationDescription = value; NotifyPropertyChanged("LocationDescription"); }
         }
-        private List<Item> _exits { set; get; } = new List<Item>();
+        private string _locationDescription { set; get; }
         /// <summary>
         /// All items that offer an exit
         /// </summary>
-        public List<Item> Exits
+        public List<ExitItem> Exits
         {
             get { return _exits; }
             set { _exits = value; NotifyPropertyChanged("Exits"); }
         }
-        private List<Item> _objects { set; get; } = new List<Item>();
+        private List<ExitItem> _exits { set; get; } = new List<ExitItem>();
         /// <summary>
         /// All objects (dumb items) at current location
         /// </summary>
@@ -74,16 +75,16 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             get { return _objects; }
             set { _objects = value; NotifyPropertyChanged("Objects"); }
         }
-        private List<Item> _characters { set; get; } = new List<Item>();
+        private List<Item> _objects { set; get; } = new List<Item>();
         /// <summary>
         /// Character items at current location
         /// </summary>
-        public List<Item> Characters
+        public List<CharacterItem> Characters
         {
             get { return _characters; }
             set { _characters = value; NotifyPropertyChanged("Characters"); }
         }
-        private string _eventStream { set; get; }
+        private List<CharacterItem> _characters { set; get; } = new List<CharacterItem>();
         /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>
@@ -92,6 +93,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             get { return _eventStream; }
             set { _eventStream = value; NotifyPropertyChanged("EventStream"); }
         }
+        private string _eventStream { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -130,8 +132,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessListLocationResponse(ReadLocationSummaryResponse listLocationResponse)
         {
-            LocationName = listLocationResponse.Item.Name;
-            LocationDescription = listLocationResponse.Item.Description;
+            LocationName = listLocationResponse.Item.Visible.Name;
+            LocationDescription = listLocationResponse.Item.Visible.Description;
             Characters = listLocationResponse.Characters;
             ProcessExits(listLocationResponse);
         }
@@ -145,7 +147,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 arrivalEvent.Item.HasAttribute<PlayerAttribute>()) &&
                 arrivalEvent.Item.Id != Me.Id)
             {
-                Characters.Add(arrivalEvent.Item);
+                Characters.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
                 // Force notify to fire
                 Characters = Characters.ToList();
             }

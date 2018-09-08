@@ -74,19 +74,19 @@ namespace BeforeOurTime.MobileApp.Services.Messages
                 {
                     response = (IResponse)JsonConvert.DeserializeObject(messageJson, typeof(Response));
                 }
+                OnMessage?.Invoke(message);
+                OnMessageHandlers
+                    .Where(x => x.Type == messageType)
+                    .Where(x => x.ResponseInstanceId == null ||
+                                x.ResponseInstanceId == response?.GetRequestInstanceId())
+                    .ToList()
+                    .ForEach(x => x.Invoke(message));
             }
             catch (Exception e)
             {
-                LoggerService.Log($"Unable to resolve message from server", e);
+                LoggerService.Log($"Unable to interpret message from server", e);
                 throw new MessageInvalidJsonException(e.Message);
             }
-            OnMessage?.Invoke(message);
-            OnMessageHandlers
-                .Where(x => x.Type == messageType)
-                .Where(x => x.ResponseInstanceId == null ||
-                            x.ResponseInstanceId == response?.GetRequestInstanceId())
-                .ToList()
-                .ForEach(x => x.Invoke(message));
         }
         /// <summary>
         /// Send a message to the server

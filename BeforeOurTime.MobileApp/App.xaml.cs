@@ -43,7 +43,7 @@ namespace BeforeOurTime.MobileApp
             Message.GetMessageTypeDictionary();
             // Configure services
             var loggerService = new LoggerService();
-            var wsService = new WebSocketService(connectionString);
+            var wsService = new WebSocketService(loggerService, connectionString);
             var messageService = new MessageService(loggerService, wsService);
             var itemService = new ItemService(messageService);
             var accountService = new AccountService(wsService, messageService);

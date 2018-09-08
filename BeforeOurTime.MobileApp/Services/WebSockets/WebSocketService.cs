@@ -1,4 +1,6 @@
-﻿using BeforeOurTime.Models.Messages.Requests;
+﻿using BeforeOurTime.MobileApp.Services.Loggers;
+using BeforeOurTime.Models.Messages.Requests;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,10 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
     /// </summary>
     public class WebSocketService : IWebSocketService
     {
+        /// <summary>
+        /// Record errors and information during program execution
+        /// </summary>
+        private LoggerService LoggerService { set; get; }
         /// <summary>
         /// Connection string for websocket server
         /// </summary>
@@ -55,9 +61,11 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="loggerService">Record errors and information during program execution</param>
         /// <param name="connectionString">Connection string for websocket server</param>
-        public WebSocketService(string connectionString)
+        public WebSocketService(LoggerService loggerService, string connectionString)
         {
+            LoggerService = loggerService;
             ConnectionString = connectionString;
         }
         /// <summary>
@@ -113,13 +121,14 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
             await Task.Factory.StartNew(async () =>
             {
                 var buffer = new Byte[1024 * 4];
+                string messageJson = "";
                 while (Client.State == WebSocketState.Open)
                 {
                     try
                     {
                         Array.Clear(buffer, 0, buffer.Count());
                         var result = await Client.ReceiveAsync(new ArraySegment<byte>(buffer), Cts.Token);
-                        var messageJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                        messageJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
                         while (!result.EndOfMessage)
                         {
                             Array.Clear(buffer, 0, buffer.Count());
@@ -139,9 +148,9 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
                             OnData?.Invoke(messageJson);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        throw e;
+                        LoggerService.Log(LogLevel.Error, $"While distributing websocket message: {messageJson}");
                     }
                 }
             }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);

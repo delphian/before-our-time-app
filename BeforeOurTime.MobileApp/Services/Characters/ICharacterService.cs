@@ -1,4 +1,5 @@
 ﻿using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Items.Characters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// <param name="accountId">Unique account identifier</param>
         /// <param name="force">Bypass cache and force load from server</param>
         /// <returns></returns>
-        Task<List<Item>> GetAccountCharactersAsync(Guid accountId, bool force = false);
+        Task<List<CharacterItem>> GetAccountCharactersAsync(Guid accountId, bool force = false);
         /// <summary>
         /// Create a new account character
         /// </summary>
@@ -34,7 +35,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// </summary>
         /// <param name="character">Item of account character that should be played</param>
         /// <returns>True on success, false on failure</returns>
-        Task PlayAccountCharacterAsync(Item character);
+        Task PlayAccountCharacterAsync(CharacterItem character);
         /// <summary>
         /// Get the user's current character play state
         /// </summary>
@@ -44,7 +45,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// Get the account character currently being played
         /// </summary>
         /// <returns></returns>
-        Item GetCharacter();
+        CharacterItem GetCharacter();
         /// <summary>
         /// Report if account is currently playing an account character
         /// </summary>

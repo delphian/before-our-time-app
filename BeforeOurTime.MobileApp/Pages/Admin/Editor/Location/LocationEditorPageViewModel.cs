@@ -3,8 +3,10 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Attributes.Exits;
-using BeforeOurTime.Models.Items.Attributes.Locations;
+using BeforeOurTime.Models.ItemAttributes.Exits;
+using BeforeOurTime.Models.ItemAttributes.Locations;
+using BeforeOurTime.Models.Items.Exits;
+using BeforeOurTime.Models.Items.Locations;
 using BeforeOurTime.Models.Messages.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
@@ -34,7 +36,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// <summary>
         /// List of all locations 
         /// </summary>
-        private List<Item> _locations { set; get; }
+        private List<LocationItem> _locations { set; get; }
         /// <summary>
         /// List of all locations as view models
         /// </summary>
@@ -104,9 +106,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 if (_locations == null)
                 {
-                    _locations = await ItemService.ReadByTypeAsync(new List<string>() {
+                    var items = await ItemService.ReadByTypeAsync(new List<string>() {
                         typeof(LocationAttribute).ToString()
                     });
+                    _locations = items.Select(x => x.GetAsItem<LocationItem>()).ToList();
                     var vmLocations = new List<ViewModelLocation>();
                     _locations.ForEach((location) =>
                     {
@@ -114,8 +117,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         {
                             ItemId = location.Id.ToString(),
                             LocationId = location.GetAttribute<LocationAttribute>().Id.ToString(),
-                            Name = location.Name,
-                            Description = location.Description
+                            Name = location.Visible.Name,
+                            Description = location.Visible.Description
                         });
                     });
                     VMLocations = vmLocations;
@@ -151,13 +154,13 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .ToList();
                 var children = await ItemService.ReadAsync(childrenIds);
                 VMExits = children
-                    .Where(x => x.HasAttribute<ExitAttribute>())
+                    .Where(x => x.Type == ItemType.Exit)
                     .Select(x => new ViewModelExit()
                         {
                             ItemId = x.Id,
                             ExitId = x.GetAttribute<ExitAttribute>().Id,
-                            Name = x.Name,
-                            Description = x.Description
+                            Name = ((ExitItem)x).Visible.Name,
+                            Description = ((ExitItem)x).Visible.Description
                         })
                     .ToList();
             }
@@ -222,8 +225,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
                     LocationId = result.CreateLocationEvent.Item.GetAttribute<LocationAttribute>().Id.ToString(),
-                    Name = result.CreateLocationEvent.Item.Name,
-                    Description = result.CreateLocationEvent.Item.Description
+                    Name = result.CreateLocationEvent.Item.Visible.Name,
+                    Description = result.CreateLocationEvent.Item.Visible.Description
                 });
                 (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
             }
@@ -255,7 +258,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
-                _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault());
+                _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault().GetAsItem<LocationItem>());
                 var vmLocations = VMLocations;
                 vmLocations.Remove(VMSelectedLocation);
                 (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);

@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Items.Characters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,12 +23,12 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// <summary>
         /// List of all characters owned by account
         /// </summary>
-        public List<Item> Characters
+        public List<CharacterItem> Characters
         {
             get { return _characters; }
             set { _characters = value; NotifyPropertyChanged("Characters"); }
         }
-        private List<Item> _characters { set; get; } = new List<Item>();
+        private List<CharacterItem> _characters { set; get; } = new List<CharacterItem>();
         /// <summary>
         /// Character list contains one or more characters
         /// </summary>
@@ -40,12 +41,12 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// <summary>
         /// Account character currently being played
         /// </summary>
-        public Item Character
+        public CharacterItem Character
         {
             get { return _character; }
             set { _character = value; NotifyPropertyChanged("Character"); }
         }
-        private Item _character { set; get; }
+        private CharacterItem _character { set; get; }
         /// <summary>
         /// Play button title featuring selected character's name
         /// </summary>
@@ -131,14 +132,14 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
         /// </summary>
         /// <param name="accountCharacter">Account character item to play</param>
         /// <returns></returns>
-        public async Task PlayAccountCharacter(Item accountCharacter)
+        public async Task PlayAccountCharacter(CharacterItem accountCharacter)
         {
             try
             {
                 SvcWorking = true;
                 await Container.Resolve<ICharacterService>().PlayAccountCharacterAsync(accountCharacter);
                 Character = Container.Resolve<ICharacterService>().GetCharacter();
-                PlayButtonTitle = "Play " + Character.Name;
+                PlayButtonTitle = "Play " + Character.Visible.Name;
             }
             finally
             {
