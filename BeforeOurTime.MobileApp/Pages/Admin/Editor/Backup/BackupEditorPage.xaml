@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.Backup.BackupEditorPage"
+             Title="Import / Export Backup">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand">
+            <Editor Text="{Binding JsonItems}" 
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="#ffffff"></Editor>
+            <FlexLayout
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                Margin="0, 0, 0, 10">
+                <Button Text="Create Backup"
+                    Clicked="ButtonLoad_Clicked"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="LightGreen"
+                    FlexLayout.Basis="50%"></Button>
+                <Button Text="Copy"
+                    Clicked="ButtonCopy_Clicked"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="LightGreen"
+                    FlexLayout.Basis="50%"></Button>
+            </FlexLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
