@@ -46,8 +46,8 @@
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextCell Text="{Binding Name}" 
-                                          Detail="{Binding Description}" 
+                                <TextCell Text="{Binding Visible.Name}" 
+                                          Detail="{Binding Visible.Description}" 
                                           TextColor="Black" 
                                           DetailColor="DarkGray" />
                             </DataTemplate>
