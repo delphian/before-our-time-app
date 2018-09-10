@@ -16,7 +16,6 @@ _pkginfo.txt
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 x64/
