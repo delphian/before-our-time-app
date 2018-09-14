@@ -40,8 +40,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             // Allow other page to load items into the json editor
             MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>
             {
-                ViewModel.ItemId = guid.ToString();
-                await ViewModel.ReadItem();
+                try
+                {
+                    ViewModel.ItemId = guid.ToString();
+                    await ViewModel.ReadItem();
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", e.Message, "OK, Maybe Tomorrow");
+                }
             });
         }
         public JsonEditorPage(IContainer container) : this(container, null) { }
