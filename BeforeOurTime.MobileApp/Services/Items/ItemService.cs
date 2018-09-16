@@ -50,6 +50,19 @@ namespace BeforeOurTime.MobileApp.Services.Items
             return response.ReadItemEvent.Items;
         }
         /// <summary>
+        /// Read multiple items based on a list of unique item identifiers
+        /// </summary>
+        /// <param name="itemIds">List of unique item identifiers</param>
+        /// <returns></returns>
+        public async Task<List<CoreItemJson>> ReadJsonAsync(List<Guid> itemIds = null)
+        {
+            var response = await MessageService.SendRequestAsync<CoreReadItemJsonResponse>(new CoreReadItemJsonRequest()
+            {
+                ItemIds = itemIds
+            });
+            return response.ReadItemEvent.Items;
+        }
+        /// <summary>
         /// Read item graph
         /// </summary>
         /// <param name="itemIds">Item to begin graph with</param>
