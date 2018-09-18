@@ -9,6 +9,8 @@ using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
 using BeforeOurTime.Models.Messages.CRUD.Items.UpdateItem;
 using BeforeOurTime.Models.Messages.Requests;
 using BeforeOurTime.Models.Messages.Responses;
+using BeforeOurTime.Models.Modules.Core.Messages;
+using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -60,7 +62,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
             {
                 ItemIds = itemIds
             });
-            return response.ReadItemEvent.Items;
+            return response.CoreReadItemJsonEvent.ItemsJson;
         }
         /// <summary>
         /// Read item graph

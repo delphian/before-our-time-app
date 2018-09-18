@@ -3,6 +3,7 @@ using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
 using BeforeOurTime.Models.Messages.Requests;
 using BeforeOurTime.Models.Messages.Responses;
+using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +22,12 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
         Task<List<Item>> ReadAsync(List<Guid> itemIds = null);
+        /// <summary>
+        /// Read multiple items based on a list of unique item identifiers
+        /// </summary>
+        /// <param name="itemIds">List of unique item identifiers</param>
+        /// <returns></returns>
+        Task<List<CoreItemJson>> ReadJsonAsync(List<Guid> itemIds = null);
         /// <summary>
         /// Read item graph
         /// </summary>

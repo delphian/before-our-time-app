@@ -3,6 +3,7 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         /// <summary>
         /// Unique item identifier to operate on
         /// </summary>
-        public String ItemId {
+        public string ItemId {
             get { return _itemId.ToString(); }
             set {
                 if (Guid.TryParse(value, out Guid newGuid))
@@ -33,18 +34,6 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         }
         private Guid _itemId { set; get; }
         /// <summary>
-        /// Item loaded from a previous Read or Create
-        /// </summary>
-        public Item Item {
-            get { return _item; }
-            set {
-                _item = value;
-                ItemJson = JsonConvert.SerializeObject(_item, Formatting.Indented);
-                NotifyPropertyChanged("Item");
-            }
-        }
-        private Item _item { set; get; }
-        /// <summary>
         /// Item as json data
         /// </summary>
         public string ItemJson
@@ -53,6 +42,21 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             set { _itemJson = value; NotifyPropertyChanged("ItemJson"); }
         }
         private string _itemJson { set; get; }
+        /// <summary>
+        /// Item loaded from a previous Read or Create
+        /// </summary>
+        public CoreItemJson CoreItemJson
+        {
+            get { return _coreItemJson; }
+            set
+            {
+                _coreItemJson = value;
+                ItemId = _coreItemJson.Id.ToString();
+                ItemJson = _coreItemJson.JSON;
+                NotifyPropertyChanged("CoreItemJson");
+            }
+        }
+        private CoreItemJson _coreItemJson { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -72,7 +76,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         /// <returns></returns>
         public async Task ReadItem()
         {
-            Item = (await ItemService.ReadAsync(new List<Guid>() { _itemId }))?.FirstOrDefault();
+            CoreItemJson = (await ItemService.ReadJsonAsync(new List<Guid>() { _itemId }))?.FirstOrDefault();
         }
         /// <summary>
         /// Update multiple items on server
@@ -100,7 +104,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             Working = true;
             try
             {
-                await ItemService.DeleteAsync(new List<Guid>() { Item.Id });
+                await ItemService.DeleteAsync(new List<Guid>() { _itemId });
             }
             finally
             {

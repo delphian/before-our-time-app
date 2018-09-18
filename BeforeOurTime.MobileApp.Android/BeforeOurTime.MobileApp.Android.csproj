@@ -132,10 +132,6 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\before-our-time-business\BeforeOurTime.Business.csproj">
-      <Project>{B835941F-C2E3-48F4-A7E8-1E044A831036}</Project>
-      <Name>BeforeOurTime.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\before-our-time-models\BeforeOurTime.Models.csproj">
       <Project>{166146a1-5fd1-44bd-9176-3783ac8eecce}</Project>
       <Name>BeforeOurTime.Models</Name>
