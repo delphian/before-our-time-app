@@ -2,15 +2,13 @@
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.CRUD.Items.DeleteItem;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
 using BeforeOurTime.Models.Messages.CRUD.Items.UpdateItem;
-using BeforeOurTime.Models.Messages.Requests;
-using BeforeOurTime.Models.Messages.Responses;
-using BeforeOurTime.Models.Modules.Core.Messages;
-using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -62,6 +60,10 @@ namespace BeforeOurTime.MobileApp.Services.Items
             {
                 ItemIds = itemIds
             });
+            if (!response.IsSuccess())
+            {
+                throw new Exception($"Unable to read items: {response._responseMessage}");
+            }
             return response.CoreReadItemJsonEvent.ItemsJson;
         }
         /// <summary>
@@ -105,6 +107,23 @@ namespace BeforeOurTime.MobileApp.Services.Items
             if (!response.IsSuccess())
             {
                 throw new Exception("Unable to update items");
+            }
+        }
+        /// <summary>
+        /// Update multiple items through json objects
+        /// </summary>
+        /// <param name="itemsJson">List of items to update</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Unable to update items</exception>
+        public async Task UpdateJsonAsync(List<CoreItemJson> itemsJson)
+        {
+            var response = await MessageService.SendRequestAsync<CoreUpdateItemJsonResponse>(new CoreUpdateItemJsonRequest()
+            {
+                ItemsJson = itemsJson
+            });
+            if (!response.IsSuccess())
+            {
+                throw new Exception($"Unable to update items: {response._responseMessage}");
             }
         }
         /// <summary>

@@ -1,9 +1,6 @@
 ﻿using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
-using BeforeOurTime.Models.Messages.Requests;
-using BeforeOurTime.Models.Messages.Responses;
-using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +20,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         Task<List<Item>> ReadAsync(List<Guid> itemIds = null);
         /// <summary>
-        /// Read multiple items based on a list of unique item identifiers
+        /// Read multiple items json based on a list of unique item identifiers
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
@@ -47,6 +44,13 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         /// <exception cref="Exception">Unable to update items</exception>
         Task UpdateAsync(List<Item> items);
+        /// <summary>
+        /// Update multiple items through json objects
+        /// </summary>
+        /// <param name="itemsJson">List of items to update</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Unable to update items</exception>
+        Task UpdateJsonAsync(List<CoreItemJson> itemsJson);
         /// <summary>
         /// Delete multiple items
         /// </summary>

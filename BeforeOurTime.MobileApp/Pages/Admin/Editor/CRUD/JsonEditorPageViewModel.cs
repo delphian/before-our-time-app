@@ -2,8 +2,7 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
-using BeforeOurTime.Models.Modules.Core.Messages.ReadItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -88,7 +87,12 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             try
             {
                 var item = JsonConvert.DeserializeObject<Item>(_itemJson);
-                await ItemService.UpdateAsync(new List<Item>() { item });
+                var coreItemJson = new CoreItemJson()
+                {
+                    Id = ItemId,
+                    JSON = ItemJson
+                };
+                await ItemService.UpdateJsonAsync(new List<CoreItemJson>() { coreItemJson });
             }
             finally
             {
