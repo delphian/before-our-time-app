@@ -4,9 +4,7 @@ using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.ItemAttributes.Exits;
-using BeforeOurTime.Models.ItemAttributes.Locations;
 using BeforeOurTime.Models.Items.Exits;
-using BeforeOurTime.Models.Items.Locations;
 using BeforeOurTime.Models.Messages.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
@@ -16,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Data;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
 {
@@ -107,7 +107,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 if (_locations == null)
                 {
                     var items = await ItemService.ReadByTypeAsync(new List<string>() {
-                        typeof(LocationAttribute).ToString()
+                        typeof(LocationData).ToString()
                     });
                     _locations = items.Select(x => x.GetAsItem<LocationItem>()).ToList();
                     var vmLocations = new List<ViewModelLocation>();
@@ -116,7 +116,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         vmLocations.Add(new ViewModelLocation()
                         {
                             ItemId = location.Id.ToString(),
-                            LocationId = location.GetAttribute<LocationAttribute>().Id.ToString(),
+                            LocationId = location.GetAttribute<LocationData>().Id.ToString(),
                             Name = location.Visible.Name,
                             Description = location.Visible.Description
                         });
@@ -186,7 +186,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 var item = _locations
                     .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
                     .FirstOrDefault();
-                var location = item.GetAttribute<LocationAttribute>();
+                var location = item.GetAttribute<LocationData>();
                 location.Name = VMSelectedLocation.Name;
                 location.Description = VMSelectedLocation.Description;
                 await ItemService.UpdateAsync(new List<Item>() { item });
@@ -224,7 +224,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 vmLocations.Add(new ViewModelLocation()
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
-                    LocationId = result.CreateLocationEvent.Item.GetAttribute<LocationAttribute>().Id.ToString(),
+                    LocationId = result.CreateLocationEvent.Item.GetAttribute<LocationData>().Id.ToString(),
                     Name = result.CreateLocationEvent.Item.Visible.Name,
                     Description = result.CreateLocationEvent.Item.Visible.Description
                 });
