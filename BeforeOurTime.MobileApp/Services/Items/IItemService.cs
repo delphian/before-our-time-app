@@ -1,5 +1,5 @@
 ﻿using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
 using System;
 using System.Collections.Generic;

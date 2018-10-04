@@ -2,7 +2,7 @@
 using BeforeOurTime.MobileApp.Controls.TreeView;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Services.Items;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;

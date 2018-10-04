@@ -4,7 +4,6 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.ItemAttributes.Exits;
 using BeforeOurTime.Models.Items.Exits;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

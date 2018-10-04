@@ -2,10 +2,10 @@
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.CRUD.Items.DeleteItem;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItem;
-using BeforeOurTime.Models.Messages.CRUD.Items.ReadItemGraph;
-using BeforeOurTime.Models.Messages.CRUD.Items.UpdateItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.DeleteItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.UpdateItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
@@ -43,11 +43,11 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         public async Task<List<Item>> ReadAsync(List<Guid> itemIds = null)
         {
-            var response = await MessageService.SendRequestAsync<ReadItemResponse>(new ReadItemRequest()
+            var response = await MessageService.SendRequestAsync<CoreReadItemCrudResponse>(new CoreReadItemCrudRequest()
             {
                 ItemIds = itemIds
             });
-            return response.ReadItemEvent.Items;
+            return response.CoreReadItemCrudEvent.Items;
         }
         /// <summary>
         /// Read multiple items based on a list of unique item identifiers
@@ -73,24 +73,24 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         public async Task<ItemGraph> ReadGraphAsync(Guid? itemId = null)
         {
-            var response = await MessageService.SendRequestAsync<ReadItemGraphResponse>(new ReadItemGraphRequest()
+            var response = await MessageService.SendRequestAsync<CoreReadItemGraphResponse>(new CoreReadItemGraphRequest()
             {
                 ItemId = itemId
             });
-            return response.ReadItemGraphEvent.ItemGraph;
+            return response.CoreReadItemGraphEvent.ItemGraph;
         }
         /// <summary>
-        /// Read multiple items based on a list of item attribute types
+        /// Read multiple items based on a list of item property types
         /// </summary>
-        /// <param name="attributeTypes">List of unique attribute type names (class names)</param>
+        /// <param name="attributeTypes">List of unique property type names (class names)</param>
         /// <returns></returns>
-        public async Task<List<Item>> ReadByTypeAsync(List<string> attributeTypes)
+        public async Task<List<Item>> ReadByTypeAsync(List<string> propertyTypes)
         {
-            var response = await MessageService.SendRequestAsync<ReadItemResponse>(new ReadItemRequest()
+            var response = await MessageService.SendRequestAsync<CoreReadItemCrudResponse>(new CoreReadItemCrudRequest()
             {
-                ItemAttributeTypes = attributeTypes
+                ItemPropertyTypes = propertyTypes
             });
-            return response.ReadItemEvent.Items;
+            return response.CoreReadItemCrudEvent.Items;
         }
         /// <summary>
         /// Update multiple items
@@ -100,7 +100,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <exception cref="Exception">Unable to update items</exception>
         public async Task UpdateAsync(List<Item> items)
         {
-            var response = await MessageService.SendRequestAsync<UpdateItemResponse>(new UpdateItemRequest()
+            var response = await MessageService.SendRequestAsync<CoreUpdateItemCrudResponse>(new CoreUpdateItemCrudRequest()
             {
                 Items = items
             });
@@ -134,7 +134,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <exception cref="Exception">Unable to delete items</exception>
         public async Task DeleteAsync(List<Guid> itemIds)
         {
-            var response = await MessageService.SendRequestAsync<DeleteItemResponse>(new DeleteItemRequest()
+            var response = await MessageService.SendRequestAsync<CoreDeleteItemCrudResponse>(new CoreDeleteItemCrudRequest()
             {
                 ItemIds = itemIds
             });
