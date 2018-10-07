@@ -2,13 +2,9 @@
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
-using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.Requests.Create;
-using BeforeOurTime.Models.Messages.Requests.List;
-using BeforeOurTime.Models.Messages.Requests.Login;
-using BeforeOurTime.Models.Messages.Responses.Create;
-using BeforeOurTime.Models.Messages.Responses.List;
-using BeforeOurTime.Models.Messages.Responses.Login;
+using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,7 +101,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
             try
             {
                 SetState(LoginState.Authenticating);
-                var loginResponse = await MessageService.SendRequestAsync<LoginResponse>(new LoginRequest()
+                var loginResponse = await MessageService.SendRequestAsync<AccountLoginAccountResponse>(new AccountLoginAccountRequest()
                 {
                     Email = name,
                     Password = password
@@ -144,7 +140,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
             {
                 SetState(LoginState.Authenticating);
                 var createAccountResponse = await MessageService
-                    .SendRequestAsync<CreateAccountResponse>(new CreateAccountRequest()
+                    .SendRequestAsync<AccountCreateAccountResponse>(new AccountCreateAccountRequest()
                     {
                         Email = email,
                         Password = password
@@ -180,7 +176,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
             var logout = false;
             if (GetState() != LoginState.Disconnected)
             {
-                var logoutResponse = await MessageService.SendRequestAsync<LogoutResponse>(new LogoutRequest());
+                var logoutResponse = await MessageService.SendRequestAsync<AccountLogoutAccountResponse>(new AccountLogoutAccountRequest());
                 Account = null;
                 Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
                 await Application.Current.SavePropertiesAsync();

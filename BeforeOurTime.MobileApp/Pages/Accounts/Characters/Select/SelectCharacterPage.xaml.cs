@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Characters;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;

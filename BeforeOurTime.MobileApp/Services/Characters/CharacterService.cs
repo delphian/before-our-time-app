@@ -1,13 +1,9 @@
 ﻿using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Characters;
-using BeforeOurTime.Models.Messages.Requests.Create;
-using BeforeOurTime.Models.Messages.Requests.List;
-using BeforeOurTime.Models.Messages.Requests.Login;
-using BeforeOurTime.Models.Messages.Responses.Create;
-using BeforeOurTime.Models.Messages.Responses.List;
-using BeforeOurTime.Models.Messages.Responses.Login;
+using BeforeOurTime.Models.Modules.Account.Messages.CreateCharacter;
+using BeforeOurTime.Models.Modules.Account.Messages.LoginCharacter;
+using BeforeOurTime.Models.Modules.Account.Messages.ReadCharacter;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,8 +74,8 @@ namespace BeforeOurTime.MobileApp.Services.Characters
             }
             else
             {
-                var listCharactersResponse = await MessageService.SendRequestAsync<ListAccountCharactersResponse>(
-                new ListAccountCharactersRequest()
+                var listCharactersResponse = await MessageService.SendRequestAsync<AccountReadCharacterResponse>(
+                new AccountReadCharacterRequest()
                 {
                     AccountId = accountId
                 });
@@ -104,8 +100,8 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// <returns></returns>
         public async Task CreateAccountCharacterAsync(Guid accountId, string name)
         {
-            var createAccountCharacterResponse = await MessageService.SendRequestAsync<CreateAccountCharacterResponse>(
-                new CreateAccountCharacterRequest()
+            var createAccountCharacterResponse = await MessageService.SendRequestAsync<AccountCreateCharacterResponse>(
+                new AccountCreateCharacterRequest()
                 {
                     Name = name
                 });
@@ -130,8 +126,8 @@ namespace BeforeOurTime.MobileApp.Services.Characters
             try
             {
                 SetPlayState(CharacterPlayState.Requesting);
-                var loginAccountCharacter = await MessageService.SendRequestAsync<LoginAccountCharacterResponse>(
-                    new LoginAccountCharacterRequest()
+                var loginAccountCharacter = await MessageService.SendRequestAsync<AccountLoginCharacterResponse>(
+                    new AccountLoginCharacterRequest()
                     {
                         ItemId = character.Id
                     });

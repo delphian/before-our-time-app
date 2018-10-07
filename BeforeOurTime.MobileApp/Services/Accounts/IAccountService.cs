@@ -1,6 +1,4 @@
 ﻿using BeforeOurTime.MobileApp.Models;
-using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.Responses.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;

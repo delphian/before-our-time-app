@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
-using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Items.Characters;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;

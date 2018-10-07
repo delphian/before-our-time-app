@@ -1,12 +1,9 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.ItemAttributes.Players;
-using BeforeOurTime.Models.ItemAttributes.Characters;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.Events.Arrivals;
 using BeforeOurTime.Models.Messages.Events.Departures;
-using BeforeOurTime.Models.Messages.Responses.List;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,8 +13,8 @@ using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Messages.Locations.ReadLocationSummary;
-using BeforeOurTime.Models.Items.Characters;
 using BeforeOurTime.Models.Items.Exits;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -143,9 +140,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessArrivalEvent(ArrivalEvent arrivalEvent)
         {
-            if ((arrivalEvent.Item.HasAttribute<CharacterAttribute>() ||
-                arrivalEvent.Item.HasAttribute<PlayerAttribute>()) &&
-                arrivalEvent.Item.Id != Me.Id)
+            if (arrivalEvent.Item is CharacterItem && arrivalEvent.Item.Id != Me.Id)
             {
                 Characters.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
                 // Force notify to fire
@@ -158,9 +153,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessDepartureEvent(DepartureEvent departureEvent)
         {
-            if ((departureEvent.Item.HasAttribute<CharacterAttribute>() ||
-                departureEvent.Item.HasAttribute<PlayerAttribute>()) &&
-                departureEvent.Item.Id != Me.Id)
+            if (departureEvent.Item is CharacterItem && departureEvent.Item.Id != Me.Id)
             {
                 Characters.Remove(Characters
                     .Where(x => x.Id == departureEvent.Item.Id)
