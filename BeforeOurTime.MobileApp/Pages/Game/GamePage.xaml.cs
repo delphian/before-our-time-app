@@ -5,8 +5,6 @@ using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Requests.Go;
-using BeforeOurTime.Models.Messages.Requests.List;
-using BeforeOurTime.Models.Messages.Responses.List;
 using System;
 using System.Collections.Generic;
 using System.Linq;

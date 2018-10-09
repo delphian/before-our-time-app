@@ -2,8 +2,8 @@
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages;
-using BeforeOurTime.Models.Messages.Locations.ReadLocationSummary;
-using BeforeOurTime.Models.Messages.Requests.List;
+using BeforeOurTime.Models.Modules.Account.Messages.Location.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.Core.Messages.Location.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,8 +49,8 @@ namespace BeforeOurTime.MobileApp.Services.Games
         /// <param name="message">Communication from the server</param>
         private void OnMessageListener(IMessage message)
         {
-            if (message.IsMessageType<ReadLocationSummaryResponse>()) {
-                Location = message.GetMessageAsType<ReadLocationSummaryResponse>().Item;
+            if (message.IsMessageType<CoreReadLocationSummaryResponse>()) {
+                Location = message.GetMessageAsType<CoreReadLocationSummaryResponse>().Item;
             }
             OnMessage?.Invoke(message);
         }
@@ -59,9 +59,9 @@ namespace BeforeOurTime.MobileApp.Services.Games
         /// </summary>
         /// <typeparam name="ListLocationResponse"></typeparam>
         /// <returns></returns>
-        public async Task<ReadLocationSummaryResponse> GetLocationSummary()
+        public async Task<CoreReadLocationSummaryResponse> GetLocationSummary()
         {
-            return await MessageService.SendRequestAsync<ReadLocationSummaryResponse>(new ListLocationRequest() { });
+            return await MessageService.SendRequestAsync<CoreReadLocationSummaryResponse>(new CoreReadLocationSummaryRequest() { });
         }
         /// <summary>
         /// Clear any caches the service may be using
