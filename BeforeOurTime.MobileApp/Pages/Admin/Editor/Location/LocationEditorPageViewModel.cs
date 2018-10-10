@@ -3,8 +3,6 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.ItemAttributes.Exits;
-using BeforeOurTime.Models.Items.Exits;
 using BeforeOurTime.Models.Messages.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
@@ -158,7 +156,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .Select(x => new ViewModelExit()
                         {
                             ItemId = x.Id,
-                            ExitId = x.GetAttribute<ExitAttribute>().Id,
+                            ExitId = x.GetAttribute<ExitData>().Id,
                             Name = ((ExitItem)x).Visible.Name,
                             Description = ((ExitItem)x).Visible.Description
                         })

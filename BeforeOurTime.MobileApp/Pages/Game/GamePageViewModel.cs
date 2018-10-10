@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Characters;
-using BeforeOurTime.Models.Items.Exits;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.Location.ReadLocationSummary;
 
