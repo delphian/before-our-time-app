@@ -4,8 +4,6 @@ using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.Locations.CreateLocation;
-using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using Plugin.Clipboard;
 using System;
 using System.Collections.Generic;

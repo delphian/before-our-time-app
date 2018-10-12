@@ -2,8 +2,6 @@
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Messages.Locations.CreateLocation;
-using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Responses.List;
 using System;
 using System.Collections.Generic;

@@ -2,9 +2,8 @@
 using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.Locations.CreateLocation;
-using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Requests.Go;
+using BeforeOurTime.Models.Modules.Account.Messages.Location.CreateLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

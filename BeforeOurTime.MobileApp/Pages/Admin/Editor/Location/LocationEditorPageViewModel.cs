@@ -3,9 +3,7 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Messages.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
-using BeforeOurTime.Models.Messages.Locations.Locations.CreateLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.DeleteLocation;
 using System;
 using System.Collections.Generic;
@@ -14,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
+using BeforeOurTime.Models.Modules.Account.Messages.Location.CreateLocation;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
 {
