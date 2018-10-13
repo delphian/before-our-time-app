@@ -1,5 +1,5 @@
 ﻿using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Modules.Core.Messages.Location.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +21,6 @@ namespace BeforeOurTime.MobileApp.Services.Games
         /// </summary>
         /// <typeparam name="ListLocationResponse"></typeparam>
         /// <returns></returns>
-        Task<CoreReadLocationSummaryResponse> GetLocationSummary();
+        Task<WorldReadLocationSummaryResponse> GetLocationSummary();
     }
 }

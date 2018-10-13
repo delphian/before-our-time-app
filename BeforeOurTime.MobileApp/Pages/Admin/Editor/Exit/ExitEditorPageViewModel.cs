@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Modules.World.Models.Data;
+using BeforeOurTime.Models.Modules.World.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Models.Data;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
 {
@@ -60,7 +60,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             VMSelectedExit = new ViewModelExit()
             {
                 ItemId = exitItem.Id.ToString(),
-                ExitId = exitItem.GetAttribute<ExitData>().Id.ToString(),
+                ExitId = exitItem.GetData<ExitData>().Id.ToString(),
                 Name = exitItem.Visible.Name,
                 Description = exitItem.Visible.Description
             };
@@ -77,7 +77,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
                 if (_exits == null || _exits.Count == 0)
                 {
                     var items = await ItemService.ReadByTypeAsync(new List<string>() {
-                        typeof(ExitData).ToString()
+                        typeof(ExitItem).ToString()
                     });
                     _exits = items.Select(x => x.GetAsItem<ExitItem>()).ToList();
                     var vmExits = new List<ViewModelExit>();

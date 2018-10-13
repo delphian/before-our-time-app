@@ -3,7 +3,7 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateCharacter;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginCharacter;
 using BeforeOurTime.Models.Modules.Account.Messages.ReadCharacter;
-using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.World.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

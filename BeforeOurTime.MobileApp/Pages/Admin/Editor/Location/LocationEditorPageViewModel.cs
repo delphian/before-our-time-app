@@ -5,14 +5,14 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.DeleteLocation;
+using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
+using BeforeOurTime.Models.Modules.World.Models.Data;
+using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Models.Data;
-using BeforeOurTime.Models.Modules.Account.Messages.Location.CreateLocation;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
 {
@@ -104,7 +104,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 if (_locations == null)
                 {
                     var items = await ItemService.ReadByTypeAsync(new List<string>() {
-                        typeof(LocationData).ToString()
+                        typeof(LocationItem).ToString()
                     });
                     _locations = items.Select(x => x.GetAsItem<LocationItem>()).ToList();
                     var vmLocations = new List<ViewModelLocation>();
@@ -113,7 +113,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         vmLocations.Add(new ViewModelLocation()
                         {
                             ItemId = location.Id.ToString(),
-                            LocationId = location.GetAttribute<LocationData>().Id.ToString(),
+                            LocationId = location.GetData<LocationData>().Id.ToString(),
                             Name = location.Visible.Name,
                             Description = location.Visible.Description
                         });
@@ -208,7 +208,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 Guid.TryParse(VMSelectedLocation.ItemId, out Guid fromLocationItemId);
                 var result = await MessageService
-                    .SendRequestAsync<CreateLocationQuickResponse>(new CreateLocationQuickRequest()
+                    .SendRequestAsync<WorldCreateLocationQuickResponse>(new WorldCreateLocationQuickRequest()
                     {
                         FromLocationItemId = fromLocationItemId
                     });
