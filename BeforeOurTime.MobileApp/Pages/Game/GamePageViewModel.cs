@@ -134,7 +134,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)
         {
-            Exits = listLocationResponse.Exits.Select(x => x.Item).ToList();
+            Exits = listLocationResponse.Exits.Select(x => x.Item.GetAsItem<ExitItem>()).ToList();
         }
         private void ProcessArrivalEvent(ArrivalEvent arrivalEvent)
         {

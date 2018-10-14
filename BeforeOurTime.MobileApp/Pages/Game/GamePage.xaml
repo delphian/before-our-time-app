@@ -24,9 +24,9 @@
                 <local:ScrollListView.ItemTemplate>
                     <DataTemplate>
                         <local:ItemButtonControl
-                            Name="{Binding Name}"
-                            Description="{Binding Description}"
-                            Image="{Binding ImageIcon.Value}"
+                            Name="{Binding Visible.Name}"
+                            Description="{Binding Visible.Description}"
+                            Image="{Binding Visible.Icon.Value}"
                             ImageDefault="location"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
