@@ -3,7 +3,9 @@ using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages.Requests.Go;
+using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
+using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +45,13 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <param name="e"></param>
         public async void ScrollListView_ItemSelected(object sender, EventArgs e)
         {
-            var itemId = ((Item)((ScrollListView)sender).SelectedItem).Id;
-            await Container.Resolve<IMessageService>().SendAsync(new GoRequest()
+            var exitItem = ((ExitItem)((ScrollListView)sender).SelectedItem);
+            var useRequest = new CoreUseItemRequest()
             {
-                ItemId = itemId
-            });
+                ItemId = exitItem.Id,
+                Use = exitItem.Uses.Uses.First()
+            };
+            await Container.Resolve<IMessageService>().SendAsync(useRequest);
         }
         /// <summary>
         /// Add a default location
