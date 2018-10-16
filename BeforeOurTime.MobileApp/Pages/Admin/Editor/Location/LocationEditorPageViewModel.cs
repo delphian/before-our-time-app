@@ -155,7 +155,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .Select(x => new ViewModelExit()
                         {
                             ItemId = x.Id,
-                            ExitId = x.GetAttribute<ExitData>().Id,
+                            ExitId = x.GetData<ExitData>().Id,
                             Name = ((ExitItem)x).Visible.Name,
                             Description = ((ExitItem)x).Visible.Description
                         })
@@ -183,7 +183,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 var item = _locations
                     .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
                     .FirstOrDefault();
-                var location = item.GetAttribute<LocationData>();
+                var location = item.GetData<LocationData>();
                 location.Name = VMSelectedLocation.Name;
                 location.Description = VMSelectedLocation.Description;
                 await ItemService.UpdateAsync(new List<Item>() { item });
@@ -221,7 +221,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 vmLocations.Add(new ViewModelLocation()
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
-                    LocationId = result.CreateLocationEvent.Item.GetAttribute<LocationData>().Id.ToString(),
+                    LocationId = result.CreateLocationEvent.Item.GetData<LocationData>().Id.ToString(),
                     Name = result.CreateLocationEvent.Item.Visible.Name,
                     Description = result.CreateLocationEvent.Item.Visible.Description
                 });

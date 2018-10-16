@@ -86,7 +86,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
                         vmExits.Add(new ViewModelExit()
                         {
                             ItemId = exit.Id.ToString(),
-                            ExitId = exit.GetAttribute<ExitData>().Id.ToString(),
+                            ExitId = exit.GetData<ExitData>().Id.ToString(),
                             Name = exit.Visible.Name,
                             Description = exit.Visible.Description
                         });
@@ -108,7 +108,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             var item = _exits
                 .Where(x => x.Id.ToString() == VMSelectedExit.ItemId)
                 .FirstOrDefault();
-            var exit = item.GetAttribute<ExitData>();
+            var exit = item.GetData<ExitData>();
             exit.Name = VMSelectedExit.Name;
             exit.Description = VMSelectedExit.Description;
             await ItemService.UpdateAsync(new List<Item>() { item });
