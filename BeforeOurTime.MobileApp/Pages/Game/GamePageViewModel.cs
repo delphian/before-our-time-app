@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Games;
-using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Messages.Events.Arrivals;
 using BeforeOurTime.Models.Messages.Events.Departures;
@@ -13,6 +12,7 @@ using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {

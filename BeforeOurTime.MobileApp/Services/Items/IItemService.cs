@@ -1,6 +1,6 @@
-﻿using BeforeOurTime.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
+﻿using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;

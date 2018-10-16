@@ -1,10 +1,4 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Services.Accounts;
-using BeforeOurTime.MobileApp.Services.Characters;
-using BeforeOurTime.MobileApp.Services.Games;
-using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.MobileApp.Services.WebSockets;
-using BeforeOurTime.Models.Items;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;

@@ -1,7 +1,6 @@
 ﻿using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
-using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.DeleteItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.UpdateItem;
@@ -9,6 +8,7 @@ using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

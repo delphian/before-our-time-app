@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
-using BeforeOurTime.Models.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using Newtonsoft.Json;

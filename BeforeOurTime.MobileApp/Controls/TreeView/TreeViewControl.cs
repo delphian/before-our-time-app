@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Input;
-using BeforeOurTime.Models.Items;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using BeforeOurTime.Models.Items;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;

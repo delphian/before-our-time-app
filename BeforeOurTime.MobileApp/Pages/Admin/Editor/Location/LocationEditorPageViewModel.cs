@@ -2,9 +2,9 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
 using BeforeOurTime.Models.Messages.Locations.Locations.DeleteLocation;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
 using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.Models.Items;

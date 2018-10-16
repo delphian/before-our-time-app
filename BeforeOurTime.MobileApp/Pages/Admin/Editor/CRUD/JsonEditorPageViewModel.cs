@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
-using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
