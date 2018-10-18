@@ -43,7 +43,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Backup
             Working = true;
             try
             {
-                var items = await ItemService.ReadAsync();
+                var items = await ItemService.ReadAsync(new List<Guid>());
                 JsonItems = JsonConvert.SerializeObject(items, Formatting.Indented);
             }
             finally

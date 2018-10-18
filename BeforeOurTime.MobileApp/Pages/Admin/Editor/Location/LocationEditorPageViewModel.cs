@@ -2,10 +2,9 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Messages.Locations.DeleteLocation;
-using BeforeOurTime.Models.Messages.Locations.Locations.DeleteLocation;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
+using BeforeOurTime.Models.Modules.World.Messages.Location.DeleteLocation;
 using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
@@ -150,7 +149,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .SelectMany(x => x.ChildrenIds)
                     .ToList();
                 var children = await ItemService.ReadAsync(childrenIds);
-                VMExits = children
+                VMExits = children?.Select(x => x.GetAsItem<ExitItem>()).ToList()
                     .Where(x => x.Type == ItemType.Exit)
                     .Select(x => new ViewModelExit()
                         {
@@ -247,7 +246,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 Guid.TryParse(VMSelectedLocation.ItemId, out Guid locationItemId);
                 var result = await MessageService
-                    .SendRequestAsync<DeleteLocationResponse>(new DeleteLocationRequest()
+                    .SendRequestAsync<WorldDeleteLocationResponse>(new WorldDeleteLocationRequest()
                     {
                         LocationItemId = locationItemId
                     });

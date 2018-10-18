@@ -58,8 +58,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         {
             if (LocationPicker.SelectedItem != null)
             {
-                await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
-                ViewModel.LocationSelected = true;
+                try
+                {
+                    await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
+                    ViewModel.LocationSelected = true;
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", "Unable to load exits from server. " + ex.Message, "Sadness");
+                }
             }
         }
         /// <summary>

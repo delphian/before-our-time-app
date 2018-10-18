@@ -29,11 +29,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor
         {
             InitializeComponent();
             Container = container;
-            this.Children.Add(new LocationEditorPage(Container) { Title = "Locations" });
-            this.Children.Add(new ExitEditorPage(Container) { Title = "Exits" });
             this.Children.Add(new GraphEditorPage(Container) { Title = "Graph" });
             this.Children.Add(new JsonEditorPage(Container) { Title = "JSON" });
             this.Children.Add(new BackupEditorPage(Container) { Title = "Backup" });
+            this.Children.Add(new LocationEditorPage(Container) { Title = "Locations" });
+            this.Children.Add(new ExitEditorPage(Container) { Title = "Exits" });
         }
     }
 }
