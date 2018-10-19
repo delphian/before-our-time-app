@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.Models.Messages;
-using BeforeOurTime.Models.Messages.Events.Arrivals;
-using BeforeOurTime.Models.Messages.Events.Departures;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +11,8 @@ using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
+using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -30,6 +30,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Player's character
         /// </summary>
         private Item Me { set; get; }
+        /// <summary>
+        /// Current location item
+        /// </summary>
+        public Item Location
+        {
+            get { return _location; }
+            set { _location = value; NotifyPropertyChanged("Location"); }
+        }
+        private Item _location { set; get; }
         public int ExitElements
         {
             get { return _exitElements; }
@@ -116,17 +125,22 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             {
                 ProcessListLocationResponse(message.GetMessageAsType<WorldReadLocationSummaryResponse>());
             }
-            if (message.IsMessageType<ArrivalEvent>())
+            if (message.IsMessageType<CoreMoveItemEvent>())
             {
-                ProcessArrivalEvent(message.GetMessageAsType<ArrivalEvent>());
-            }
-            if (message.IsMessageType<DepartureEvent>())
-            {
-                ProcessDepartureEvent(message.GetMessageAsType<DepartureEvent>());
+                var moveItemEvent = message.GetMessageAsType<CoreMoveItemEvent>();
+                if (moveItemEvent.NewParent.Id == Location.Id)
+                {
+                    ProcessArrivalEvent(moveItemEvent);
+                }
+                if (moveItemEvent.OldParent.Id == Location.Id)
+                {
+                    ProcessDepartureEvent(moveItemEvent);
+                }
             }
         }
         private void ProcessListLocationResponse(WorldReadLocationSummaryResponse listLocationResponse)
         {
+            Location = listLocationResponse.Item;
             LocationName = listLocationResponse.Item.Visible.Name;
             LocationDescription = listLocationResponse.Item.Visible.Description;
             Characters = listLocationResponse.Characters;
@@ -136,7 +150,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Exits = listLocationResponse.Exits.Select(x => x.Item.GetAsItem<ExitItem>()).ToList();
         }
-        private void ProcessArrivalEvent(ArrivalEvent arrivalEvent)
+        private void ProcessArrivalEvent(CoreMoveItemEvent arrivalEvent)
         {
             if (arrivalEvent.Item is CharacterItem && arrivalEvent.Item.Id != Me.Id)
             {
@@ -149,7 +163,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 Objects.Add(arrivalEvent.Item);
             }
         }
-        private void ProcessDepartureEvent(DepartureEvent departureEvent)
+        private void ProcessDepartureEvent(CoreMoveItemEvent departureEvent)
         {
             if (departureEvent.Item is CharacterItem && departureEvent.Item.Id != Me.Id)
             {

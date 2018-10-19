@@ -32,11 +32,11 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         Task<ItemGraph> ReadGraphAsync(Guid? itemId = null);
         /// <summary>
-        /// Read multiple items based on a list of item attribute types
+        /// Read multiple items based on a list of item types
         /// </summary>
-        /// <param name="AttributeTypes">List of unique attribute type names (class names)</param>
+        /// <param name="itemTypes">List of unique item type names (class names)</param>
         /// <returns></returns>
-        Task<List<Item>> ReadByTypeAsync(List<string> AttributeTypes);
+        Task<List<Item>> ReadByTypeAsync(List<string> itemTypes);
         /// <summary>
         /// Update multiple items
         /// </summary>
