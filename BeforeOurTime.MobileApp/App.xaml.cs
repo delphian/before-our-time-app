@@ -59,7 +59,8 @@ namespace BeforeOurTime.MobileApp
             builder.RegisterInstance<ICharacterService>(characterService).SingleInstance();
             builder.RegisterInstance<IGameService>(gameService).SingleInstance();
             Container = builder.Build();
-            // Required because of UWP 'release' build runtime error when traversing GetAssemblies()
+            // Required because of UWP 'release' build runtime error when 
+            // traversing GetAssemblies()
             Message.GuidDictionaryErrors.ForEach(x =>
             {
                 loggerService.Log(LogLevel.Error, x);

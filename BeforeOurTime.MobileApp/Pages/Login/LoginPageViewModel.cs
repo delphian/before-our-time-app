@@ -60,12 +60,12 @@ namespace BeforeOurTime.MobileApp.Pages.Login
             set { _password = value; NotifyPropertyChanged("Password"); }
         }
         private string _password { set; get; }
-        public Account Account
+        public Models.Account Account
         {
             get { return _account; }
             set { _account = value; NotifyPropertyChanged("Account"); }
         }
-        private Account _account { set; get; }
+        private Models.Account _account { set; get; }
         /// <summary>
         /// Gatekeeper introduction text
         /// </summary>

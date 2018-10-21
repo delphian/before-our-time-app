@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace BeforeOurTime.MobileApp.Pages.Server
 {
@@ -117,6 +118,8 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 }
                 await webSocketService.ConnectAsync();
                 await webSocketService.ListenAsync();
+                Application.Current.Properties["Server:ConnectionString"] = connectionString;
+                await Application.Current.SavePropertiesAsync();
                 Working = false;
             }
             catch (Exception e)
@@ -129,9 +132,22 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     traverse = traverse.InnerException;
                 }
                 IsError = true;
+                Application.Current.Properties.Remove("Server:ConnectionString");
+                await Application.Current.SavePropertiesAsync();
                 Working = false;
             }
         }
-
+        /// <summary>
+        /// Attempt to use connect to last used server
+        /// </summary>
+        /// <returns></returns>
+        public async Task ConnectAsync()
+        {
+            if (Application.Current.Properties.ContainsKey("Server:ConnectionString"))
+            {
+                var connectionString = (string)Application.Current.Properties["Server:ConnectionString"];
+                await ConnectAsync(connectionString);
+            }
+        }
     }
 }

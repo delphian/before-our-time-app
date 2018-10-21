@@ -38,6 +38,20 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             BindingContext = ViewModel = new ServerPageViewModel(Container);
         }
         /// <summary>
+        /// Automatically connect when page appearing event fires
+        /// </summary>
+        protected override async void OnAppearing()
+        {
+            try
+            {
+                await ViewModel.ConnectAsync();
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", $"Can't connect to server: {e.Message}", "Fail!");
+            }
+        }
+        /// <summary>
         /// For now, do nothing
         /// </summary>
         /// <param name="sender"></param>
