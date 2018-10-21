@@ -32,6 +32,10 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// </summary>
         private ICharacterService CharacterService { set; get; }
         /// <summary>
+        /// Local storage settings
+        /// </summary>
+        private Settings Settings { set; get; }
+        /// <summary>
         /// All available servers to choose from
         /// </summary>
         public List<string> ConnectionStrings { set; get; } = new List<string>()
@@ -88,6 +92,27 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             WebSocketService.OnStateChange += OnWebSocketStateChange;
         }
         /// <summary>
+        /// Setup
+        /// </summary>
+        /// <returns></returns>
+        public async Task OnAppearing()
+        {
+            if (Settings == null)
+            {
+                if (Application.Current.Properties.ContainsKey("Settings"))
+                {
+                    Settings = JsonConvert.DeserializeObject<Settings>((string)Application.Current.Properties["Settings"]);
+                }
+                else
+                {
+                    Settings = new Settings();
+                    Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(Settings));
+                    await Application.Current.SavePropertiesAsync();
+                }
+                var z = Settings;
+            }
+        }
+        /// <summary>
         /// Update connection status based on WebSocket state
         /// </summary>
         /// <param name="webSocketState"></param>
@@ -122,7 +147,6 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             var accountService = Container.Resolve<IAccountService>();
             IsError = false;
             Error = null;
-            Working = true;
             webSocketService.SetConnectionString(connectionString);
             try
             {
@@ -132,16 +156,9 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 }
                 await webSocketService.ConnectAsync();
                 await webSocketService.ListenAsync();
-                if (Application.Current.Properties.ContainsKey("Server:ConnectionString"))
-                {
-                    Application.Current.Properties["Server:ConnectionString"] = connectionString;
-                }
-                else
-                {
-                    Application.Current.Properties.Add("Server:ConnectionString", connectionString);
-                }
+                Settings.ConnectionString = connectionString;
+                Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
-                Working = false;
             }
             catch (Exception e)
             {
@@ -153,9 +170,6 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     traverse = traverse.InnerException;
                 }
                 IsError = true;
-                Application.Current.Properties.Remove("Server:ConnectionString");
-                await Application.Current.SavePropertiesAsync();
-                Working = false;
             }
         }
         /// <summary>
@@ -164,11 +178,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <returns></returns>
         public async Task ConnectAsync()
         {
-            var connectionString = "ws://beforeourtime.world:2024/ws";
-            if (Application.Current.Properties.ContainsKey("Server:ConnectionString"))
-            {
-                connectionString = (string)Application.Current.Properties["Server:ConnectionString"];
-            }
+            var connectionString = Settings.ConnectionString ?? "ws://beforeourtime.world:2024/ws";
             await ConnectAsync(connectionString);
         }
         /// <summary>
@@ -177,33 +187,22 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <returns></returns>
         public async Task LoginAsync()
         {
-            Settings settings;
-            if (Application.Current.Properties.ContainsKey("Settings"))
-            {
-                settings = (Settings)Application.Current.Properties["Settings"];
-            }
-            else
-            {
-                settings = new Settings();
-                Application.Current.Properties.Add("Settings", settings);
-                await Application.Current.SavePropertiesAsync();
-            }
-            if (settings.Name == null)
+            if (Settings.Name == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
                 var name = "Account_" + suffix;
                 var account = await AccountService.RegisterAsync(name, "password", true);
-                settings.AccountId = account.AccountId;
-                settings.Name = account.Name;
-                settings.Password = "password";
-                Application.Current.Properties["Settings"] = settings;
+                Settings.AccountId = account.AccountId;
+                Settings.Name = account.Name;
+                Settings.Password = "password";
+                Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
             }
             else
             {
-                var account = await AccountService.LoginAsync(settings.Name, settings.Password);
+                var account = await AccountService.LoginAsync(Settings.Name, Settings.Password);
             }
         }
         /// <summary>
@@ -212,31 +211,30 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <returns></returns>
         public async Task SelectCharacterAsync()
         {
-            var settings = (Settings)Application.Current.Properties["Settings"];
-            if (settings.CharacterId == null)
+            if (Settings.CharacterId == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
                 var name = "Ghost_" + suffix;
                 var characterItemId = await CharacterService.CreateAccountCharacterAsync(
-                    settings.AccountId.Value,
+                    Settings.AccountId.Value,
                     name,
                     true);
-                settings.CharacterId = characterItemId;
-                Application.Current.Properties["Settings"] = settings;
+                Settings.CharacterId = characterItemId;
+                Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
             }
-            var characters = await CharacterService.GetAccountCharactersAsync(settings.AccountId.Value);
-            var character = characters.Where(x => x.Id == settings.CharacterId).FirstOrDefault();
+            var characters = await CharacterService.GetAccountCharactersAsync(Settings.AccountId.Value);
+            var character = characters.Where(x => x.Id == Settings.CharacterId).FirstOrDefault();
             if (character != null)
             {
                 await CharacterService.PlayAccountCharacterAsync(character);
             }
             else
             {
-                settings.CharacterId = null;
-                Application.Current.Properties["Settings"] = settings;
+                Settings.CharacterId = null;
+                Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
                 throw new Exception("Can't locate temporary character");
             }

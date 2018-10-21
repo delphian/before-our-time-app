@@ -25,5 +25,9 @@ namespace BeforeOurTime.MobileApp.Models
         /// Last played character
         /// </summary>
         public Guid? CharacterId { set; get; }
+        /// <summary>
+        /// Last successful connection string (server)
+        /// </summary>
+        public string ConnectionString { set; get; }
     }
 }

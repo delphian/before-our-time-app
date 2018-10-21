@@ -44,14 +44,20 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         {
             try
             {
-                await ViewModel.ConnectAsync();
-                await ViewModel.LoginAsync();
-                await ViewModel.SelectCharacterAsync();
-                await Navigation.PushAsync(new Play.PlayPage(Container));
+                ViewModel.Working = true;
+                await ViewModel.OnAppearing();
+                //await ViewModel.ConnectAsync();
+                //await ViewModel.LoginAsync();
+                //await ViewModel.SelectCharacterAsync();
+                //await Navigation.PushAsync(new Play.PlayPage(Container));
             }
             catch (Exception e)
             {
                 await DisplayAlert("Error", $"Can't connect to server: {e.Message}", "Fail!");
+            }
+            finally
+            {
+                ViewModel.Working = false;
             }
         }
         /// <summary>
@@ -72,6 +78,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         {
             try
             {
+                ViewModel.Working = true;
                 var connectionString = ServerPicker.Items[ServerPicker.SelectedIndex];
                 if (connectionString != null)
                 {
@@ -84,6 +91,10 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"Can't connect to server: {ex.Message}", "Fail!");
+            }
+            finally
+            {
+                ViewModel.Working = false;
             }
         }
         /// <summary>

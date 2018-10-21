@@ -9,45 +9,20 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand"
+            <StackLayout VerticalOptions="FillAndExpand"
                          HorizontalOptions="FillAndExpand"
                          Margin="10">
-                <Label Text="Darkness everywhere. Conciousness is such a pain. Several small globes shine in the distance, possibly you could approach one, if you understand the risk... Otherwise, perhaps, it would be best to simply forget and return to the void."
-                       HorizontalOptions="CenterAndExpand"
-                       WidthRequest="600"
-                       IsVisible="{Binding IsConnected, Converter={StaticResource inverter}}" />
-                <Label Text="Someone, or something, fantastic in appearance, has manifested itself nearby. It looks friendly enough. Not dangerous. Not dangerous at all."
-                       TextColor="DarkGreen"
-                       HorizontalOptions="CenterAndExpand"
-                       WidthRequest="600"
-                       IsVisible="{Binding IsConnected}" />
-            </StackLayout>
-            <StackLayout VerticalOptions="StartAndExpand"
-                         HorizontalOptions="FillAndExpand"
-                         Margin="10">
-                <StackLayout VerticalOptions="Start"
+                <ActivityIndicator Color="Blue" 
+                                   IsRunning="{Binding Working}" 
+                                   IsVisible="{Binding Working}" 
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"></ActivityIndicator>
+                <StackLayout VerticalOptions="CenterAndExpand"
                              HorizontalOptions="CenterAndExpand"
                              WidthRequest="400"
                              Margin="0"
                              Padding="0"
-                             IsVisible="{Binding IsConnected}">
-                    <Button Text="Approach the Fantasm"
-                            Clicked="ButtonExplore_OnClicked"
-                            HorizontalOptions="FillAndExpand"
-                            CornerRadius="10"
-                            BackgroundColor="#80f080"></Button>
-                    <Button Text="Retreat in Fear"
-                            Clicked="ButtonDisonnect_OnClicked"
-                            HorizontalOptions="FillAndExpand"
-                            CornerRadius="10"
-                            BackgroundColor="#f0f080"></Button>
-                </StackLayout>
-                <StackLayout VerticalOptions="Start"
-                             HorizontalOptions="CenterAndExpand"
-                             WidthRequest="400"
-                             Margin="0"
-                             Padding="0"
-                             IsVisible="{Binding IsConnected, Converter={StaticResource inverter}}">
+                             IsVisible="{Binding Working, Converter={StaticResource inverter}}">
                     <Label Text="{Binding Error}" 
                            TextColor="Red" 
                            Margin="0"
@@ -66,10 +41,6 @@
                             CornerRadius="10"
                             BackgroundColor="#80f080"
                             IsVisible="{Binding Working, Converter={StaticResource inverter}}"></Button>
-                    <ActivityIndicator Color="Blue" 
-                                       IsRunning="{Binding Working}" 
-                                       IsVisible="{Binding Working}" 
-                                       VerticalOptions="CenterAndExpand"></ActivityIndicator>
                 </StackLayout>
             </StackLayout>
             <StackLayout VerticalOptions="End"
