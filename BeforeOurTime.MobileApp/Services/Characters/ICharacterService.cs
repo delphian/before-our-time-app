@@ -27,8 +27,12 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// </summary>
         /// <param name="accountId">Unique account identifier for which character should be created</param>
         /// <param name="name">Name of character</param>
-        /// <returns></returns>
-        Task CreateAccountCharacterAsync(Guid accountId, string name);
+        /// <param name="temporary">Account character is for trial purpose only</param>
+        /// <returns>Item guid of new character item</returns>
+        Task<Guid> CreateAccountCharacterAsync(
+            Guid accountId,
+            string name,
+            bool temporary = false);
         /// <summary>
         /// Choose an account character to play
         /// </summary>

@@ -97,13 +97,18 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// </summary>
         /// <param name="accountId">Unique account identifier for which character should be created</param>
         /// <param name="name">Name of character</param>
-        /// <returns></returns>
-        public async Task CreateAccountCharacterAsync(Guid accountId, string name)
+        /// <param name="temporary">Account character is for trial purpose only</param>
+        /// <returns>Item guid of new character item</returns>
+        public async Task<Guid> CreateAccountCharacterAsync(
+            Guid accountId, 
+            string name, 
+            bool temporary = false)
         {
             var createAccountCharacterResponse = await MessageService.SendRequestAsync<AccountCreateCharacterResponse>(
                 new AccountCreateCharacterRequest()
                 {
-                    Name = name
+                    Name = name,
+                    Temporary = temporary
                 });
             if (!createAccountCharacterResponse.IsSuccess())
             {
@@ -111,6 +116,7 @@ namespace BeforeOurTime.MobileApp.Services.Characters
             }
             // Bust cache
             await GetAccountCharactersAsync(accountId, true);
+            return createAccountCharacterResponse.CreatedAccountCharacterEvent.ItemId;
         }
         /// <summary>
         /// Choose an account character to play

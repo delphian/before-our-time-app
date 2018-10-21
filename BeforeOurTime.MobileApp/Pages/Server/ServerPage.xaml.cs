@@ -45,6 +45,9 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             try
             {
                 await ViewModel.ConnectAsync();
+                await ViewModel.LoginAsync();
+                await ViewModel.SelectCharacterAsync();
+                await Navigation.PushAsync(new Play.PlayPage(Container));
             }
             catch (Exception e)
             {
@@ -67,10 +70,20 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <param name="e"></param>
         public async void ButtonConnect_OnClicked(object sender, EventArgs e)
         {
-            var connectionString = ServerPicker.Items[ServerPicker.SelectedIndex];
-            if (connectionString != null)
+            try
             {
-                await ViewModel.ConnectAsync(connectionString);
+                var connectionString = ServerPicker.Items[ServerPicker.SelectedIndex];
+                if (connectionString != null)
+                {
+                    await ViewModel.ConnectAsync(connectionString);
+                    await ViewModel.LoginAsync();
+                    await ViewModel.SelectCharacterAsync();
+                    await Navigation.PushAsync(new Play.PlayPage(Container));
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Can't connect to server: {ex.Message}", "Fail!");
             }
         }
         /// <summary>

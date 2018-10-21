@@ -22,8 +22,9 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// </summary>
         /// <param name="email">Account name</param>
         /// <param name="password">Account password</param>
+        /// <param name="temporary">Account is intended for trial purposes</param>
         /// <returns>Guid of newly created account</returns>
-        Task<Account> RegisterAsync(string email, string password);
+        Task<Account> RegisterAsync(string email, string password, bool temporary = false);
         /// <summary>
         /// Login to server
         /// </summary>

@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NegateBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NotBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Accounts\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
       <SubType>Code</SubType>

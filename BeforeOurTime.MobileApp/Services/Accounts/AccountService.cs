@@ -133,8 +133,9 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// </summary>
         /// <param name="email">Account name</param>
         /// <param name="password">Account password</param>
+        /// <param name="temporary">Account is intended for trial purposes</param>
         /// <returns>Guid of newly created account</returns>
-        public async Task<Account> RegisterAsync(string email, string password)
+        public async Task<Account> RegisterAsync(string email, string password, bool temporary = false)
         {
             try
             {
@@ -143,7 +144,8 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                     .SendRequestAsync<AccountCreateAccountResponse>(new AccountCreateAccountRequest()
                     {
                         Email = email,
-                        Password = password
+                        Password = password,
+                        Temporary = temporary
                     });
                 if (!createAccountResponse.IsSuccess())
                 {
