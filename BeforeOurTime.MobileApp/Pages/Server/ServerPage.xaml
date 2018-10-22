@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              x:Class="BeforeOurTime.MobileApp.Pages.Server.ServerPage"
-             Title="Connect to World">
+             Title="Connect to World"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>

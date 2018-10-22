@@ -11,7 +11,7 @@ namespace BeforeOurTime.MobileApp.Pages.Play
     {
         public PlayPageMenuItem()
         {
-            TargetType = typeof(PlayPageDetail);
+            TargetType = typeof(Game.GamePage);
         }
         public int Id { get; set; }
         public string Title { get; set; }

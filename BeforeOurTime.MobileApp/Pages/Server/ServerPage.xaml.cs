@@ -85,7 +85,12 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await ViewModel.ConnectAsync(connectionString);
                     await ViewModel.LoginAsync();
                     await ViewModel.SelectCharacterAsync();
-                    await Navigation.PushAsync(new Play.PlayPage(Container));
+                    var masterPage = new Play.PlayPage(Container)
+                    {
+                        Detail = new NavigationPage(new Game.GamePage(Container)),
+                        IsPresented = false
+                    };
+                    await Navigation.PushAsync(masterPage);
                 }
             }
             catch (Exception ex)

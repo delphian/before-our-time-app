@@ -27,7 +27,6 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             InitializeComponent();
             Container = container;
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
-            Detail = new NavigationPage(new Game.GamePage(Container));
         }
         /// <summary>
         /// Naviate to new page when menu item is clicked
@@ -43,15 +42,10 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             {
                 await Navigation.PopAsync();
             }
-            else if (item.TargetType == typeof(AdminPage))
-            {
-                var page = (Page)Activator.CreateInstance(item.TargetType, Container);
-                await Navigation.PushAsync(page);
-            }
             else
             {
                 var page = (Page)Activator.CreateInstance(item.TargetType, Container);
-                page.Title = item.Title;
+                Title = item.Title;
                 Detail = new NavigationPage(page);
                 IsPresented = false;
             }
