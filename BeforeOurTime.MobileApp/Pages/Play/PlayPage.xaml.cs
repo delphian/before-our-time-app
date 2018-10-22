@@ -27,7 +27,7 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             InitializeComponent();
             Container = container;
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
-            Detail = new Game.GamePage(Container);
+            Detail = new NavigationPage(new Game.GamePage(Container));
         }
         /// <summary>
         /// Naviate to new page when menu item is clicked

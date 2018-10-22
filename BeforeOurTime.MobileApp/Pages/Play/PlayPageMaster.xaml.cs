@@ -57,7 +57,8 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                     new PlayPageMenuItem
                     {
                         Id = 3,
-                        Title = "Exit"
+                        Title = "Exit",
+                        TargetType = null
                     }
                 });
             }
