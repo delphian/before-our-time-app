@@ -1,10 +1,10 @@
-﻿using BeforeOurTime.MobileApp.Models;
-using BeforeOurTime.MobileApp.Services.Messages;
+﻿using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
+using BeforeOurTime.Models.Modules.Account.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 if (GetState() == LoginState.Guest)
                 {
                     var account = GetAccount();
-                    if (account?.AccountId != null)
+                    if (account?.Id != null)
                     {
                         await LoginAsync(account.Name, account.Password);
                     }
@@ -110,12 +110,8 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 {
                     throw new AuthenticationDeniedException();
                 }
-                Account = new Account()
-                {
-                    AccountId = loginResponse.AccountId.Value,
-                    Name = name,
-                    Password = password
-                };
+                Account = loginResponse.Account;
+                Account.Password = password;
                 Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
                 await Application.Current.SavePropertiesAsync();
                 SetState(LoginState.Authenticated);
@@ -152,12 +148,8 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                     SetState(LoginState.Guest);
                     throw new Exception("Server refused to create account");
                 }
-                Account = new Account()
-                {
-                    AccountId = createAccountResponse.CreatedAccountEvent.AccountId,
-                    Name = email,
-                    Password = password
-                };
+                Account = createAccountResponse.CreatedAccountEvent.Account;
+                Account.Password = password;
                 Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
                 await Application.Current.SavePropertiesAsync();
                 SetState(LoginState.Authenticated);
@@ -195,7 +187,11 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         {
             if (Account == null && Application.Current.Properties.ContainsKey("Account"))
             {
-                Account = JsonConvert.DeserializeObject<Account>(Application.Current.Properties["Account"] as string);
+                Account = new Account();
+                if (Application.Current.Properties.ContainsKey("Account"))
+                {
+                    Account = JsonConvert.DeserializeObject<Account>(Application.Current.Properties["Account"] as string);
+                }
             }
             return Account;
         }

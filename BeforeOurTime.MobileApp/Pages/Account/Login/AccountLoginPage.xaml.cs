@@ -31,7 +31,53 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login
             Container = container;
             BindingContext = ViewModel = new AccountLoginPageViewModel(container);
         }
-
-
+        /// <summary>
+        /// Load list of cached accounts when page appears
+        /// </summary>
+        protected override async void OnAppearing()
+        {
+            ViewModel.Working = true;
+            await GetAccounts(true);
+            ViewModel.Working = false;
+        }
+        /// <summary>
+        /// Get all cached accounts
+        /// </summary>
+        /// <param name="force">Force update from server</param>
+        public async Task GetAccounts(bool force = false)
+        {
+            try
+            {
+                await ViewModel.GetAccounts(force);
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", e.Message, "OK");
+            }
+        }
+        /// <summary>
+        /// Select a new account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void AccountListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            try
+            {
+                if (((ListView)sender).SelectedItem != null)
+                {
+                    ViewModel.Accounts.ForEach(accountEntry =>
+                    {
+                        accountEntry.IsSelected = false;
+                    });
+                    ((AccountListEntryVM)AccountListView.SelectedItem).IsSelected = true;
+                    ((ListView)sender).SelectedItem = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
     }
 }

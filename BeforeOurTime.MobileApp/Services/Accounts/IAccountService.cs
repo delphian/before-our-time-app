@@ -1,4 +1,4 @@
-﻿using BeforeOurTime.MobileApp.Models;
+﻿using BeforeOurTime.Models.Modules.Account.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

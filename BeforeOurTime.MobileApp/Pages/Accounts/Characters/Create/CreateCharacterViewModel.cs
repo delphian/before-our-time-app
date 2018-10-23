@@ -78,7 +78,7 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Create
             {
                 SvcWorking = true;
                 await CharacterService.CreateAccountCharacterAsync(
-                    AccountService.GetAccount().AccountId,
+                    AccountService.GetAccount().Id,
                     Name);
             }
             finally

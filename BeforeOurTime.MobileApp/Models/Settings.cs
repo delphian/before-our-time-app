@@ -10,18 +10,6 @@ namespace BeforeOurTime.MobileApp.Models
     public class Settings
     {
         /// <summary>
-        /// Login name
-        /// </summary>
-        public string Name { set; get; }
-        /// <summary>
-        /// Login password
-        /// </summary>
-        public string Password { set; get; }
-        /// <summary>
-        /// Last account logged into
-        /// </summary>
-        public Guid? AccountId { set; get; }
-        /// <summary>
         /// Last played character
         /// </summary>
         public Guid? CharacterId { set; get; }

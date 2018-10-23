@@ -10,7 +10,7 @@
     <ContentPage.Content>
         <StackLayout Margin="10">
             <StackLayout IsVisible="{Binding Working}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <ActivityIndicator Color="Blue" IsRunning="{Binding Working}" IsVisible="{Binding Working}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+                <ActivityIndicator Color="Blue" IsRunning="True" IsVisible="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
             </StackLayout>
             <StackLayout IsVisible="{Binding Working, Converter={StaticResource inverter}}"
                          VerticalOptions="FillAndExpand"

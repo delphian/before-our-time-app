@@ -22,7 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TreeView\TreeViewControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NegateBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NotBooleanConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Account.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Accounts\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
@@ -48,6 +47,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\AccountCharacterPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\AccountListEntryVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\AccountLoginPage.xaml.cs">
       <DependentUpon>AccountLoginPage.xaml</DependentUpon>
       <SubType>Code</SubType>

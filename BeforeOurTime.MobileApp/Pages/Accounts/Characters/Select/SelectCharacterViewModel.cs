@@ -112,7 +112,7 @@ namespace BeforeOurTime.MobileApp.Pages.Accounts.Characters.Select
             SvcWorking = true;
             try
             {
-                Guid? accountId = Container.Resolve<IAccountService>().GetAccount()?.AccountId;
+                Guid? accountId = Container.Resolve<IAccountService>().GetAccount()?.Id;
                 if (!LoggedIn || accountId == null)
                 {
                     throw new Exception("Account not logged in");

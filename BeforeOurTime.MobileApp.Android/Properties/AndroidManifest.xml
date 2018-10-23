@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.mojavecreations.BeforeOurTime.MobileApp" android:installLocation="auto" android:versionCode="21" android:versionName="0.1.21 Alpha">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.mojavecreations.BeforeOurTime.MobileApp" android:installLocation="auto" android:versionCode="23" android:versionName="0.1.23 Alpha">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
 	<application android:label="Before Our Time"></application>
 </manifest>

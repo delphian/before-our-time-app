@@ -34,7 +34,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <summary>
         /// Local storage settings
         /// </summary>
-        private Settings Settings { set; get; }
+        public Settings Settings { set; get; }
         /// <summary>
         /// All available servers to choose from
         /// </summary>
@@ -109,7 +109,6 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(Settings));
                     await Application.Current.SavePropertiesAsync();
                 }
-                var z = Settings;
             }
         }
         /// <summary>
@@ -187,22 +186,18 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <returns></returns>
         public async Task LoginAsync()
         {
-            if (Settings.Name == null)
+            var account = AccountService.GetAccount();
+            if (account.Name == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
                 var name = "Account_" + suffix;
-                var account = await AccountService.RegisterAsync(name, "password", true);
-                Settings.AccountId = account.AccountId;
-                Settings.Name = account.Name;
-                Settings.Password = "password";
-                Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
-                await Application.Current.SavePropertiesAsync();
+                account = await AccountService.RegisterAsync(name, "password", true);
             }
             else
             {
-                var account = await AccountService.LoginAsync(Settings.Name, Settings.Password);
+                account = await AccountService.LoginAsync(account.Name, account.Password);
             }
         }
         /// <summary>
@@ -211,6 +206,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <returns></returns>
         public async Task SelectCharacterAsync()
         {
+            var account = AccountService.GetAccount();
             if (Settings.CharacterId == null)
             {
                 Random random = new Random();
@@ -218,14 +214,14 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
                 var name = "Ghost_" + suffix;
                 var characterItemId = await CharacterService.CreateAccountCharacterAsync(
-                    Settings.AccountId.Value,
+                    account.Id,
                     name,
                     true);
                 Settings.CharacterId = characterItemId;
                 Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
             }
-            var characters = await CharacterService.GetAccountCharactersAsync(Settings.AccountId.Value);
+            var characters = await CharacterService.GetAccountCharactersAsync(account.Id);
             var character = characters.Where(x => x.Id == Settings.CharacterId).FirstOrDefault();
             if (character != null)
             {

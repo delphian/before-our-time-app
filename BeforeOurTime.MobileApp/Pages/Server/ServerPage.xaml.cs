@@ -5,6 +5,7 @@ using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,6 +151,10 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             await Container.Resolve<IGameService>().Clear();
             Application.Current.Properties.Clear();
             await Application.Current.SavePropertiesAsync();
+            ViewModel.Settings = new Models.Settings();
+            Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(ViewModel.Settings));
+            await Application.Current.SavePropertiesAsync();
+
             await DisplayAlert("Warning", "Cache has been reset", "OK");
         }
     }

@@ -51,7 +51,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
             Working = true;
             try
             {
-                Guid? accountId = AccountService.GetAccount()?.AccountId;
+                Guid? accountId = AccountService.GetAccount()?.Id;
                 if (accountId == null)
                 {
                     throw new Exception("Not logged in");
