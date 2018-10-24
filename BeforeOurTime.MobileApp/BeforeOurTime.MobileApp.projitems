@@ -53,6 +53,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\AccountLoginPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\Update\UpdateLoginPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\Update\UpdateLoginPage.xaml.cs">
+      <DependentUpon>UpdateLoginPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Debug\DebugPage.xaml.cs">
       <DependentUpon>DebugPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -264,6 +269,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Account\Character\AccountCharacterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Account\Login\Update\UpdateLoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

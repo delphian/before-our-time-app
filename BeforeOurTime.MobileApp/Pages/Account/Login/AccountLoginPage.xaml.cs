@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Account.Login.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,18 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
+        }
+        /// <summary>
+        /// Open account update modal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+            var updateLoginPage = new UpdateLoginPage(
+                Container,
+                ViewModel.Accounts.Where(x => x.IsSelected == true).Select(x => x.Account).First());
+            await Navigation.PushModalAsync(updateLoginPage);
         }
     }
 }
