@@ -185,7 +185,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// <returns></returns>
         public Account GetAccount()
         {
-            if (Account == null && Application.Current.Properties.ContainsKey("Account"))
+            if (Account == null)
             {
                 Account = new Account();
                 if (Application.Current.Properties.ContainsKey("Account"))

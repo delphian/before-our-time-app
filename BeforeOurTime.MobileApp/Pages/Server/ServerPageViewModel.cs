@@ -187,7 +187,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         public async Task LoginAsync()
         {
             var account = AccountService.GetAccount();
-            if (account.Name == null)
+            if (account?.Name == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

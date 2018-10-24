@@ -5,6 +5,7 @@ using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
+using BeforeOurTime.Models.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,15 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await Navigation.PushAsync(masterPage);
                 }
             }
+            catch (AuthenticationDeniedException ex)
+            {
+                await DisplayAlert("Error", $"The previously saved name or password is invalid. A temporary account will be used instead. Please try and connect again.", "Ok");
+                Application.Current.Properties.Clear();
+                await Application.Current.SavePropertiesAsync();
+                ViewModel.Settings = new Models.Settings();
+                Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(ViewModel.Settings));
+                await Application.Current.SavePropertiesAsync();
+            }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"Can't connect to server: {ex.Message}", "Fail!");
@@ -154,7 +164,6 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             ViewModel.Settings = new Models.Settings();
             Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(ViewModel.Settings));
             await Application.Current.SavePropertiesAsync();
-
             await DisplayAlert("Warning", "Cache has been reset", "OK");
         }
     }
