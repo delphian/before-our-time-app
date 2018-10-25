@@ -35,12 +35,35 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
             BindingContext = ViewModel = new UpdateLoginPageViewModel(container, account);
         }
         /// <summary>
+        /// Save changes and close
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void RegisterButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewModel.Working = true;
+                await ViewModel.Register();
+                await Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Unable to register: {ex.Message}", "Heck Darn!");
+            }
+            finally
+            {
+                ViewModel.Working = false;
+            }
+        }
+        /// <summary>
         /// Close modal without saving
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void CancelButton_Clicked(object sender, EventArgs e)
         {
+            ViewModel.Cancel();
             await Navigation.PopModalAsync();
         }
     }

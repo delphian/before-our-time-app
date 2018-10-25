@@ -4,6 +4,7 @@ using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.UpdateAccount;
 using BeforeOurTime.Models.Modules.Account.Models;
 using Newtonsoft.Json;
 using System;
@@ -160,6 +161,26 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 throw e;
             }
             return Account;
+        }
+        /// <summary>
+        /// Update existing account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public async Task UpdateAsync(Account account)
+        {
+            var result = await MessageService
+                .SendRequestAsync<AccountUpdateAccountResponse>(new AccountUpdateAccountRequest()
+                {
+                    Account = account
+                });
+            if (!result.IsSuccess())
+            {
+                throw new Exception($"{result._responseMessage}");
+            }
+            Account = account;
+            Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
+            await Application.Current.SavePropertiesAsync();
         }
         /// <summary>
         /// Logout of server
