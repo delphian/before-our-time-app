@@ -56,6 +56,26 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
             }
             try
             {
+                Account.Temporary = false;
+                await AccountService.UpdateAsync(Account);
+            }
+            catch (Exception e)
+            {
+                Cancel();
+                throw e;
+            }
+        }
+        /// <summary>
+        /// Update account
+        /// </summary>
+        public async Task Update()
+        {
+            if (Account.Password != ConfirmPassword)
+            {
+                throw new Exception("Passwords do not match");
+            }
+            try
+            {
                 await AccountService.UpdateAsync(Account);
             }
             catch (Exception e)

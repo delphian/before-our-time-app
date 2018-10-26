@@ -9,46 +9,37 @@
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout
-            VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10">
-            <StackLayout
-                IsVisible="{Binding Working}"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="CenterAndExpand">
-                <ActivityIndicator 
-                    Color="Blue" 
-                    IsRunning="True"
-                    IsVisible="True"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"></ActivityIndicator>
-            </StackLayout>
-            <StackLayout 
-                IsVisible="{Binding Working, Converter={StaticResource inverter}}"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="CenterAndExpand"
-                WidthRequest="400"
-                Margin="0"
-                Padding="0">
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="10">
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand"
+                         WidthRequest="400"
+                         Margin="0"
+                         Padding="0">
                 <Label Text="{Binding Error}" 
-                        TextColor="Red" 
-                        Margin="0"
-                        IsVisible="{Binding IsError}"/>
+                       TextColor="Red" 
+                       Margin="0"
+                       IsVisible="{Binding IsError}"/>
                 <Picker x:Name="ServerPicker"
                         HorizontalOptions="FillAndExpand"
                         Margin="0"
                         ItemsSource="{Binding ConnectionStrings}" 
                         ItemDisplayBinding="{Binding .}"
                         SelectedItem="{Binding ConnectionString}"
-                        SelectedIndexChanged="ServerPicker_OnSelectedIndexChanged" />
+                        SelectedIndexChanged="ServerPicker_OnSelectedIndexChanged"
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}" />
                 <Button Text="Focus Your Will and Draw Near"
                         Clicked="ButtonConnect_OnClicked"
                         HorizontalOptions="FillAndExpand"
                         Margin="0"
                         CornerRadius="10"
                         BackgroundColor="#80f080"
-                        IsVisible="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                <ActivityIndicator IsRunning="{Binding Working}"
+                                   HorizontalOptions="FillAndExpand"
+                                   Color="Blue"
+                                   Margin="0, 10, 0, 0" />
             </StackLayout>
             <StackLayout VerticalOptions="End"
                          HorizontalOptions="FillAndExpand"
