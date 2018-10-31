@@ -14,17 +14,29 @@ namespace BeforeOurTime.MobileApp.Services.Items
     public interface IItemService : IService
     {
         /// <summary>
+        /// Create multiple items from JSON string
+        /// </summary>
+        /// <param name="json">String of json to create items from</param>
+        /// <param name="recursive">Recursively include all children items in json response</param>
+        /// <returns></returns>
+        Task<List<CoreItemJson>> CreateJsonAsync(
+            string json,
+            bool recursive = false);
+        /// <summary>
         /// Read multiple items based on a list of unique item identifiers
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
         /// <returns></returns>
         Task<List<Item>> ReadAsync(List<Guid> itemIds = null);
         /// <summary>
-        /// Read multiple items json based on a list of unique item identifiers
+        /// Read JSON of multiple items based on a list of unique item identifiers
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
+        /// <param name="recursive">Recursively include all children items in json response</param>
         /// <returns></returns>
-        Task<List<CoreItemJson>> ReadJsonAsync(List<Guid> itemIds = null);
+        Task<List<CoreItemJson>> ReadJsonAsync(
+            List<Guid> itemIds = null,
+            bool recursive = false);
         /// <summary>
         /// Read item graph
         /// </summary>

@@ -6,6 +6,7 @@ using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.UpdateItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.CreateItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
@@ -37,6 +38,26 @@ namespace BeforeOurTime.MobileApp.Services.Items
             MessageService = messageService;
         }
         /// <summary>
+        /// Create multiple items from JSON string
+        /// </summary>
+        /// <param name="json">String of json to create items from</param>
+        /// <param name="recursive">Recursively include all children items in json response</param>
+        /// <returns></returns>
+        public async Task<List<CoreItemJson>> CreateJsonAsync(
+            string json,
+            bool recursive = false)
+        {
+            var response = await MessageService.SendRequestAsync<CoreCreateItemJsonResponse>(new CoreCreateItemJsonRequest()
+            {
+                ItemJson = json
+            });
+            if (!response.IsSuccess())
+            {
+                throw new Exception($"Unable to create items: {response._responseMessage}");
+            }
+            return response.CoreCreateItemJsonEvent.ItemsJson;
+        }
+        /// <summary>
         /// Read multiple items based on a list of unique item identifiers
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
@@ -50,14 +71,18 @@ namespace BeforeOurTime.MobileApp.Services.Items
             return response.CoreReadItemCrudEvent.Items;
         }
         /// <summary>
-        /// Read multiple items based on a list of unique item identifiers
+        /// Read JSON of multiple items based on a list of unique item identifiers
         /// </summary>
         /// <param name="itemIds">List of unique item identifiers</param>
+        /// <param name="recursive">Recursively include all children items in json response</param>
         /// <returns></returns>
-        public async Task<List<CoreItemJson>> ReadJsonAsync(List<Guid> itemIds = null)
+        public async Task<List<CoreItemJson>> ReadJsonAsync(
+            List<Guid> itemIds = null,
+            bool recursive = false)
         {
             var response = await MessageService.SendRequestAsync<CoreReadItemJsonResponse>(new CoreReadItemJsonRequest()
             {
+                IncludeChildren = recursive,
                 ItemIds = itemIds
             });
             if (!response.IsSuccess())

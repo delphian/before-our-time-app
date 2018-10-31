@@ -67,6 +67,23 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             }
         }
         /// <summary>
+        /// Read an item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonItemCreate_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.CreateItem();
+                await DisplayAlert("Success", "Items have been created", "Yay!");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK, Maybe Tomorrow");
+            }
+        }
+        /// <summary>
         /// Update an item
         /// </summary>
         /// <param name="sender"></param>

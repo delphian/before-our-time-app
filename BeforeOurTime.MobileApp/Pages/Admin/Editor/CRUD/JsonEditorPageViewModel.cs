@@ -77,6 +77,23 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             CoreItemJson = (await ItemService.ReadJsonAsync(new List<Guid>() { _itemId }))?.FirstOrDefault();
         }
         /// <summary>
+        /// Create items from json
+        /// </summary>
+        /// <returns></returns>
+        public async Task CreateItem()
+        {
+            Working = true;
+            try
+            {
+                var coreItemJsons = await ItemService.CreateJsonAsync(ItemJson);
+                CoreItemJson = coreItemJsons.First();
+            }
+            finally
+            {
+                Working = false;
+            }
+        }
+        /// <summary>
         /// Update multiple items on server
         /// </summary>
         /// <returns></returns>

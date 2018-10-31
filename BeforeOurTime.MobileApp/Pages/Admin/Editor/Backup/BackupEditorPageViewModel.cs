@@ -4,6 +4,7 @@ using BeforeOurTime.MobileApp.Services.Loggers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,8 +44,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Backup
             Working = true;
             try
             {
-                var items = await ItemService.ReadAsync(new List<Guid>());
-                JsonItems = JsonConvert.SerializeObject(items, Formatting.Indented);
+                var items = await ItemService.ReadJsonAsync(
+                    new List<Guid>() { new Guid("f4212bfe-ef65-4632-df2b-08d63af92e75") }, 
+                    true);
+                JsonItems = items.First().JSON;
             }
             finally
             {
