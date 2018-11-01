@@ -106,6 +106,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
                 var coreItemJson = new CoreItemJson()
                 {
                     Id = ItemId,
+                    IncludeChildren = true,
                     JSON = ItemJson
                 };
                 await ItemService.UpdateJsonAsync(new List<CoreItemJson>() { coreItemJson });
