@@ -95,7 +95,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await Navigation.PushAsync(masterPage);
                 }
             }
-            catch (AuthenticationDeniedException ex)
+            catch (AuthenticationDeniedException)
             {
                 await DisplayAlert("Error", $"The previously saved name or password is invalid. A temporary account will be used instead. Please try and connect again.", "Ok");
                 Application.Current.Properties.Clear();
