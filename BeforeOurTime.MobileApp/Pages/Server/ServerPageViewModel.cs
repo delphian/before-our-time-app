@@ -44,6 +44,30 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             "ws://localhost:2024/ws",
             "ws://beforeourtime.world:2024/ws"
         };
+        public bool ShowAdvanced
+        {
+            get { return _showAdvanced; }
+            set { _showAdvanced = value; NotifyPropertyChanged("ShowAdvanced"); }
+        }
+        private bool _showAdvanced { set; get; } = false;
+        /// <summary>
+        /// Override default login email
+        /// </summary>
+        public string LoginEmail
+        {
+            get { return _loginEmail; }
+            set { _loginEmail = value; NotifyPropertyChanged("LoginEmail"); }
+        }
+        private string _loginEmail { set; get; }
+        /// <summary>
+        /// Override default login password
+        /// </summary>
+        public string LoginPassword
+        {
+            get { return _loginPassword; }
+            set { _loginPassword = value; NotifyPropertyChanged("LoginPassword"); }
+        }
+        private string _loginPassword { set; get; }
         /// <summary>
         /// Currently selected connection string
         /// </summary>
@@ -110,6 +134,8 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await Application.Current.SavePropertiesAsync();
                 }
             }
+            var account = AccountService.GetAccount();
+            LoginEmail = account?.Name;
         }
         /// <summary>
         /// Update connection status based on WebSocket state
@@ -187,17 +213,19 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         public async Task LoginAsync()
         {
             var account = AccountService.GetAccount();
-            if (account?.Name == null)
+            var email = LoginEmail ?? account.Name;
+            var password = LoginPassword ?? account.Password;
+            if (email == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                var name = "Account_" + suffix;
-                account = await AccountService.RegisterAsync(name, "password", true);
+                email = "Account_" + suffix;
+                account = await AccountService.RegisterAsync(email, "password", true);
             }
             else
             {
-                account = await AccountService.LoginAsync(account.Name, account.Password);
+                account = await AccountService.LoginAsync(email, password);
             }
         }
         /// <summary>

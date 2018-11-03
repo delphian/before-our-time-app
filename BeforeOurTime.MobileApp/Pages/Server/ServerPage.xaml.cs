@@ -118,9 +118,9 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void ButtonExplore_OnClicked(object sender, EventArgs e)
+        public void ButtonAdvanced_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Login.LoginPage(Container));
+            ViewModel.ShowAdvanced = !ViewModel.ShowAdvanced;
         }
         /// <summary>
         /// Disconnect from server

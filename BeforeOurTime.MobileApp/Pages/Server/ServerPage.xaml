@@ -21,7 +21,33 @@
                        TextColor="Red" 
                        Margin="0"
                        IsVisible="{Binding IsError}"/>
-                <Picker x:Name="ServerPicker"
+                <Label Text="No account required. Just play!"
+                       Margin="5"
+                       IsVisible="{Binding IsError, Converter={StaticResource inverter}}"></Label>
+                <FlexLayout HorizontalOptions="FillAndExpand">
+                    <Button Text="Play Now"
+                        FlexLayout.Basis="90%"
+                        Clicked="ButtonConnect_OnClicked"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0"
+                        CornerRadius="10"
+                        BackgroundColor="#80f080"
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                    <Button Text="..."
+                        FlexLayout.Basis="10%"
+                        Clicked="ButtonAdvanced_OnClicked"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="5, 0, 0, 0"
+                        CornerRadius="20"
+                        BackgroundColor="#f0f0f0"
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                </FlexLayout>
+                <ActivityIndicator IsRunning="{Binding Working}"
+                                   HorizontalOptions="FillAndExpand"
+                                   Color="Blue"
+                                   Margin="0, 10, 0, 0" />
+                <StackLayout IsVisible="{Binding ShowAdvanced}">
+                    <Picker x:Name="ServerPicker"
                         HorizontalOptions="FillAndExpand"
                         Margin="0"
                         ItemsSource="{Binding ConnectionStrings}" 
@@ -29,17 +55,13 @@
                         SelectedItem="{Binding ConnectionString}"
                         SelectedIndexChanged="ServerPicker_OnSelectedIndexChanged"
                         IsEnabled="{Binding Working, Converter={StaticResource inverter}}" />
-                <Button Text="Focus Your Will and Draw Near"
-                        Clicked="ButtonConnect_OnClicked"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0"
-                        CornerRadius="10"
-                        BackgroundColor="#80f080"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
-                <ActivityIndicator IsRunning="{Binding Working}"
-                                   HorizontalOptions="FillAndExpand"
-                                   Color="Blue"
-                                   Margin="0, 10, 0, 0" />
+                    <Entry Text="{Binding LoginEmail}" 
+                        Placeholder="Login Email"
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
+                    <Entry Text="{Binding LoginPassword}" 
+                        Placeholder="Login Password"
+                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
+                </StackLayout>
             </StackLayout>
             <StackLayout VerticalOptions="End"
                          HorizontalOptions="FillAndExpand"
