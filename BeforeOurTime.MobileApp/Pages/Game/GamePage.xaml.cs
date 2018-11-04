@@ -79,8 +79,9 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void CharactersListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public async void CharacterListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            GamePageViewModel.CreateItemTable(Content);
         }
     }
 }

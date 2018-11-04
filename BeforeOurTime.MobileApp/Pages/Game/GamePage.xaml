@@ -5,59 +5,90 @@
              x:Class="BeforeOurTime.MobileApp.Pages.Game.GamePage"
              Title="{Binding LocationName}">
     <ContentPage.Content>
-        <StackLayout 
+        <FlexLayout Direction="Column"
             Margin="10"
-            HorizontalOptions="Start">
-            <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
-            <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
-
-            <Label Text="Exits:" FontAttributes="Bold" />
-            <local:ScrollListView 
-                x:Name="ExitsScrollListView"
-                ListOrientation="Horizontal"
-                ItemsSource="{Binding Exits}"
-                Grid.Column="{Binding ExitElements}"
-			    VerticalOptions="Fill"
-                HorizontalOptions="FillAndExpand"
-                HeightRequest="50"
-                SelectedItemChanged="ScrollListView_ItemSelected">
-                <local:ScrollListView.ItemTemplate>
-                    <DataTemplate>
-                        <local:ItemButtonControl
-                            Name="{Binding Visible.Name}"
-                            Description="{Binding Visible.Description}"
-                            Image="{Binding Visible.Icon.Value}"
-                            ImageDefault="location"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
-                    </DataTemplate>
-                </local:ScrollListView.ItemTemplate>
-            </local:ScrollListView>
-
-            <Label Text="Characters:" FontAttributes="Bold" />
-            <local:ScrollListView 
-                ListOrientation="Horizontal"
-                ItemsSource="{Binding Characters}"
-                Spacing="4"
-                HeightRequest="40"
-                VerticalOptions="Fill"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand">
+            <StackLayout
+                FlexLayout.Basis="75%"
+                FlexLayout.Shrink="1"
+                VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand">
-                <local:ScrollListView.ItemTemplate>
-                    <DataTemplate>
-                        <local:ItemButtonControl
-                            Name="{Binding Visible.Name}"
-                            Description="{Binding Visible.Description}"
-                            Image="{Binding Visible.Icon.Value}"
-                            ImageDefault="character"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
-                    </DataTemplate>
-                </local:ScrollListView.ItemTemplate>
-            </local:ScrollListView>
-            
+                <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+                <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+                <Label Text="Exits:" FontAttributes="Bold" />
+                <local:ScrollListView 
+                    x:Name="ExitsScrollListView"
+                    ListOrientation="Horizontal"
+                    ItemsSource="{Binding Exits}"
+                    Grid.Column="{Binding ExitElements}"
+			        VerticalOptions="Fill"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="50"
+                    SelectedItemChanged="ScrollListView_ItemSelected">
+                    <local:ScrollListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:ItemButtonControl
+                                Name="{Binding Visible.Name}"
+                                Description="{Binding Visible.Description}"
+                                Image="{Binding Visible.Icon.Value}"
+                                ImageDefault="location"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
+                        </DataTemplate>
+                    </local:ScrollListView.ItemTemplate>
+                </local:ScrollListView>
+                <Label Text="Characters:" FontAttributes="Bold" />
+                <local:ScrollListView 
+                    ListOrientation="Horizontal"
+                    ItemsSource="{Binding Characters}"
+                    Spacing="4"
+                    HeightRequest="40"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="FillAndExpand"
+                    SelectedItemChanged="CharacterListView_ItemSelected">
+                    <local:ScrollListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:ItemButtonControl
+                                Name="{Binding Visible.Name}"
+                                Description="{Binding Visible.Description}"
+                                Image="{Binding Visible.Icon.Value}"
+                                ImageDefault="character"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
+                        </DataTemplate>
+                    </local:ScrollListView.ItemTemplate>
+                </local:ScrollListView>
+            </StackLayout>
+            <FlexLayout Direction="Row"
+                FlexLayout.Basis="25%"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand">
+                <StackLayout
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    FlexLayout.Basis="25%"
+                    FlexLayout.Grow="1">
+                    <Label Text="Left"></Label>
+                </StackLayout>
+                <Frame FlexLayout.Basis="50%">
+                    <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                        <Label Text="Center"></Label>
+                    </StackLayout>
+                </Frame>
+                <StackLayout
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    FlexLayout.Basis="25%">
+                    <Label Text="Right"></Label>
+                </StackLayout>
+            </FlexLayout>
             <Label Text="{Binding EventStream}" 
-                   HorizontalOptions="StartAndExpand" 
-                   VerticalOptions="EndAndExpand" />
-        </StackLayout>
+                FlexLayout.Grow="1"
+                HorizontalOptions="StartAndExpand" 
+                VerticalOptions="EndAndExpand" />
+        </FlexLayout>
     </ContentPage.Content>
 </ContentPage>

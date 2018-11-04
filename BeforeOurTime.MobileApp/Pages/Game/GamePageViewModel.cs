@@ -13,6 +13,7 @@ using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
+using BeforeOurTime.MobileApp.Controls;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -113,6 +114,32 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 ProcessListLocationResponse(summaryTask.Result.GetMessageAsType<WorldReadLocationSummaryResponse>());
             });
             GameService.OnMessage += OnMessage;
+        }
+        /// <summary>
+        /// Create the item table
+        /// </summary>
+        /// <param name="mainContent"></param>
+        public void CreateItemTable(View mainContent)
+        {
+            var iconTable = new FlexLayout();
+                iconTable.HeightRequest = 50;
+                iconTable.Wrap = FlexWrap.Wrap;
+            Characters.ForEach(character =>
+            {
+                iconTable.Children.Add(new ItemButtonControl()
+                {
+                    Image = null,
+                    Name = character.Visible.Name,
+                    Description = character.Visible.Description,
+                    ImageDefault = "character",
+                    MinimumWidthRequest = 200,
+                    HeightRequest = 50
+                });
+            });
+            ((FlexLayout)mainContent).Children.Add(iconTable);
+            FlexLayout.SetBasis(iconTable, new FlexBasis(0.25f, true));
+            FlexLayout.SetGrow(iconTable, 1);
+            FlexLayout.SetOrder(iconTable, 0);
         }
         /// <summary>
         /// Listen to unprompted incoming messages (events)
