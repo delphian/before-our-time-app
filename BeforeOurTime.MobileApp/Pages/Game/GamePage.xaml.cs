@@ -47,7 +47,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             var useRequest = new CoreUseItemRequest()
             {
                 ItemId = exitItem.Id,
-                Use = exitItem.Uses.Uses.First()
+                Use = exitItem.CommandList.Commands.First()
             };
             await Container.Resolve<IMessageService>().SendAsync(useRequest);
         }
