@@ -209,7 +209,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 Guid.TryParse(VMSelectedLocation.ItemId, out Guid fromLocationItemId);
                 var result = await MessageService
-                    .SendRequestAsync<WorldCreateLocationQuickResponse>(new WorldCreateLocationQuickRequest()
+                    .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
                     {
                         FromLocationItemId = fromLocationItemId
                     });
