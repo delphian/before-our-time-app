@@ -9,9 +9,6 @@
             Margin="10"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand">
-            <local:ItemTableControl
-                x:Name="ItemsTable"
-                Items="{Binding Objects}"/>
             <StackLayout
                 FlexLayout.Basis="75%"
                 FlexLayout.Shrink="1"
@@ -20,6 +17,12 @@
                 <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="Exits:" FontAttributes="Bold" />
+                <local:ItemTableControl
+                    x:Name="ItemsTable"
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Wrap="Wrap"
+                    Items="{Binding Objects}"/>
                 <local:ScrollListView 
                     x:Name="ExitsScrollListView"
                     ListOrientation="Horizontal"

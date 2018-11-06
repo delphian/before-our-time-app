@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\IconControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemIconButton\ItemIconButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemTable\ItemTableControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ScrollListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TreeView\TreeViewCustomTitle.cs" />

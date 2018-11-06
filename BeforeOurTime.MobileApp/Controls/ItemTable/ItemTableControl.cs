@@ -22,6 +22,7 @@ namespace BeforeOurTime.MobileApp.Controls
             typeof(List<Item>),
             typeof(ItemTableControl),
             default(List<Item>),
+            BindingMode.TwoWay,
             propertyChanged: ItemsPropertyChanged);
         /// <summary>
         /// Constructor
@@ -42,12 +43,13 @@ namespace BeforeOurTime.MobileApp.Controls
                 var visible = item.GetProperty<VisibleProperty>();
                 if (visible != null)
                 {
-                    control.Children.Add(new ItemButtonControl()
+                    control.Children.Add(new ItemIconButtonControl()
                     {
-                        ImageDefault = "character",
+                        ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
                         Image = null,
                         Name = visible.Name,
-                        Description = visible.Description
+                        HeightRequest = 60,
+                        WidthRequest = 82
                     });
                 }
             });
