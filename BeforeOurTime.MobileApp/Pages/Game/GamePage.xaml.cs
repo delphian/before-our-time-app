@@ -61,7 +61,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 var result = await Container.Resolve<IMessageService>()
-                    .SendRequestAsync<WorldCreateLocationQuickResponse>(new WorldCreateLocationQuickRequest()
+                    .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
                     {
                     });
                 if (!result.IsSuccess())
