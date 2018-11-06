@@ -171,6 +171,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             LocationName = listLocationResponse.Item.Visible.Name;
             LocationDescription = listLocationResponse.Item.Visible.Description;
             Characters = listLocationResponse.Characters;
+            Objects = listLocationResponse.Items;
             ProcessExits(listLocationResponse);
         }
         private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)

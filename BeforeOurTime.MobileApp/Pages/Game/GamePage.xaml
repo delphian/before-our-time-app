@@ -9,6 +9,9 @@
             Margin="10"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand">
+            <local:ItemTableControl
+                x:Name="ItemsTable"
+                Items="{Binding Objects}"/>
             <StackLayout
                 FlexLayout.Basis="75%"
                 FlexLayout.Shrink="1"
