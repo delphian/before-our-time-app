@@ -3,6 +3,7 @@ using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BeforeOurTime.MobileApp.Controls
@@ -10,7 +11,17 @@ namespace BeforeOurTime.MobileApp.Controls
     public class ItemTableControl : FlexLayout
     {
         /// <summary>
-        /// Name of the item
+        /// Callback when button is clicked
+        /// </summary>
+        public ICommand OnClicked
+        {
+            get => (ICommand)GetValue(OnClickedProperty);
+            set => SetValue(OnClickedProperty, value);
+        }
+        public static readonly BindableProperty OnClickedProperty = BindableProperty.Create(
+            nameof(OnClicked), typeof(ICommand), typeof(ItemTableControl), null);
+        /// <summary>
+        /// Items source
         /// </summary>
         public List<Item> Items
         {
@@ -45,6 +56,8 @@ namespace BeforeOurTime.MobileApp.Controls
                 {
                     control.Children.Add(new ItemIconButtonControl()
                     {
+                        OnClicked = control.OnClicked,
+                        Item = item,
                         ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
                         Image = null,
                         Name = visible.Name,

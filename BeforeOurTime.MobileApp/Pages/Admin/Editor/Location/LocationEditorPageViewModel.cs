@@ -152,7 +152,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 VMExits = children?
                     .Where(x => x.Type == ItemType.Exit)
                     .Select(x => x.GetAsItem<ExitItem>())
-                    .ToList()
+                    .ToList()?
                     .Select(x => new ViewModelExit()
                         {
                             ItemId = x.Id,

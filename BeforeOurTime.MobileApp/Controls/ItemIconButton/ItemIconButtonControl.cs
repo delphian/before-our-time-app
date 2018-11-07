@@ -1,6 +1,8 @@
-﻿using System;
+﻿using BeforeOurTime.Models.Modules.Core.Models.Items;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BeforeOurTime.MobileApp.Controls
@@ -10,6 +12,27 @@ namespace BeforeOurTime.MobileApp.Controls
         private readonly FlexLayout _flexLayout = new FlexLayout();
         private readonly IconControl _icon = new IconControl();
         private readonly Label _name = new Label();
+        /// <summary>
+        /// Callback when button is clicked
+        /// </summary>
+        public ICommand OnClicked
+        {
+            get => (ICommand)GetValue(OnClickedProperty);
+            set => SetValue(OnClickedProperty, value);
+        }
+        public static readonly BindableProperty OnClickedProperty = BindableProperty.Create(
+            nameof(OnClicked), typeof(ICommand), typeof(ItemButtonControl), null);
+        /// <summary>
+        /// Name of the item
+        /// </summary>
+        public Item Item
+        {
+            get => (Item)GetValue(ItemProperty);
+            set => SetValue(ItemProperty, value);
+        }
+        public static readonly BindableProperty ItemProperty = BindableProperty.Create(
+            nameof(Item), typeof(Item), typeof(ItemButtonControl), default(Item),
+            propertyChanged: ItemPropertyChanged);
         /// <summary>
         /// Name of the item
         /// </summary>
@@ -64,6 +87,9 @@ namespace BeforeOurTime.MobileApp.Controls
             typeof(ItemButtonControl),
             default(string),
             propertyChanged: ImageDefaultPropertyChanged);
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ItemIconButtonControl()
         {
             this.Padding = 2;
@@ -71,6 +97,16 @@ namespace BeforeOurTime.MobileApp.Controls
             _flexLayout.VerticalOptions = LayoutOptions.FillAndExpand;
             _flexLayout.HorizontalOptions = LayoutOptions.FillAndExpand;
             _flexLayout.Direction = FlexDirection.Column;
+            var recognizer = new TapGestureRecognizer();
+            recognizer.Tapped += (s, e) =>
+            {
+                if (OnClicked == null) return;
+                if (OnClicked.CanExecute(Item))
+                {
+                    OnClicked.Execute(Item);
+                }
+            };
+            _flexLayout.GestureRecognizers.Add(recognizer);
             _icon.Margin = 0;
             _icon.ForceMaxHeight = true;
             FlexLayout.SetBasis(_icon, 0.75f);
@@ -83,6 +119,14 @@ namespace BeforeOurTime.MobileApp.Controls
             FlexLayout.SetAlignSelf(_name, FlexAlignSelf.Center);
             _flexLayout.Children.Add(_name);
             Content = _flexLayout;
+        }
+        private static void ItemPropertyChanged(
+            BindableObject bindable,
+            object oldvalue,
+            object newvalue)
+        {
+            var control = (ItemIconButtonControl)bindable;
+            control.Item = (Item)newvalue;
         }
         private static void NamePropertyChanged(
             BindableObject bindable,

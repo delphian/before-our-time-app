@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
@@ -35,6 +36,10 @@ namespace BeforeOurTime.MobileApp.Pages.Game
 			InitializeComponent();
             Container = container;
             BindingContext = GamePageViewModel = new GamePageViewModel(Container);
+        }
+        public void ItemTable_OnClicked(object sender, EventArgs e)
+        {
+            var z = 0;
         }
         /// <summary>
         /// Select an exit

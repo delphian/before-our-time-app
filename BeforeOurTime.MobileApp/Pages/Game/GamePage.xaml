@@ -22,7 +22,8 @@
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="FillAndExpand"
                     Wrap="Wrap"
-                    Items="{Binding Objects}"/>
+                    Items="{Binding Objects}"
+                    OnClicked="ItemTable_OnClicked" />
                 <local:ScrollListView 
                     x:Name="ExitsScrollListView"
                     ListOrientation="Horizontal"

@@ -111,10 +111,11 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// <returns></returns>
         public async Task<List<Item>> ReadByTypeAsync(List<string> itemTypes)
         {
-            var response = await MessageService.SendRequestAsync<CoreReadItemCrudResponse>(new CoreReadItemCrudRequest()
-            {
-                ItemTypes = itemTypes
-            });
+            var response = await MessageService.SendRequestAsync<CoreReadItemCrudResponse>(
+                new CoreReadItemCrudRequest()
+                {
+                    ItemTypes = itemTypes
+                });
             return response.CoreReadItemCrudEvent.Items;
         }
         /// <summary>
