@@ -68,6 +68,7 @@ namespace BeforeOurTime.MobileApp.Controls
             object newvalue)
         {
             var control = (ItemTableControl)bindable;
+            control.SelectedItem = null;
             control.Items = (List<Item>)newvalue;
             control.Children.Clear();
             control.Items.ForEach(item =>

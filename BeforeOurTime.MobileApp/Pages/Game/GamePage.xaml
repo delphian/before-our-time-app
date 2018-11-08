@@ -16,7 +16,6 @@
                 HorizontalOptions="FillAndExpand">
                 <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
-                <Label Text="Exits:" FontAttributes="Bold" />
                 <local:ItemTableControl
                     x:Name="LocationItemTable"
                     VerticalOptions="StartAndExpand"
@@ -25,50 +24,25 @@
                     Items="{Binding Objects}"
                     OnClicked="{Binding LocationItemTable_OnClicked}" />
                 <StackLayout IsVisible="{Binding IsItemSelected}">
-                    <Button Text="{Binding SelectedVisibleProperty.Name}" />
+                    <ListView
+                        ItemSelected="CommandListView_ItemSelected"
+                        ItemsSource="{Binding Commands}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame 
+                                        BorderColor="LightGray"
+                                        Padding="0">
+                                        <Label 
+                                            Text="{Binding Name}"
+                                            HorizontalOptions="CenterAndExpand"
+                                            Margin="4"></Label>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
-                <local:ScrollListView 
-                    x:Name="ExitsScrollListView"
-                    ListOrientation="Horizontal"
-                    ItemsSource="{Binding Exits}"
-                    Grid.Column="{Binding ExitElements}"
-			        VerticalOptions="Fill"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="50"
-                    SelectedItemChanged="ScrollListView_ItemSelected">
-                    <local:ScrollListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:ItemButtonControl
-                                Name="{Binding Visible.Name}"
-                                Description="{Binding Visible.Description}"
-                                Image="{Binding Visible.Icon.Value}"
-                                ImageDefault="location"
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
-                        </DataTemplate>
-                    </local:ScrollListView.ItemTemplate>
-                </local:ScrollListView>
-                <Label Text="Characters:" FontAttributes="Bold" />
-                <local:ScrollListView 
-                    ListOrientation="Horizontal"
-                    ItemsSource="{Binding Characters}"
-                    Spacing="4"
-                    HeightRequest="40"
-                    VerticalOptions="Fill"
-                    HorizontalOptions="FillAndExpand"
-                    SelectedItemChanged="CharacterListView_ItemSelected">
-                    <local:ScrollListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:ItemButtonControl
-                                Name="{Binding Visible.Name}"
-                                Description="{Binding Visible.Description}"
-                                Image="{Binding Visible.Icon.Value}"
-                                ImageDefault="character"
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"></local:ItemButtonControl>
-                        </DataTemplate>
-                    </local:ScrollListView.ItemTemplate>
-                </local:ScrollListView>
             </StackLayout>
             <FlexLayout Direction="Row"
                 FlexLayout.Basis="25%"

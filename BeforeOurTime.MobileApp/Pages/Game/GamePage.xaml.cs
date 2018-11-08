@@ -42,47 +42,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void ScrollListView_ItemSelected(object sender, EventArgs e)
+        public async void CommandListView_ItemSelected(object sender, EventArgs e)
         {
-            var exitItem = ((ExitItem)((ScrollListView)sender).SelectedItem);
+            var command = ((BeforeOurTime.Models.Modules.Core.Models.Properties.Command)((ListView)sender).SelectedItem);
             var useRequest = new CoreUseItemRequest()
             {
-                ItemId = exitItem.Id,
-                Use = exitItem.CommandList.Commands.First()
+                ItemId = GamePageViewModel.SelectedItem.Id,
+                Use = command
             };
             await Container.Resolve<IMessageService>().SendAsync(useRequest);
-        }
-        /// <summary>
-        /// Add a default location
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ButtonAddLocation_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var result = await Container.Resolve<IMessageService>()
-                    .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
-                    {
-                    });
-                if (!result.IsSuccess())
-                {
-                    throw new Exception("Unable to create location");
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Error", "Unable to create location", "OK, But Why?");
-            }
-        }
-        /// <summary>
-        /// Select an item
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void CharacterListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            GamePageViewModel.CreateItemTable(Content);
         }
     }
 }

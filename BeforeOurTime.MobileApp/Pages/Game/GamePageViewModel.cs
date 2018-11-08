@@ -129,6 +129,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private VisibleProperty _selectedVisibleProperty { set; get; }
         /// <summary>
+        /// Selected item commands
+        /// </summary>
+        public List<BeforeOurTime.Models.Modules.Core.Models.Properties.Command> Commands
+        {
+            get { return _commands; }
+            set { _commands = value; NotifyPropertyChanged("Commands"); }
+        }
+        private List<BeforeOurTime.Models.Modules.Core.Models.Properties.Command> _commands { set; get; }
+        /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>
         public string EventStream
@@ -158,33 +167,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 SelectedItem = control?.SelectedItem;
                 IsItemSelected = (SelectedItem != null);
                 SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleProperty>();
+                Commands = SelectedItem?.GetProperty<CommandProperty>()?.Commands;
             });
-        }
-        /// <summary>
-        /// Create the item table
-        /// </summary>
-        /// <param name="mainContent"></param>
-        public void CreateItemTable(View mainContent)
-        {
-            var iconTable = new FlexLayout();
-                iconTable.HeightRequest = 50;
-                iconTable.Wrap = FlexWrap.Wrap;
-            Characters.ForEach(character =>
-            {
-                iconTable.Children.Add(new ItemButtonControl()
-                {
-                    Image = null,
-                    Name = character.Visible.Name,
-                    Description = character.Visible.Description,
-                    ImageDefault = "character",
-                    MinimumWidthRequest = 200,
-                    HeightRequest = 50
-                });
-            });
-            ((FlexLayout)mainContent).Children.Add(iconTable);
-            FlexLayout.SetBasis(iconTable, new FlexBasis(0.25f, true));
-            FlexLayout.SetGrow(iconTable, 1);
-            FlexLayout.SetOrder(iconTable, 0);
         }
         /// <summary>
         /// Listen to unprompted incoming messages (events)
@@ -212,6 +196,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessListLocationResponse(WorldReadLocationSummaryResponse listLocationResponse)
         {
+            SelectedItem = null;
+            IsItemSelected = false;
             Location = listLocationResponse.Item;
             LocationName = listLocationResponse.Item.Visible.Name;
             LocationDescription = listLocationResponse.Item.Visible.Description;
