@@ -11,7 +11,7 @@ namespace BeforeOurTime.MobileApp.Controls
     public class ItemTableControl : FlexLayout
     {
         /// <summary>
-        /// Callback when button is clicked
+        /// Callback to parent when button is clicked
         /// </summary>
         public ICommand OnClicked
         {
@@ -20,6 +20,14 @@ namespace BeforeOurTime.MobileApp.Controls
         }
         public static readonly BindableProperty OnClickedProperty = BindableProperty.Create(
             nameof(OnClicked), typeof(ICommand), typeof(ItemTableControl), null);
+        /// <summary>
+        /// Local callback when item is selected
+        /// </summary>
+        public ICommand TrackOnClicked { set; get; }
+        /// <summary>
+        /// Currently selected item
+        /// </summary>
+        public Item SelectedItem { set; get; }
         /// <summary>
         /// Items source
         /// </summary>
@@ -40,6 +48,19 @@ namespace BeforeOurTime.MobileApp.Controls
         /// </summary>
         public ItemTableControl()
         {
+            TrackOnClicked = new Xamarin.Forms.Command((object item) =>
+            {
+                if (SelectedItem?.Id == ((Item)item)?.Id)
+                {
+                    item = null;
+                }
+                SelectedItem = (Item)item;
+                if (OnClicked == null) return;
+                if (OnClicked.CanExecute(this))
+                {
+                    OnClicked.Execute(this);
+                }
+            });
         }
         private static void ItemsPropertyChanged(
             BindableObject bindable,
@@ -56,7 +77,7 @@ namespace BeforeOurTime.MobileApp.Controls
                 {
                     control.Children.Add(new ItemIconButtonControl()
                     {
-                        OnClicked = control.OnClicked,
+                        OnClicked = control.TrackOnClicked,
                         Item = item,
                         ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
                         Image = null,

@@ -14,6 +14,8 @@ using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.MobileApp.Controls;
+using System.Windows.Input;
+using BeforeOurTime.Models.Modules.Core.Models.Properties;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -91,6 +93,42 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private List<CharacterItem> _characters { set; get; } = new List<CharacterItem>();
         /// <summary>
+        /// Callback when location item has been clicked
+        /// </summary>
+        public ICommand LocationItemTable_OnClicked
+        {
+            get { return _locationItemTable_OnClicked; }
+            set { _locationItemTable_OnClicked = value; NotifyPropertyChanged("LocationItemTable_OnClicked"); }
+        }
+        private ICommand _locationItemTable_OnClicked { set; get; }
+        /// <summary>
+        /// Currently selected item at location
+        /// </summary>
+        public Item SelectedItem
+        {
+            get { return _selectedItem; }
+            set { _selectedItem = value; NotifyPropertyChanged("SelectedItem"); }
+        }
+        private Item _selectedItem { set; get; }
+        /// <summary>
+        /// An item is selected
+        /// </summary>
+        public bool IsItemSelected
+        {
+            get { return _isItemSelected; }
+            set { _isItemSelected = value; NotifyPropertyChanged("IsItemSelected"); }
+        }
+        private bool _isItemSelected { set; get; }
+        /// <summary>
+        /// Visible property of currently selected item at location
+        /// </summary>
+        public VisibleProperty SelectedVisibleProperty
+        {
+            get { return _selectedVisibleProperty; }
+            set { _selectedVisibleProperty = value; NotifyPropertyChanged("SelectedVisibleProperty"); }
+        }
+        private VisibleProperty _selectedVisibleProperty { set; get; }
+        /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>
         public string EventStream
@@ -114,6 +152,13 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 ProcessListLocationResponse(summaryTask.Result.GetMessageAsType<WorldReadLocationSummaryResponse>());
             });
             GameService.OnMessage += OnMessage;
+            LocationItemTable_OnClicked = new Xamarin.Forms.Command((object itemTableControl) =>
+            {
+                var control = (ItemTableControl)itemTableControl;
+                SelectedItem = control?.SelectedItem;
+                IsItemSelected = (SelectedItem != null);
+                SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleProperty>();
+            });
         }
         /// <summary>
         /// Create the item table

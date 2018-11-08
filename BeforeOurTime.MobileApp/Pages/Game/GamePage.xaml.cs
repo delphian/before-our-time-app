@@ -37,10 +37,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             Container = container;
             BindingContext = GamePageViewModel = new GamePageViewModel(Container);
         }
-        public void ItemTable_OnClicked(object sender, EventArgs e)
-        {
-            var z = 0;
-        }
         /// <summary>
         /// Select an exit
         /// </summary>

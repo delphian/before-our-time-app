@@ -18,12 +18,15 @@
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="Exits:" FontAttributes="Bold" />
                 <local:ItemTableControl
-                    x:Name="ItemsTable"
+                    x:Name="LocationItemTable"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="FillAndExpand"
                     Wrap="Wrap"
                     Items="{Binding Objects}"
-                    OnClicked="ItemTable_OnClicked" />
+                    OnClicked="{Binding LocationItemTable_OnClicked}" />
+                <StackLayout IsVisible="{Binding IsItemSelected}">
+                    <Button Text="{Binding SelectedVisibleProperty.Name}" />
+                </StackLayout>
                 <local:ScrollListView 
                     x:Name="ExitsScrollListView"
                     ListOrientation="Horizontal"
