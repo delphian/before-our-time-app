@@ -235,7 +235,10 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         public async Task SelectCharacterAsync()
         {
             var account = AccountService.GetAccount();
-            if (Settings.CharacterId == null)
+            var characters = await CharacterService.GetAccountCharactersAsync(account.Id);
+            var character = characters.Where(x => x.Id == Settings.CharacterId).FirstOrDefault() ??
+                            characters.FirstOrDefault();
+            if (character == null)
             {
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -248,9 +251,10 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 Settings.CharacterId = characterItemId;
                 Application.Current.Properties["Settings"] = JsonConvert.SerializeObject(Settings);
                 await Application.Current.SavePropertiesAsync();
+                characters = await CharacterService.GetAccountCharactersAsync(account.Id);
+                character = characters.Where(x => x.Id == Settings.CharacterId).FirstOrDefault() ??
+                            characters.FirstOrDefault();
             }
-            var characters = await CharacterService.GetAccountCharactersAsync(account.Id);
-            var character = characters.Where(x => x.Id == Settings.CharacterId).FirstOrDefault();
             if (character != null)
             {
                 await CharacterService.PlayAccountCharacterAsync(character);
