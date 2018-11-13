@@ -1,5 +1,8 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin;
+using BeforeOurTime.MobileApp.Pages.Admin.Debug;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor;
+using BeforeOurTime.MobileApp.Services.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +29,8 @@ namespace BeforeOurTime.MobileApp.Pages.Play
         {
             InitializeComponent();
             Container = container;
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+            Master = new PlayPageMaster(Container);
+            ((PlayPageMaster)Master).ListView.ItemSelected += ListView_ItemSelected;
         }
         /// <summary>
         /// Naviate to new page when menu item is clicked
@@ -38,18 +42,27 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             var item = e.SelectedItem as PlayPageMenuItem;
             if (item == null)
                 return;
-            if (item.TargetType == null)
+            var account = Container.Resolve<IAccountService>().GetAccount();
+            if (!account.Admin && (item.TargetType == typeof(EditorPage) ||
+                                   item.TargetType == typeof(DebugPage)))
             {
-                await Navigation.PopAsync();
+                await DisplayAlert("Error", "Not Authorized", "Ok");
             }
             else
             {
-                var page = (Page)Activator.CreateInstance(item.TargetType, Container);
-                Title = item.Title;
-                Detail = new NavigationPage(page);
-                IsPresented = false;
+                if (item.TargetType == null)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    var page = (Page)Activator.CreateInstance(item.TargetType, Container);
+                    Title = item.Title;
+                    Detail = new NavigationPage(page);
+                    IsPresented = false;
+                }
             }
-            MasterPage.ListView.SelectedItem = null;
+            ((PlayPageMaster)Master).ListView.SelectedItem = null;
         }
     }
 }
