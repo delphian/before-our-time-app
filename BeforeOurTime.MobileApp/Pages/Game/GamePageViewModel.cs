@@ -16,6 +16,9 @@ using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.MobileApp.Controls;
 using System.Windows.Input;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using System.Threading.Tasks;
+using BeforeOurTime.Models.Modules.World.Models.Data;
+using BeforeOurTime.MobileApp.Services.Messages;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -193,6 +196,28 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     ProcessDepartureEvent(moveItemEvent);
                 }
             }
+        }
+        public async Task UseExit(string exitName)
+        {
+            var goGuid = new Guid("c558c1f9-7d01-45f3-bc35-dcab52b5a37c");
+            var test = Objects.Where(x => x.GetProperty<CommandProperty>() != null).ToList();
+            var item = Objects.Where(x => x.GetProperty<CommandProperty>() != null)?
+                   .Where(x => x.GetProperty<CommandProperty>().Commands
+                       .Any(y => y.Id == goGuid && x.GetProperty<VisibleProperty>().Name.ToLower().Contains(exitName.ToLower())))
+                   .FirstOrDefault();
+            var itemCommand = item?.GetProperty<CommandProperty>()?.Commands?
+                   .Where(x => x.Id == goGuid)
+                   .FirstOrDefault();
+            if (item == null || itemCommand == null)
+            {
+                throw new Exception("No such exit found");
+            }
+            var useRequest = new CoreUseItemRequest()
+            {
+                ItemId = item.Id,
+                Use = itemCommand
+            };
+            await Container.Resolve<IMessageService>().SendAsync(useRequest);
         }
         private void ProcessListLocationResponse(WorldReadLocationSummaryResponse listLocationResponse)
         {

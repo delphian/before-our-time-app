@@ -16,6 +16,9 @@
                 HorizontalOptions="FillAndExpand">
                 <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+                <Label Text="{Binding EventStream}" 
+                    HorizontalOptions="StartAndExpand" 
+                    VerticalOptions="Start" />
                 <local:ItemTableControl
                     x:Name="LocationItemTable"
                     VerticalOptions="StartAndExpand"
@@ -53,26 +56,59 @@
                     HorizontalOptions="FillAndExpand"
                     FlexLayout.Basis="25%"
                     FlexLayout.Grow="1">
-                    <Label Text="Left"></Label>
+                    <Label Text="Left"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"></Label>
                 </StackLayout>
-                <Frame FlexLayout.Basis="50%">
-                    <StackLayout
+                <Frame FlexLayout.Basis="50%"
+                       VerticalOptions="FillAndExpand"
+                       Margin="0"
+                       Padding="0"
+                       BorderColor="LightGray">
+                    <StackLayout Orientation="Horizontal"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand">
-                        <Label Text="Center"></Label>
+                        <Button Text="West"
+                            Clicked="ButtonWest_OnClicked"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BorderRadius="10"></Button>
+                        <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                            <Button Text="North"
+                                Clicked="ButtonNorth_OnClicked"
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                VerticalOptions="StartAndExpand"
+                                BorderRadius="10"></Button>
+                            <Button Text="South"
+                                Clicked="ButtonSouth_OnClicked"
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                VerticalOptions="EndAndExpand"
+                                BorderRadius="10"></Button>
+                        </StackLayout>
+                        <Button Text="East"
+                            Clicked="ButtonEast_OnClicked"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BorderRadius="10"></Button>
                     </StackLayout>
                 </Frame>
                 <StackLayout
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     FlexLayout.Basis="25%">
-                    <Label Text="Right"></Label>
+                    <Label Text="Right"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand"></Label>
                 </StackLayout>
             </FlexLayout>
-            <Label Text="{Binding EventStream}" 
-                FlexLayout.Grow="1"
-                HorizontalOptions="StartAndExpand" 
-                VerticalOptions="EndAndExpand" />
         </FlexLayout>
     </ContentPage.Content>
 </ContentPage>

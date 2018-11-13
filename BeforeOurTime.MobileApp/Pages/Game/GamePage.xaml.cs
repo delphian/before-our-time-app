@@ -26,7 +26,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// View model
         /// </summary>
-        public GamePageViewModel GamePageViewModel { set; get; }
+        public GamePageViewModel ViewModel { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -35,7 +35,51 @@ namespace BeforeOurTime.MobileApp.Pages.Game
 		{
 			InitializeComponent();
             Container = container;
-            BindingContext = GamePageViewModel = new GamePageViewModel(Container);
+            BindingContext = ViewModel = new GamePageViewModel(Container);
+        }
+        public async void ButtonWest_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.UseExit("west");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        public async void ButtonEast_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.UseExit("east");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        public async void ButtonNorth_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.UseExit("north");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        public async void ButtonSouth_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.UseExit("south");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
         }
         /// <summary>
         /// Select an exit
@@ -47,7 +91,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             var command = ((BeforeOurTime.Models.Modules.Core.Models.Properties.Command)((ListView)sender).SelectedItem);
             var useRequest = new CoreUseItemRequest()
             {
-                ItemId = GamePageViewModel.SelectedItem.Id,
+                ItemId = ViewModel.SelectedItem.Id,
                 Use = command
             };
             await Container.Resolve<IMessageService>().SendAsync(useRequest);
