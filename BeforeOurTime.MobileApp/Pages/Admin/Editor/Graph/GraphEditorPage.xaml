@@ -4,13 +4,13 @@
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls.TreeView" 
              x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph.GraphEditorPage">
     <ContentPage.Content>
-        <StackLayout>
+        <ScrollView>
             <local:TreeViewControl
                 Source="{Binding ItemGraph}"
                 Formatter="{Binding FormatItemTitle}"
                 Clicked="{Binding TreeViewControl_OnClicked}"
                 TitleProperty="Name">
             </local:TreeViewControl>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -19,11 +19,13 @@
                 <ListView
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding EventStream.Events}">
+                    ItemsSource="{Binding EventStream.Events}"
+                    HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Label Text="{Binding Message}" />
+                                <Label Text="{Binding Message}"
+                                    Margin="0" />
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
