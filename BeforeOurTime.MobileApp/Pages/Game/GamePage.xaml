@@ -16,36 +16,26 @@
                 HorizontalOptions="FillAndExpand">
                 <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
-                <Label Text="{Binding EventStream}" 
-                    HorizontalOptions="StartAndExpand" 
-                    VerticalOptions="Start" />
+                <ListView
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding EventStream.Events}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Message}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <local:ItemTableControl
                     x:Name="LocationItemTable"
-                    VerticalOptions="StartAndExpand"
-                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="EndAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Margin="0, 0, 0, 20"
                     Wrap="Wrap"
                     Items="{Binding Objects}"
                     OnClicked="{Binding LocationItemTable_OnClicked}" />
-                <StackLayout IsVisible="{Binding IsItemSelected}">
-                    <ListView
-                        ItemSelected="CommandListView_ItemSelected"
-                        ItemsSource="{Binding Commands}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Frame 
-                                        BorderColor="LightGray"
-                                        Padding="0">
-                                        <Label 
-                                            Text="{Binding Name}"
-                                            HorizontalOptions="CenterAndExpand"
-                                            Margin="4"></Label>
-                                    </Frame>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
             </StackLayout>
             <FlexLayout Direction="Row"
                 FlexLayout.Basis="25%"
@@ -68,7 +58,7 @@
                     <StackLayout Orientation="Horizontal"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand">
-                        <Button Text="West"
+                        <Button Text="W"
                             Clicked="ButtonWest_OnClicked"
                             WidthRequest="50"
                             HeightRequest="50"
@@ -78,20 +68,20 @@
                         <StackLayout
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand">
-                            <Button Text="North"
+                            <Button Text="N"
                                 Clicked="ButtonNorth_OnClicked"
                                 WidthRequest="50"
                                 HeightRequest="50"
                                 VerticalOptions="StartAndExpand"
                                 BorderRadius="10"></Button>
-                            <Button Text="South"
+                            <Button Text="S"
                                 Clicked="ButtonSouth_OnClicked"
                                 WidthRequest="50"
                                 HeightRequest="50"
                                 VerticalOptions="EndAndExpand"
                                 BorderRadius="10"></Button>
                         </StackLayout>
-                        <Button Text="East"
+                        <Button Text="E"
                             Clicked="ButtonEast_OnClicked"
                             WidthRequest="50"
                             HeightRequest="50"
@@ -104,9 +94,29 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     FlexLayout.Basis="25%">
-                    <Label Text="Right"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"></Label>
+                    <StackLayout IsVisible="{Binding IsItemSelected}"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="5, 0, 0, 0">
+                        <ListView
+                            ItemSelected="CommandListView_ItemSelected"
+                            ItemsSource="{Binding Commands}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Frame 
+                                            BorderColor="LightGray"
+                                            Padding="0">
+                                            <Label 
+                                                Text="{Binding Name}"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Margin="4"></Label>
+                                        </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
                 </StackLayout>
             </FlexLayout>
         </FlexLayout>

@@ -101,6 +101,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\ViewModelExit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\ViewModelLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\EventStreamVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
       <SubType>Code</SubType>

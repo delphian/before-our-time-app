@@ -143,12 +143,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>
-        public string EventStream
+        public EventStreamVM EventStream
         {
             get { return _eventStream; }
             set { _eventStream = value; NotifyPropertyChanged("EventStream"); }
         }
-        private string _eventStream { set; get; }
+        private EventStreamVM _eventStream { set; get; } = new EventStreamVM();
         /// <summary>
         /// Constructor
         /// </summary>
@@ -179,12 +179,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <param name="message"></param>
         private void OnMessage(IMessage message)
         {
-            EventStream = DateTime.Now + " " + message.GetMessageName();
             if (message.IsMessageType<WorldReadLocationSummaryResponse>())
             {
                 ProcessListLocationResponse(message.GetMessageAsType<WorldReadLocationSummaryResponse>());
             }
-            if (message.IsMessageType<CoreMoveItemEvent>())
+            else if (message.IsMessageType<CoreMoveItemEvent>())
             {
                 var moveItemEvent = message.GetMessageAsType<CoreMoveItemEvent>();
                 if (moveItemEvent.NewParent.Id == Location.Id)
@@ -195,6 +194,10 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 {
                     ProcessDepartureEvent(moveItemEvent);
                 }
+            }
+            else
+            {
+                EventStream.Push(message.GetMessageName());
             }
         }
         public async Task UseExit(string exitName)
@@ -236,31 +239,27 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessArrivalEvent(CoreMoveItemEvent arrivalEvent)
         {
-            if (arrivalEvent.Item is CharacterItem && arrivalEvent.Item.Id != Me.Id)
+            if (arrivalEvent.Item.Id != Me.Id)
             {
-                Characters.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
+                var name = arrivalEvent.Item.GetProperty<VisibleProperty>()?.Name ?? "**Unknown**";
+                EventStream.Push($"{name} has arrived");
+                Objects.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
                 // Force notify to fire
-                Characters = Characters.ToList();
-            }
-            else
-            {
-                Objects.Add(arrivalEvent.Item);
+                Objects = Objects.ToList();
             }
         }
         private void ProcessDepartureEvent(CoreMoveItemEvent departureEvent)
         {
-            if (departureEvent.Item is CharacterItem && departureEvent.Item.Id != Me.Id)
+            if (departureEvent.Item.Id != Me.Id)
             {
-                Characters.Remove(Characters
+                var name = departureEvent.Item.GetProperty<VisibleProperty>()?.Name ?? "**Unknown**";
+                EventStream.Push($"{name} has departed");
+                Objects.Remove(Objects
                     .Where(x => x.Id == departureEvent.Item.Id)
                     .Select(x => x)
                     .FirstOrDefault());
                 // Force notify to fire
-                Characters = Characters.ToList();
-            }
-            else
-            {
-                Objects.Remove(departureEvent.Item);
+                Objects = Objects.ToList();
             }
         }
         /// <summary>
