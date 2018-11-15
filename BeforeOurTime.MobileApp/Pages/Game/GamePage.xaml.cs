@@ -82,6 +82,22 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             }
         }
         /// <summary>
+        /// Perform an emote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void EmotePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.VMEmotes.PerformSelectedEmote();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        /// <summary>
         /// Select an exit
         /// </summary>
         /// <param name="sender"></param>

@@ -35,20 +35,12 @@
                 FlexLayout.Basis="25%"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand">
-                <StackLayout
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    FlexLayout.Basis="25%"
-                    FlexLayout.Grow="1">
-                    <Label Text="Left"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"></Label>
-                </StackLayout>
                 <Frame FlexLayout.Basis="50%"
                        VerticalOptions="FillAndExpand"
                        Margin="0"
                        Padding="0"
-                       BorderColor="LightGray">
+                       BorderColor="Transparent"
+                       BackgroundColor="Transparent">
                     <StackLayout Orientation="Horizontal"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand">
@@ -87,11 +79,19 @@
                 <StackLayout
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    FlexLayout.Basis="25%">
+                    FlexLayout.Basis="50%"
+                    Padding="10, 0, 0, 0">
+                    <Picker x:Name="EmotePicker"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Title="Emote"
+                        ItemsSource="{Binding VMEmotes.Emotes}" 
+                        SelectedItem="{Binding VMEmotes.SelectedEmote}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
                     <StackLayout IsVisible="{Binding IsItemSelected}"
                         VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="5, 0, 0, 0">
+                        HorizontalOptions="FillAndExpand">
                         <ListView
                             ItemSelected="CommandListView_ItemSelected"
                             ItemsSource="{Binding Commands}">

@@ -19,6 +19,8 @@ using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System.Threading.Tasks;
 using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.Models.Modules.World.Messages.Emotes;
+using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -150,6 +152,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private EventStreamVM _eventStream { set; get; } = new EventStreamVM();
         /// <summary>
+        /// View model for all possible emotes
+        /// </summary>
+        public VMEmotes VMEmotes
+        {
+            get { return _vmEmotes; }
+            set { _vmEmotes = value; NotifyPropertyChanged("VMEmotes"); }
+        }
+        private VMEmotes _vmEmotes { set; get; }
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
@@ -157,6 +168,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
+            _vmEmotes = new VMEmotes(Container);
             ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
             GameService.GetLocationSummary().ContinueWith((summaryTask) =>
@@ -194,6 +206,24 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 {
                     ProcessDepartureEvent(moveItemEvent);
                 }
+            }
+            else if (message.IsMessageType<WorldEmoteEvent>())
+            {
+                var emoteEvent = message.GetMessageAsType<WorldEmoteEvent>();
+                var visible = emoteEvent.Origin?.GetProperty<VisibleProperty>();
+                if (visible != null)
+                {
+                    var emote = "does something unexpected!";
+                    if (emoteEvent.EmoteType == WorldEmoteType.Smile)
+                        emote = "smiles happily";
+                    if (emoteEvent.EmoteType == WorldEmoteType.Frown)
+                        emote = "frowns in consternation";
+                    EventStream.Push($"{visible.Name} {emote}");
+                }
+            }
+            else if (message.IsMessageType<WorldPerformEmoteResponse>())
+            {
+                // Sit on it
             }
             else
             {

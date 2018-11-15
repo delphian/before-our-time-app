@@ -107,6 +107,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMEmotes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
       <SubType>Code</SubType>
