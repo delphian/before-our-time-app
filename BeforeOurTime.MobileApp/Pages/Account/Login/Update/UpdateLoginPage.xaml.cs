@@ -66,7 +66,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
             try
             {
                 ViewModel.Working = true;
-                await ViewModel.Update();
+                await ViewModel.UpdatePasswordAsync();
                 await Navigation.PopModalAsync();
             }
             catch (Exception ex)

@@ -60,6 +60,7 @@
       <DependentUpon>UpdateLoginPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Login\Update\VMUpdateAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Debug\DebugPage.xaml.cs">
       <DependentUpon>DebugPage.xaml</DependentUpon>
       <SubType>Code</SubType>

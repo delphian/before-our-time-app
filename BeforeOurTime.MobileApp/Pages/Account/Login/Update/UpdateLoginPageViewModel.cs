@@ -14,6 +14,15 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
     {
         private IAccountService AccountService { set; get; }
         /// <summary>
+        /// View model to update an existing registered account
+        /// </summary>
+        public VMUpdateAccount VMUpdateAccount
+        {
+            get { return _vmUpdateAccount; }
+            set { _vmUpdateAccount = value; NotifyPropertyChanged("VMUpdateAccount"); }
+        }
+        private VMUpdateAccount _vmUpdateAccount { set; get; }
+        /// <summary>
         /// Account that will be updated
         /// </summary>
         public BeforeOurTime.Models.Modules.Account.Models.Account Account
@@ -41,6 +50,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
             IContainer container, 
             BeforeOurTime.Models.Modules.Account.Models.Account account) : base(container)
         {
+            VMUpdateAccount = new VMUpdateAccount(container, account);
             AccountService = container.Resolve<IAccountService>();
             Account = account;
             _originalAccount = JsonConvert.DeserializeObject<BeforeOurTime.Models.Modules.Account.Models.Account>(JsonConvert.SerializeObject(account));
@@ -66,23 +76,13 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login.Update
             }
         }
         /// <summary>
-        /// Update account
+        /// Update the account's password
         /// </summary>
-        public async Task Update()
+        /// <returns></returns>
+        public async Task<BeforeOurTime.Models.Modules.Account.Models.Account> UpdatePasswordAsync()
         {
-            if (Account.Password != ConfirmPassword)
-            {
-                throw new Exception("Passwords do not match");
-            }
-            try
-            {
-                await AccountService.UpdateAsync(Account);
-            }
-            catch (Exception e)
-            {
-                Cancel();
-                throw e;
-            }
+            Account = await VMUpdateAccount.UpdatePasswordAsync();
+            return Account;
         }
         /// <summary>
         /// Restore original values

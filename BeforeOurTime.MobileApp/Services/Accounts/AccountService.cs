@@ -5,6 +5,7 @@ using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.UpdateAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.UpdatePassword;
 using BeforeOurTime.Models.Modules.Account.Models;
 using Newtonsoft.Json;
 using System;
@@ -160,6 +161,34 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 SetState(LoginState.Guest);
                 throw e;
             }
+            return Account;
+        }
+        /// <summary>
+        /// Update account password
+        /// </summary>
+        /// <param name="accountId">Account id to update</param>
+        /// <param name="OldPassword">Old password value</param>
+        /// <param name="NewPassword">New password value</param>
+        /// <returns></returns>
+        public async Task<Account> UpdatePasswordAsync(
+            Guid accountId, 
+            string OldPassword, 
+            string NewPassword)
+        {
+            var updatePasswordRequest = new AccountUpdatePasswordRequest()
+            {
+                AccountId = Account.Id,
+                OldPassword = OldPassword,
+                NewPassword = NewPassword
+            };
+            var response = await MessageService.SendRequestAsync<AccountUpdatePasswordResponse>(updatePasswordRequest);
+            if (!response.IsSuccess())
+            {
+                throw new Exception($"{response._responseMessage}");
+            }
+            Account = response.Account;
+            Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
+            await Application.Current.SavePropertiesAsync();
             return Account;
         }
         /// <summary>

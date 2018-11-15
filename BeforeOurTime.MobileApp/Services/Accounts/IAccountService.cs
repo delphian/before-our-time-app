@@ -26,6 +26,17 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// <returns>Guid of newly created account</returns>
         Task<Account> RegisterAsync(string email, string password, bool temporary = false);
         /// <summary>
+        /// Update account password
+        /// </summary>
+        /// <param name="accountId">Account id to update</param>
+        /// <param name="OldPassword">Old password value</param>
+        /// <param name="NewPassword">New password value</param>
+        /// <returns></returns>
+        Task<Account> UpdatePasswordAsync(
+            Guid accountId,
+            string OldPassword,
+            string NewPassword);
+        /// <summary>
         /// Update existing account
         /// </summary>
         /// <param name="account"></param>
