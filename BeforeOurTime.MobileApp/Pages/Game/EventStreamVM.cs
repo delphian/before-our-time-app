@@ -20,11 +20,20 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private List<EventMessageVM> _events { set; get; } = new List<EventMessageVM>();
         /// <summary>
+        /// All text events as a single string suitable for output
+        /// </summary>
+        public string Output
+        {
+            get { return _output; }
+            set { _output = value; NotifyPropertyChanged("Output"); }
+        }
+        private string _output { set; get; }
+        /// <summary>
         /// Constructor
         /// </summary>
         public EventStreamVM()
         {
-
+            Push("Logos...");
         }
         /// <summary>
         /// Remove last message and push another one
@@ -39,10 +48,23 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             Events.Add(new EventMessageVM()
             {
                 Time = DateTime.Now,
-                Message = DateTime.Now.ToString("hh:mm:ss") + " " + message
+                Message = message
             });
             // Force notify property changed to fire
             Events = Events.ToList();
+            Output = BuildOutput(Events);
+        }
+        /// <summary>
+        /// Build all events into a single string
+        /// </summary>
+        /// <param name="events"></param>
+        private string BuildOutput(List<EventMessageVM> events)
+        {
+            var output = "";
+            events?.ForEach(eventMessage => {
+                output += $"{eventMessage.Time.ToString("mm:ss")} {eventMessage.Message}\n";
+            });
+            return output;
         }
     }
     /// <summary>

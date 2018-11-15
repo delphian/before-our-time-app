@@ -16,25 +16,17 @@
                 HorizontalOptions="FillAndExpand">
                 <Label Text="{Binding LocationName}" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
                 <Label Text="{Binding LocationDescription}" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
-                <ListView
-                    VerticalOptions="Start"
+                <Label Text="{Binding EventStream.Output}" 
+                    VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding EventStream.Events}"
-                    HasUnevenRows="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Label Text="{Binding Message}"
-                                    Margin="0" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    FontSize="Small"
+                    FontFamily="Arial Narrow"
+                    FontAttributes="Italic" />
                 <local:ItemTableControl
                     x:Name="LocationItemTable"
-                    VerticalOptions="EndAndExpand"
-                    HorizontalOptions="CenterAndExpand"
-                    Margin="0, 0, 0, 20"
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="StartAndExpand"
+                    Margin="10, 0, 0, 0"
                     Wrap="Wrap"
                     Items="{Binding Objects}"
                     OnClicked="{Binding LocationItemTable_OnClicked}" />

@@ -78,13 +78,17 @@ namespace BeforeOurTime.MobileApp.Controls
                 {
                     control.Children.Add(new ItemIconButtonControl()
                     {
+                        BorderColor = Color.Transparent,
+                        BackgroundColor = Color.Transparent,
+                        Padding = 0,
+                        Margin = new Thickness(0, 0, 2, 0),
                         OnClicked = control.TrackOnClicked,
                         Item = item,
                         ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
                         Image = null,
                         Name = visible.Name,
-                        HeightRequest = 60,
-                        WidthRequest = 82
+                        HeightRequest = 50,
+                        WidthRequest = 68
                     });
                 }
             });

@@ -72,6 +72,7 @@ namespace BeforeOurTime.MobileApp.Controls
         public IconControl()
         {
             Padding = new Thickness(0);
+            Margin = new Thickness(0);
             BackgroundColor = Color.Transparent;
             HasShadow = false;
             if (ForceMaxHeight == true)
@@ -79,6 +80,7 @@ namespace BeforeOurTime.MobileApp.Controls
                 VerticalOptions = LayoutOptions.FillAndExpand;
                 HorizontalOptions = LayoutOptions.FillAndExpand;
             }
+            _canvasView.Margin = new Thickness(0);
             Content = _canvasView;
             _canvasView.PaintSurface += CanvasViewOnPaintSurface;
         }
@@ -123,17 +125,6 @@ namespace BeforeOurTime.MobileApp.Controls
                 canvas.Scale(ratio);
                 canvas.Translate(-bounds.MidX, -bounds.MidY);
                 canvas.DrawPicture(svg.Picture);
-                //var paint = new SKPaint();
-                //paint.Color = SKColor.Parse("#000000");
-                //paint.IsStroke = false;
-                //paint.TextSize = 40;
-                //paint.IsAntialias = true;
-                //paint.StrokeWidth = 5;
-                //var location = new SKPoint(0, canvas.LocalClipBounds.Height - 2);
-                //canvas.DrawText(Encoding.UTF8.GetBytes("Hello!"), location, paint);
-                //paint.Color = SKColor.Parse("#FFFFFF");
-                //location.Offset(2, -2);
-                //canvas.DrawText(Encoding.UTF8.GetBytes("Hello!"), location, paint);
             }
         }
     }
