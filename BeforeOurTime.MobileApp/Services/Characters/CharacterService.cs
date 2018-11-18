@@ -3,6 +3,9 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateCharacter;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginCharacter;
 using BeforeOurTime.Models.Modules.Account.Messages.ReadCharacter;
+using BeforeOurTime.Models.Modules.Account.Messages.RegisterCharacter;
+using BeforeOurTime.Models.Modules.Account.Models.Data;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using Newtonsoft.Json;
 using System;
@@ -63,7 +66,9 @@ namespace BeforeOurTime.MobileApp.Services.Characters
         /// <param name="accountId">Unique account identifier</param>
         /// <param name="force">Bypass cache and force load from server</param>
         /// <returns></returns>
-        public async Task<List<CharacterItem>> GetAccountCharactersAsync(Guid accountId, bool force = false)
+        public async Task<List<CharacterItem>> GetAccountCharactersAsync(
+            Guid accountId, 
+            bool force = false)
         {
             var characters = new List<CharacterItem>();
             var key = $"account_{accountId}_characters";
@@ -117,6 +122,31 @@ namespace BeforeOurTime.MobileApp.Services.Characters
             // Bust cache
             await GetAccountCharactersAsync(accountId, true);
             return createAccountCharacterResponse.CreatedAccountCharacterEvent.ItemId;
+        }
+        /// <summary>
+        /// Register a character from temporary to permenant
+        /// </summary>
+        /// <param name="characterId">Unique item identifier of character</param>
+        /// <param name="name">Name of character</param>
+        /// <returns>Item guid of new character item</returns>
+        public async Task<Item> RegisterCharacterAsync(
+            Guid characterId,
+            string name)
+        {
+            var registerCharacterResponse = await MessageService.SendRequestAsync<AccountRegisterCharacterResponse>(
+                new AccountRegisterCharacterRequest()
+                {
+                    CharacterId = characterId,
+                    Name = name,
+                });
+            if (!registerCharacterResponse.IsSuccess())
+            {
+                throw new Exception($"Can't register character: {registerCharacterResponse._responseMessage}");
+            }
+            // Bust cache
+            var accountId = registerCharacterResponse.Item.GetData<AccountData>().Id;
+            await GetAccountCharactersAsync(accountId, true);
+            return registerCharacterResponse.Item;
         }
         /// <summary>
         /// Choose an account character to play

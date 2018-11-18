@@ -5,7 +5,10 @@ using System.Text;
 
 namespace BeforeOurTime.MobileApp.Pages.Account.Character
 {
-    public class AccountCharacterListEntryVM : BotViewModel, System.ComponentModel.INotifyPropertyChanged
+    /// <summary>
+    /// Account character wrapper to be used in a list 
+    /// </summary>
+    public class VMAccountCharacterEntry : BotViewModel, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
         /// Is list item in XAML List View control currently selected

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace BeforeOurTime.MobileApp.Pages.Account.Login
 {
+    /// <summary>
+    /// Account wrapper to be used in a list 
+    /// </summary>
     public class AccountListEntryVM : BotViewModel, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>

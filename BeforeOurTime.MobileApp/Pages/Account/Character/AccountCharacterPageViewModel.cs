@@ -17,12 +17,12 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
         /// <summary>
         /// List of all characters owned by account
         /// </summary>
-        public List<AccountCharacterListEntryVM> Characters
+        public List<VMAccountCharacterEntry> Characters
         {
             get { return _characters; }
             set { _characters = value; NotifyPropertyChanged("Characters"); }
         }
-        private List<AccountCharacterListEntryVM> _characters { set; get; } = new List<AccountCharacterListEntryVM>();
+        private List<VMAccountCharacterEntry> _characters { set; get; } = new List<VMAccountCharacterEntry>();
         /// <summary>
         /// Account character currently being played
         /// </summary>
@@ -56,12 +56,12 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
                 {
                     throw new Exception("Not logged in");
                 }
-                Characters = new List<AccountCharacterListEntryVM>();
+                Characters = new List<VMAccountCharacterEntry>();
                 var results = await Container.Resolve<ICharacterService>()
                     .GetAccountCharactersAsync(accountId.Value, force);
                 results?.ForEach(result =>
                 {
-                    Characters.Add(new AccountCharacterListEntryVM()
+                    Characters.Add(new VMAccountCharacterEntry()
                     {
                         IsSelected = false,
                         CharacterItem = result

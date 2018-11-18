@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Account.Character.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
                     {
                         character.IsSelected = false;
                     });
-                    ((AccountCharacterListEntryVM)CharacterListView.SelectedItem).IsSelected = true;
+                    ((VMAccountCharacterEntry)CharacterListView.SelectedItem).IsSelected = true;
                     ((ListView)sender).SelectedItem = null;
                 }
             }
@@ -76,6 +77,18 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
+        }
+        /// <summary>
+        /// Open character update modal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+            var updateLoginPage = new UpdateCharacterPage(
+                Container,
+                ViewModel.Characters.Where(x => x.IsSelected == true).Select(x => x.CharacterItem).First());
+            await Navigation.PushModalAsync(updateLoginPage);
         }
     }
 }

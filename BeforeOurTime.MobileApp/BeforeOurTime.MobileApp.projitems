@@ -10,6 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Account\Character\Update\UpdateCharacterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -43,7 +47,13 @@
       <DependentUpon>AccountPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\AccountCharacterListEntryVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\Update\UpdateCharacterPage.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>UpdateCharacterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\Update\VMUpdateCharacterPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\Update\VMUpdateCharacter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\VMAccountCharacterEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Account\Character\AccountCharacterPage.xaml.cs">
       <DependentUpon>AccountCharacterPage.xaml</DependentUpon>
       <SubType>Code</SubType>

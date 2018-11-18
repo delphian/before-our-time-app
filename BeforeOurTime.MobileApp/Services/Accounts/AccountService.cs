@@ -187,6 +187,7 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 throw new Exception($"{response._responseMessage}");
             }
             Account = response.Account;
+            Account.Password = NewPassword;
             Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
             await Application.Current.SavePropertiesAsync();
             return Account;

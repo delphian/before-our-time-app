@@ -1,4 +1,5 @@
-﻿using BeforeOurTime.Models.Modules.World.Models.Items;
+﻿using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,6 +34,15 @@ namespace BeforeOurTime.MobileApp.Services.Characters
             Guid accountId,
             string name,
             bool temporary = false);
+        /// <summary>
+        /// Register a character from temporary to permenant
+        /// </summary>
+        /// <param name="characterId">Unique item identifier of character</param>
+        /// <param name="name">Name of character</param>
+        /// <returns>Item guid of new character item</returns>
+        Task<Item> RegisterCharacterAsync(
+            Guid characterId,
+            string name);
         /// <summary>
         /// Choose an account character to play
         /// </summary>

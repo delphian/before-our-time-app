@@ -57,6 +57,7 @@
                                                 CornerRadius="10"
                                                 BorderColor="Black" />
                                             <Button Text="Edit"
+                                                Clicked="EditButton_Clicked"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
                                                 Margin="0, 0, 0, 0"
