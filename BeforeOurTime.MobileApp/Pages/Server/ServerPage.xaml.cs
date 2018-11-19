@@ -97,7 +97,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             }
             catch (AuthenticationDeniedException)
             {
-                await DisplayAlert("Error", $"The previously saved name or password is invalid. A temporary account will be used instead. Please try and connect again.", "Ok");
+                await DisplayAlert("Error", $"Username or password is invalid. If you wish to use a trial account please leave the login name and password blank. Please try and connect again.", "Ok");
                 Application.Current.Properties.Clear();
                 await Application.Current.SavePropertiesAsync();
                 ViewModel.Settings = new Models.Settings();
