@@ -17,31 +17,7 @@
                    BorderColor="Black">
                 <StackLayout>
                     <StackLayout IsVisible="{Binding VMUpdateCharacter.Temporary, Converter={StaticResource inverter}}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="2*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Text="Old Password" Grid.Row="0" Grid.Column="0" />
-                            <Label Text="New Password" Grid.Row="1" Grid.Column="0" />
-                            <Entry Text="{Binding VMUpdateAccount.OldPassword}"
-                                   HorizontalOptions="FillAndExpand"
-                                   Grid.Row="0" Grid.Column="1"
-                                   IsPassword="True" />
-                            <StackLayout Grid.Row="1" Grid.Column="1">
-                                <Entry Text="{Binding VMUpdateAccount.NewPassword}"
-                                       HorizontalOptions="FillAndExpand"
-                                       IsPassword="True" />
-                                <Entry Text="{Binding VMUpdateAccount.NewPasswordConfirm}"
-                                       Placeholder="Confirm Password"
-                                       HorizontalOptions="FillAndExpand"
-                                       IsPassword="True" />
-                            </StackLayout>
-                        </Grid>
+                        <Label Text="Nothing here!"></Label>
                         <StackLayout Orientation="Horizontal">
                             <Button Text="Update"
                                     HorizontalOptions="FillAndExpand"

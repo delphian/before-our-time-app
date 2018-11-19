@@ -220,8 +220,9 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var suffix = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                var newPassword = new string(Enumerable.Repeat(chars, 8).Select(s => s[random.Next(s.Length)]).ToArray());
                 email = "Account_" + suffix;
-                account = await AccountService.RegisterAsync(email, "password", true);
+                account = await AccountService.RegisterAsync(email, newPassword, true);
             }
             else
             {

@@ -42,7 +42,7 @@ namespace BeforeOurTime.MobileApp.Pages.Main
         }
         public async void OnTappedAccount(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Accounts.AccountPage(Container));
+            await Navigation.PushAsync(new Account.AccountPage(Container));
         }
         public async void OnTappedServer(object sender, EventArgs e)
         {
