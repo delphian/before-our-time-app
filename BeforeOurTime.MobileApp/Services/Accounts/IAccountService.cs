@@ -1,4 +1,6 @@
-﻿using BeforeOurTime.Models.Modules.Account.Models;
+﻿using BeforeOurTime.Models.Modules.Account.Messages.Json;
+using BeforeOurTime.Models.Modules.Account.Models;
+using BeforeOurTime.Models.Modules.Account.Models.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,6 +60,20 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// </summary>
         /// <returns></returns>
         Account GetAccount();
+        /// <summary>
+        /// Read account data
+        /// </summary>
+        /// <param name="accountIds">List of account ids to retrieve data on, or null for all</param>
+        /// <returns></returns>
+        Task<List<AccountData>> ReadAccountDataAsync(
+            List<Guid> accountIds = null);
+        /// <summary>
+        /// Read account data in json format
+        /// </summary>
+        /// <param name="accountIds">List of account ids to retrieve json data on, or null for all</param>
+        /// <returns></returns>
+        Task<List<AccountJson>> ReadAccountDataJsonAsync(
+            List<Guid> accountIds = null);
         /// <summary>
         /// Get the current login state
         /// </summary>

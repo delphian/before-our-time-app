@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Account;
 using BeforeOurTime.MobileApp.Pages.Admin;
+using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor;
+using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup;
 using BeforeOurTime.MobileApp.Pages.Admin.Debug;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor;
 using BeforeOurTime.MobileApp.Pages.Game;
@@ -61,6 +63,12 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                 });
                 if (account.Admin)
                 {
+                    menuItemsArray = menuItemsArray.Append(new PlayPageMenuItem()
+                    {
+                        Id = 5,
+                        Title = "Account Editor",
+                        TargetType = typeof(AccountEditorPage)
+                    });
                     menuItemsArray = menuItemsArray.Append(new PlayPageMenuItem()
                     {
                         Id = 2,

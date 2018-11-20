@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List.AccountEditorListPage">
+    <ContentPage.Resources>
+        <converters:NotBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout IsVisible="{Binding Working}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <ActivityIndicator Color="Blue" IsRunning="True" IsVisible="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding Working, Converter={StaticResource inverter}}"
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand">
+                <ListView 
+                        x:Name="AccountListView"
+                        IsVisible="True"
+                        ItemsSource="{Binding AccountList}" 
+                        ItemSelected="AccountListView_ItemSelected"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        HasUnevenRows="True"
+                        Margin="0, 10, 0, 0">
+                    <ListView.Header>
+                        <Label Text="Select Account to Edit" 
+                               FontSize="Medium"
+                               Margin="0, 0, 0, 10"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame BorderColor="LightGray" Margin="0" Padding="4" VerticalOptions="FillAndExpand" >
+                                    <StackLayout BackgroundColor="WhiteSmoke" 
+                                                    Orientation="Horizontal"
+                                                    VerticalOptions="FillAndExpand"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Padding="0">
+                                        <StackLayout 
+                                                Orientation="Vertical" 
+                                                Padding="0" Margin="2" 
+                                                VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
+                                            <Label FontAttributes="Bold" Text="{Binding AccountItem.Name}"></Label>
+                                            <Label Text="{Binding Id}"></Label>
+                                        </StackLayout>
+                                        <StackLayout IsVisible="{Binding IsSelected}" 
+                                                         Orientation="Horizontal"
+                                                         HorizontalOptions="EndAndExpand"
+                                                         VerticalOptions="CenterAndExpand">
+                                            <Button Text="Edit"
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Center"
+                                                    Margin="0, 0, 0, 0"
+                                                    BackgroundColor="Yellow"
+                                                    CornerRadius="10"
+                                                    BorderColor="Black" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

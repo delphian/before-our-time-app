@@ -2,11 +2,15 @@
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.Json;
+using BeforeOurTime.Models.Modules.Account.Messages.Json.ReadAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.ReadAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.UpdateAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.UpdatePassword;
 using BeforeOurTime.Models.Modules.Account.Models;
+using BeforeOurTime.Models.Modules.Account.Models.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -245,6 +249,42 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 }
             }
             return Account;
+        }
+        /// <summary>
+        /// Read account data
+        /// </summary>
+        /// <param name="accountIds">List of account ids to retrieve data on, or null for all</param>
+        /// <returns></returns>
+        public async Task<List<AccountData>> ReadAccountDataAsync(List<Guid> accountIds = null)
+        {
+            var result = await MessageService
+                .SendRequestAsync<AccountReadAccountResponse>(new AccountReadAccountRequest()
+                {
+                    AccountIds = accountIds
+                });
+            if (!result.IsSuccess())
+            {
+                throw new Exception($"{result._responseMessage}");
+            }
+            return result.Accounts;
+        }
+        /// <summary>
+        /// Read account data in json format
+        /// </summary>
+        /// <param name="accountIds">List of account ids to retrieve json data on, or null for all</param>
+        /// <returns></returns>
+        public async Task<List<AccountJson>> ReadAccountDataJsonAsync(List<Guid> accountIds = null)
+        {
+            var result = await MessageService
+                .SendRequestAsync<AccountJsonReadAccountResponse>(new AccountJsonReadAccountRequest()
+                {
+                    AccountIds = accountIds
+                });
+            if (!result.IsSuccess())
+            {
+                throw new Exception($"{result._responseMessage}");
+            }
+            return result.Accounts;
         }
         /// <summary>
         /// Set the new WebSocket connection state and propogate event

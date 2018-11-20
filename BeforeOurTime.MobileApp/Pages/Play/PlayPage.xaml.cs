@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin;
+using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor;
+using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup;
 using BeforeOurTime.MobileApp.Pages.Admin.Debug;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor;
 using BeforeOurTime.MobileApp.Services.Accounts;
@@ -44,6 +46,7 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                 return;
             var account = Container.Resolve<IAccountService>().GetAccount();
             if (!account.Admin && (item.TargetType == typeof(EditorPage) ||
+                                   item.TargetType == typeof(AccountEditorPage) ||
                                    item.TargetType == typeof(DebugPage)))
             {
                 await DisplayAlert("Error", "Not Authorized", "Ok");
