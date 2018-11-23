@@ -45,6 +45,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup
             JsonAccounts = JsonConvert.SerializeObject(accountDatas, Formatting.Indented);
         }
         /// <summary>
+        /// Restore accounts on server from backup json
+        /// </summary>
+        /// <returns></returns>
+        public async Task RestoreJsonAccounts()
+        {
+            await AccountService.RestoreAccountDataAsync(JsonAccounts);
+        }
+        /// <summary>
         /// Copy JSON encoded item backup to system clipboard
         /// </summary>
         public void CopyToClipboard()

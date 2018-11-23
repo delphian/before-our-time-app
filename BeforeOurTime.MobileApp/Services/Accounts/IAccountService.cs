@@ -75,6 +75,12 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         Task<List<AccountJson>> ReadAccountDataJsonAsync(
             List<Guid> accountIds = null);
         /// <summary>
+        /// Restore accounts on server from json backup file
+        /// </summary>
+        /// <param name="accountsJson">JSON backup file of accounts</param>
+        /// <returns></returns>
+        Task RestoreAccountDataAsync(string accountsJson);
+        /// <summary>
         /// Get the current login state
         /// </summary>
         /// <returns></returns>

@@ -53,6 +53,27 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup
             }
         }
         /// <summary>
+        /// Restore account backup to server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonRestore_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewModel.Working = true;
+                await ViewModel.RestoreJsonAccounts();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Alert", "Unable to restore accounts to server. " + ex.Message, "Curses!");
+            }
+            finally
+            {
+                ViewModel.Working = false;
+            }
+        }
+        /// <summary>
         /// Copy json items string into system clipboard
         /// </summary>
         /// <param name="sender"></param>

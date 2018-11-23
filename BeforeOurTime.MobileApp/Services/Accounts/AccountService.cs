@@ -4,6 +4,7 @@ using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.Json;
 using BeforeOurTime.Models.Modules.Account.Messages.Json.ReadAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.Json.RestoreAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LoginAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.LogoutAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.ReadAccount;
@@ -267,6 +268,23 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
                 throw new Exception($"{result._responseMessage}");
             }
             return result.Accounts;
+        }
+        /// <summary>
+        /// Restore accounts on server from json backup file
+        /// </summary>
+        /// <param name="accountsJson">JSON backup file of accounts</param>
+        /// <returns></returns>
+        public async Task RestoreAccountDataAsync(string accountsJson)
+        {
+            var result = await MessageService
+                .SendRequestAsync<AccountJsonRestoreAccountResponse>(new AccountJsonRestoreAccountRequest()
+                {
+                    AccountsJson = accountsJson
+                });
+            if (!result.IsSuccess())
+            {
+                throw new Exception($"{result._responseMessage}");
+            }
         }
         /// <summary>
         /// Read account data in json format

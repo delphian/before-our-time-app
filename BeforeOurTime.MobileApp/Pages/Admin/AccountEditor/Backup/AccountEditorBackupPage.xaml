@@ -30,13 +30,24 @@
                         VerticalOptions="End"
                         HorizontalOptions="FillAndExpand"
                         BackgroundColor="LightGreen"
-                        FlexLayout.Basis="50%"></Button>
+                        FlexLayout.Basis="40%"
+                        Margin="2"
+                        BorderRadius="10"></Button>
                     <Button Text="Copy"
                         Clicked="ButtonCopy_Clicked"
                         VerticalOptions="End"
                         HorizontalOptions="FillAndExpand"
                         BackgroundColor="LightGreen"
-                        FlexLayout.Basis="50%"></Button>
+                        FlexLayout.Basis="40%"
+                        Margin="2"
+                        BorderRadius="10"></Button>
+                    <Button Text="Restore"
+                        Clicked="ButtonRestore_Clicked"
+                        VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="Red"
+                        FlexLayout.Basis="20%"
+                        Margin="2"></Button>
                 </FlexLayout>
             </StackLayout>
         </StackLayout>
