@@ -2,6 +2,7 @@
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -92,6 +93,31 @@ namespace BeforeOurTime.MobileApp.Controls
                     });
                 }
             });
+        }
+        /// <summary>
+        /// Draw a border highlight around the currently selected item
+        /// </summary>
+        /// <param name="item"></param>
+        public void SetHighlight(Item item)
+        {
+            // Remove highlight from all
+            Children
+                .Where(x => x.GetType() == typeof(ItemIconButtonControl))
+                .Where(x => ((ItemIconButtonControl)x).BorderColor != Color.Transparent)
+                .ToList()
+                .ForEach(button =>
+                {
+                    ((ItemIconButtonControl)button).BorderColor = Color.Transparent;
+                });
+            if (item != null)
+            {
+                // Highlight selected item
+                var button = (ItemIconButtonControl)Children
+                    .Where(x => x.GetType() == typeof(ItemIconButtonControl))
+                    .Where(x => ((ItemIconButtonControl)x).Item.Id == item.Id)
+                    .FirstOrDefault();
+                button.BorderColor = Color.LightBlue;
+            }
         }
     }
 }

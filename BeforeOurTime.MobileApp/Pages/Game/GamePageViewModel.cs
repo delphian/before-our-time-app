@@ -161,6 +161,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private VMEmotes _vmEmotes { set; get; }
         /// <summary>
+        /// View model for all item commands
+        /// </summary>
+        public VMItemCommands VMItemCommands
+        {
+            get { return _vmItemCommands; }
+            set { _vmItemCommands = value; NotifyPropertyChanged("VMItemCommands"); }
+        }
+        private VMItemCommands _vmItemCommands { set; get; }
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
@@ -168,7 +177,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
-            _vmEmotes = new VMEmotes(Container);
+            VMEmotes = new VMEmotes(Container);
+            VMItemCommands = new VMItemCommands(Container);
             ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
             GameService.GetLocationSummary().ContinueWith((summaryTask) =>
@@ -181,8 +191,10 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 var control = (ItemTableControl)itemTableControl;
                 SelectedItem = control?.SelectedItem;
                 IsItemSelected = (SelectedItem != null);
+                control.SetHighlight(SelectedItem);
                 SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleProperty>();
-                Commands = SelectedItem?.GetProperty<CommandProperty>()?.Commands;
+                VMItemCommands.ClearItemCommands();
+                VMItemCommands.AddItemCommands(SelectedItem);
             });
         }
         /// <summary>

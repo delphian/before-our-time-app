@@ -98,19 +98,20 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             }
         }
         /// <summary>
-        /// Select an exit
+        /// Perform an emote
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void CommandListView_ItemSelected(object sender, EventArgs e)
+        public async void ItemCommandPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            var command = ((BeforeOurTime.Models.Modules.Core.Models.Properties.Command)((ListView)sender).SelectedItem);
-            var useRequest = new CoreUseItemRequest()
+            try
             {
-                ItemId = ViewModel.SelectedItem.Id,
-                Use = command
-            };
-            await Container.Resolve<IMessageService>().SendAsync(useRequest);
+                await ViewModel.VMItemCommands.PerformSelectedCommand();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
         }
     }
 }

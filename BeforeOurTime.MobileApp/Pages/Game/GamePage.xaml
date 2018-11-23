@@ -89,28 +89,15 @@
                         SelectedItem="{Binding VMEmotes.SelectedEmote}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
-                    <StackLayout IsVisible="{Binding IsItemSelected}"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand">
-                        <ListView
-                            ItemSelected="CommandListView_ItemSelected"
-                            ItemsSource="{Binding Commands}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <Frame 
-                                            BorderColor="LightGray"
-                                            Padding="0">
-                                            <Label 
-                                                Text="{Binding Name}"
-                                                HorizontalOptions="CenterAndExpand"
-                                                Margin="4"></Label>
-                                        </Frame>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackLayout>
+                    <Picker x:Name="ItemCommandPicker"
+                        IsVisible="{Binding IsItemSelected}"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Title="Selected"
+                        ItemsSource="{Binding VMItemCommands.ItemCommands}" 
+                        SelectedItem="{Binding VMItemCommands.SelectedCommand}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedIndexChanged="ItemCommandPicker_OnSelectedIndexChanged" />
                 </StackLayout>
             </FlexLayout>
         </FlexLayout>
