@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Controls;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
@@ -106,7 +107,21 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             try
             {
-                await ViewModel.VMItemCommands.PerformSelectedCommand();
+                var itemCommand = (VMItemCommand)((Picker)sender).SelectedItem;
+                if (itemCommand != null)
+                {
+                    if (itemCommand.Name == "* Edit JSON")
+                    {
+                        var itemId = itemCommand.Item.Id;
+                        await Navigation.PushModalAsync(new JsonEditorPage(Container)).ConfigureAwait(false);
+                        MessagingCenter.Send<ContentPage, Guid>(this, "CRUDEditorPage:Load", itemId);
+                        ((Picker)sender).SelectedItem = null;
+                    }
+                    else
+                    {
+                        await ViewModel.VMItemCommands.PerformSelectedCommand();
+                    }
+                }
             }
             catch (Exception ex)
             {

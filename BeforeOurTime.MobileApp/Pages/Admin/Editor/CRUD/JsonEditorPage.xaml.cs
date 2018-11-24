@@ -67,6 +67,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             }
         }
         /// <summary>
+        /// Cancel and close page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonItemCancel_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
+        }
+        /// <summary>
         /// Read an item
         /// </summary>
         /// <param name="sender"></param>

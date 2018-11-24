@@ -1,9 +1,11 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using BeforeOurTime.Models.Modules.World.Models.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,14 +51,13 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             MessageService = Container.Resolve<IMessageService>();
-            ItemCommands.Add(new VMItemCommand() { Name = "Test" });
         }
         /// <summary>
         /// Remove any item specific commands
         /// </summary>
         public void ClearItemCommands()
         {
-            ItemCommands.RemoveAll(x => x.Command != null);
+            ItemCommands.RemoveAll(x => x.Item != null);
         }
         /// <summary>
         /// Add all commands from an item to list of commands
@@ -64,16 +65,27 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <param name="item"></param>
         public void AddItemCommands(Item item)
         {
-            item?.GetProperty<CommandProperty>()?.Commands?.ForEach(command =>
+            if (item != null)
             {
-                ItemCommands.Add(new VMItemCommand()
+                if (Container.Resolve<IAccountService>().GetAccount().Admin)
                 {
-                    Name = command.Name,
-                    Item = item,
-                    Command = command
+                    ItemCommands.Add(new VMItemCommand()
+                    {
+                        Name = "* Edit JSON",
+                        Item = item
+                    });
+                }
+                item?.GetProperty<CommandProperty>()?.Commands?.ForEach(command =>
+                {
+                    ItemCommands.Add(new VMItemCommand()
+                    {
+                        Name = command.Name,
+                        Item = item,
+                        Command = command
+                    });
                 });
-            });
-            ItemCommands = ItemCommands.ToList();
+                ItemCommands = ItemCommands.ToList();
+            }
         }
         /// <summary>
         /// Perform the selected item command
