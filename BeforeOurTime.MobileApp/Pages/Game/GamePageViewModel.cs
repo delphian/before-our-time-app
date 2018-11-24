@@ -21,6 +21,8 @@ using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
+using BeforeOurTime.Models.Modules.Account.Models.Data;
+using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -34,10 +36,20 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Depedency injection container
         /// </summary>
         private IContainer Container { set; get; }
+        private IMessageService MessageService { set; get; }
         /// <summary>
         /// Player's character
         /// </summary>
         private Item Me { set; get; }
+        /// <summary>
+        /// Current account has administrative permissions
+        /// </summary>
+        public bool IsAdmin
+        {
+            get { return _isAdmin; }
+            set { _isAdmin = value; NotifyPropertyChanged("IsAdmin"); }
+        }
+        private bool _isAdmin { set; get; }
         /// <summary>
         /// Current location item
         /// </summary>
@@ -177,8 +189,9 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
+            MessageService = Container.Resolve<IMessageService>();
+            IsAdmin = Me.GetData<AccountData>().Admin;
             VMEmotes = new VMEmotes(Container);
-            VMItemCommands = new VMItemCommands(Container);
             ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
             GameService.GetLocationSummary().ContinueWith((summaryTask) =>
@@ -264,6 +277,10 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             };
             await Container.Resolve<IMessageService>().SendAsync(useRequest);
         }
+        /// <summary>
+        /// Location has updated
+        /// </summary>
+        /// <param name="listLocationResponse"></param>
         private void ProcessListLocationResponse(WorldReadLocationSummaryResponse listLocationResponse)
         {
             SelectedItem = null;
@@ -273,6 +290,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             LocationDescription = listLocationResponse.Item.Visible.Description;
             Characters = listLocationResponse.Characters;
             Objects = listLocationResponse.Items;
+            VMItemCommands = new VMItemCommands(Container, Location);
             ProcessExits(listLocationResponse);
         }
         private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)
@@ -302,6 +320,31 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     .FirstOrDefault());
                 // Force notify to fire
                 Objects = Objects.ToList();
+            }
+        }
+        /// <summary>
+        /// Create new location and link through exits to current location
+        /// </summary>
+        public async Task CreateFromCurrentLocation()
+        {
+            try
+            {
+                var fromLocationItemId = Location.Id;
+                var result = await MessageService
+                    .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
+                    {
+                        FromLocationItemId = fromLocationItemId
+                    });
+                if (!result.IsSuccess())
+                {
+                    throw new Exception(result._responseMessage);
+                }
+                var GameService = Container.Resolve<IGameService>();
+                await GameService.GetLocationSummary().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
         /// <summary>

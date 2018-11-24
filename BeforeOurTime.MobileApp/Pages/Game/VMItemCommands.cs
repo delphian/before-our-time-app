@@ -47,7 +47,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
-        public VMItemCommands(IContainer container)
+        public VMItemCommands(IContainer container, Item locationItem)
         {
             Container = container;
             MessageService = Container.Resolve<IMessageService>();

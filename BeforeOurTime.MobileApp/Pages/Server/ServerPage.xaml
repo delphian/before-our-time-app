@@ -60,6 +60,7 @@
                         IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
                     <Entry Text="{Binding LoginPassword}" 
                         Placeholder="Login Password"
+                        IsPassword="true"
                         IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
                 </StackLayout>
             </StackLayout>

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
@@ -76,6 +77,41 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 await ViewModel.UseExit("south");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        /// <summary>
+        /// Edit current location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonLocationEdit_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var itemId = ViewModel.Location.Id;
+                await Navigation.PushModalAsync(new LocationEditorPage(Container)).ConfigureAwait(false);
+                MessagingCenter.Send<ContentPage, Guid>(this, "LocationEditorPage:Load", itemId);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        /// <summary>
+        /// Create new location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonLocationCreate_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.CreateFromCurrentLocation();
+                await DisplayAlert("Success", "Created a new location", "Ok");
             }
             catch (Exception ex)
             {

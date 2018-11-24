@@ -34,6 +34,18 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
 			InitializeComponent();
             Container = container;
             BindingContext = ViewModel = new LocationEditorPageViewModel(container);
+            // Allow other page to load items into the json editor
+            MessagingCenter.Subscribe<ContentPage, Guid>(this, "LocationEditorPage:Load", async (sender, guid) =>
+            {
+                try
+                {
+                    ViewModel.PreSelectLocation = guid;
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", e.Message, "OK, Maybe Tomorrow");
+                }
+            });
         }
         /// <summary>
         /// Refresh list of locations from server each time page appears
@@ -84,6 +96,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .Where(x => x.GetType() == typeof(ExitEditorPage))
                     .First();
             }
+        }
+        /// <summary>
+        /// Cancel and close modal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonCancel_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
         }
         /// <summary>
         /// Update location

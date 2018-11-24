@@ -34,6 +34,10 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// </summary>
         private List<LocationItem> _locations { set; get; }
         /// <summary>
+        /// Specify to automatically load one of the locations into editor
+        /// </summary>
+        public Guid? PreSelectLocation { set; get; }
+        /// <summary>
         /// List of all locations as view models
         /// </summary>
         public List<ViewModelLocation> VMLocations
@@ -118,6 +122,12 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         });
                     });
                     VMLocations = vmLocations;
+                }
+                if (PreSelectLocation != null)
+                {
+                    VMSelectedLocation = VMLocations
+                        .Where(x => x.ItemId == PreSelectLocation.Value.ToString())
+                        .FirstOrDefault();
                 }
             }
             catch (Exception e)

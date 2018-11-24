@@ -56,29 +56,37 @@
                                     HorizontalOptions="FillAndExpand"
                                     Direction="Row"
                                     JustifyContent="SpaceEvenly">
-                            <Button Text="Update"
-                                    Clicked="ButtonUpdate_Clicked"
+                            <Button Text="Cancel"
+                                    Clicked="ButtonCancel_Clicked"
                                     BackgroundColor="LightGreen"
                                     Margin="2"
-                                    FlexLayout.Basis="25%"></Button>
+                                    BorderRadius="10"
+                                    FlexLayout.Basis="20%"></Button>
                             <Button Text="JSON"
                                     IsEnabled="{Binding LocationSelected}"
                                     Clicked="ButtonJson_Clicked"
                                     BackgroundColor="LightGreen"
                                     Margin="2"
-                                    FlexLayout.Basis="25%"></Button>
+                                    FlexLayout.Basis="20%"
+                                    FlexLayout.Shrink="1"
+                                    BorderRadius="10"></Button>
+                            <Button Text="Update"
+                                    Clicked="ButtonUpdate_Clicked"
+                                    BackgroundColor="Yellow"
+                                    Margin="2"
+                                    FlexLayout.Basis="20%"></Button>
                             <Button Text="Create From Here"
                                     IsEnabled="{Binding LocationSelected}"
                                     Clicked="ButtonAddLocation_OnClicked"
-                                    BackgroundColor="LightGreen"
+                                    BackgroundColor="Yellow"
                                     Margin="2"
-                                    FlexLayout.Basis="25%"></Button>
+                                    FlexLayout.Basis="20%"></Button>
                             <Button Text="Delete"
                                     IsEnabled="{Binding LocationSelected}"
                                     Clicked="ButtonDelete_Clicked"
                                     BackgroundColor="Red"
                                     Margin="2"
-                                    FlexLayout.Basis="25%"></Button>
+                                    FlexLayout.Basis="20%"></Button>
                         </FlexLayout>
                     </StackLayout>
                 </StackLayout>
