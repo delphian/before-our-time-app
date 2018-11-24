@@ -93,8 +93,9 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 var itemId = ViewModel.Location.Id;
-                await Navigation.PushModalAsync(new LocationEditorPage(Container)).ConfigureAwait(false);
-                MessagingCenter.Send<ContentPage, Guid>(this, "LocationEditorPage:Load", itemId);
+                var locationEditorPage = new LocationEditorPage(Container);
+                locationEditorPage.ViewModel.PreSelectLocation = itemId;
+                await Navigation.PushModalAsync(locationEditorPage);
             }
             catch (Exception ex)
             {
@@ -149,8 +150,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     if (itemCommand.Name == "* Edit JSON")
                     {
                         var itemId = itemCommand.Item.Id;
-                        await Navigation.PushModalAsync(new JsonEditorPage(Container)).ConfigureAwait(false);
-                        MessagingCenter.Send<ContentPage, Guid>(this, "CRUDEditorPage:Load", itemId);
+
+                        var jsonEditorPage = new JsonEditorPage(Container);
+                        jsonEditorPage.ViewModel.ItemId = itemId.ToString();
+                        await jsonEditorPage.ViewModel.ReadItem();
+                        await Navigation.PushModalAsync(jsonEditorPage);
                         ((Picker)sender).SelectedItem = null;
                     }
                     else

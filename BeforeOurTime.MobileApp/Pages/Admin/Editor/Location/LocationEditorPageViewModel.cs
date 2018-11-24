@@ -128,6 +128,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     VMSelectedLocation = VMLocations
                         .Where(x => x.ItemId == PreSelectLocation.Value.ToString())
                         .FirstOrDefault();
+                    PreSelectLocation = null;
                 }
             }
             catch (Exception e)
