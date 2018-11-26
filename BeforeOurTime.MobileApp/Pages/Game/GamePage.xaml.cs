@@ -120,6 +120,23 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             }
         }
         /// <summary>
+        /// Create new generic item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonItemCreate_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await ViewModel.CreateGenericItem();
+                await DisplayAlert("Success", "Created new item", "Ok");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        /// <summary>
         /// Perform an emote
         /// </summary>
         /// <param name="sender"></param>

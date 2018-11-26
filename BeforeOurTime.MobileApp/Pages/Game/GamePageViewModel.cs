@@ -17,12 +17,14 @@ using BeforeOurTime.MobileApp.Controls;
 using System.Windows.Input;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System.Threading.Tasks;
-using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
+using BeforeOurTime.Models.Modules.Core.Models.Data;
+using BeforeOurTime.Models.Modules.World.Models.Data;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -334,6 +336,48 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
                     {
                         FromLocationItemId = fromLocationItemId
+                    });
+                if (!result.IsSuccess())
+                {
+                    throw new Exception(result._responseMessage);
+                }
+                var GameService = Container.Resolve<IGameService>();
+                await GameService.GetLocationSummary().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        /// <summary>
+        /// Create new generic item at current location
+        /// </summary>
+        public async Task CreateGenericItem()
+        {
+            try
+            {
+                var fromLocationItemId = Location.Id;
+                var result = await MessageService
+                    .SendRequestAsync<CoreCreateItemCrudResponse>(new CoreCreateItemCrudRequest()
+                    {
+                        Item = new Item()
+                        {
+                            ParentId = fromLocationItemId,
+                            Type = ItemType.Unknown,
+                            Data = new List<IItemData>()
+                            {
+                                new VisibleItemData()
+                                {
+                                    Name = "New Item",
+                                    Description = "New description"
+                                },
+                                new PhysicalItemData()
+                                {
+                                    Mobile = true,
+                                    Weight = 0
+                                }
+                            }
+                        }
                     });
                 if (!result.IsSuccess())
                 {
