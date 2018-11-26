@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
@@ -96,6 +97,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 var locationEditorPage = new LocationEditorPage(Container);
                 locationEditorPage.ViewModel.PreSelectLocation = itemId;
                 await Navigation.PushModalAsync(locationEditorPage);
+                await Container.Resolve<IGameService>()
+                    .GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -112,7 +115,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 await ViewModel.CreateFromCurrentLocation();
-                await DisplayAlert("Success", "Created a new location", "Ok");
+                await Container.Resolve<IGameService>()
+                    .GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -129,7 +133,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 await ViewModel.CreateGenericItem();
-                await DisplayAlert("Success", "Created new item", "Ok");
+                await Container.Resolve<IGameService>()
+                    .GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -173,6 +178,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                         await jsonEditorPage.ViewModel.ReadItem();
                         await Navigation.PushModalAsync(jsonEditorPage);
                         ((Picker)sender).SelectedItem = null;
+                        await Container.Resolve<IGameService>()
+                            .GetLocationSummary().ConfigureAwait(false);
                     }
                     else
                     {

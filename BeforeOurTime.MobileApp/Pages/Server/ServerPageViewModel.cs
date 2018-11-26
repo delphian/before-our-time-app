@@ -136,6 +136,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             }
             var account = AccountService.GetAccount();
             LoginEmail = account?.Name;
+            LoginPassword = account?.Password;
         }
         /// <summary>
         /// Update connection status based on WebSocket state

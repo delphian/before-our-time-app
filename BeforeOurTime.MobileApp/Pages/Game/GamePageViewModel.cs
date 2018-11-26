@@ -341,8 +341,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 {
                     throw new Exception(result._responseMessage);
                 }
-                var GameService = Container.Resolve<IGameService>();
-                await GameService.GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -383,8 +381,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 {
                     throw new Exception(result._responseMessage);
                 }
-                var GameService = Container.Resolve<IGameService>();
-                await GameService.GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception e)
             {
