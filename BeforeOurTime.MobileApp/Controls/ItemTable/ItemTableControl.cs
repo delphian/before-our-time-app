@@ -88,7 +88,7 @@ namespace BeforeOurTime.MobileApp.Controls
                         ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
                         Image = null,
                         Name = visible.Name,
-                        HeightRequest = 50,
+                        HeightRequest = 68,
                         WidthRequest = 68
                     });
                 }

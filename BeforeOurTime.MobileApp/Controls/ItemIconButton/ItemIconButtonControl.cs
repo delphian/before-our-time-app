@@ -92,7 +92,7 @@ namespace BeforeOurTime.MobileApp.Controls
         /// </summary>
         public ItemIconButtonControl()
         {
-            this.Padding = 2;
+            this.Padding = 1;
             this.Margin = 1;
             _flexLayout.VerticalOptions = LayoutOptions.FillAndExpand;
             _flexLayout.HorizontalOptions = LayoutOptions.FillAndExpand;
@@ -109,13 +109,16 @@ namespace BeforeOurTime.MobileApp.Controls
             _flexLayout.GestureRecognizers.Add(recognizer);
             _icon.Margin = 0;
             _icon.ForceMaxHeight = true;
-            FlexLayout.SetBasis(_icon, 0.75f);
-            FlexLayout.SetGrow(_icon, 1);
+//            _icon.VerticalOptions = LayoutOptions.FillAndExpand;
+//            _icon.HorizontalOptions = LayoutOptions.FillAndExpand;
+            FlexLayout.SetBasis(_icon, new FlexBasis(0.7f, true));
             _flexLayout.Children.Add(_icon);
             _name.FontSize = 9;
             _name.FontFamily = "Arial Narrow";
             _name.Margin = new Thickness(0, 0, 0, 0);
-            FlexLayout.SetBasis(_name, FlexBasis.Auto);
+            _name.HorizontalOptions = LayoutOptions.Center;
+            _name.HorizontalTextAlignment = TextAlignment.Center;
+            FlexLayout.SetBasis(_name, new FlexBasis(0.3f, true));
             FlexLayout.SetAlignSelf(_name, FlexAlignSelf.Center);
             _flexLayout.Children.Add(_name);
             Content = _flexLayout;
