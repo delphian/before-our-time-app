@@ -33,6 +33,11 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
         /// </summary>
         Task CloseAsync();
         /// <summary>
+        /// Send message to server asyncronously
+        /// </summary>
+        /// <param name="message"></param>
+        IWebSocketService Send(string message);
+        /// <summary>
         /// Send message to server
         /// </summary>
         /// <param name="message"></param>

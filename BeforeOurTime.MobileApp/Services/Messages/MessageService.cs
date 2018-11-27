@@ -92,6 +92,18 @@ namespace BeforeOurTime.MobileApp.Services.Messages
         /// Send a message to the server
         /// </summary>
         /// <param name="message"></param>
+        public IMessageService Send(IMessage message)
+        {
+            LoggerService.Log(LogLevel.Information, $"Sending message: {message.GetMessageName()}");
+            var messageJson = JsonConvert.SerializeObject(message);
+            LoggerService.Log(LogLevel.Debug, $"Sending message: {messageJson}");
+            WsService.Send(messageJson);
+            return this;
+        }
+        /// <summary>
+        /// Send a message to the server asyncronously
+        /// </summary>
+        /// <param name="message"></param>
         public async Task SendAsync(IMessage message)
         {
             LoggerService.Log(LogLevel.Information, $"Sending message: {message.GetMessageName()}");

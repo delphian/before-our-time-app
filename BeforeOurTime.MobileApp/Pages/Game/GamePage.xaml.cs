@@ -7,6 +7,7 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
+using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Dependency injection container
         /// </summary>
         private IContainer Container { set; get; }
+        private IMessageService MessageService { set; get; }
         /// <summary>
         /// View model
         /// </summary>
@@ -38,6 +40,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
 		{
 			InitializeComponent();
             Container = container;
+            MessageService = container.Resolve<IMessageService>();
             BindingContext = ViewModel = new GamePageViewModel(Container);
         }
         public async void ButtonWest_OnClicked(object sender, EventArgs e)
@@ -96,9 +99,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 var itemId = ViewModel.Location.Id;
                 var locationEditorPage = new LocationEditorPage(Container);
                 locationEditorPage.ViewModel.PreSelectLocation = itemId;
+                locationEditorPage.Disappearing += (disSender, disE) =>
+                {
+                    MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                };
                 await Navigation.PushModalAsync(locationEditorPage);
-                await Container.Resolve<IGameService>()
-                    .GetLocationSummary().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -115,8 +120,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 await ViewModel.CreateFromCurrentLocation();
-                await Container.Resolve<IGameService>()
-                    .GetLocationSummary().ConfigureAwait(false);
+                MessageService.Send(new WorldReadLocationSummaryRequest() { });
             }
             catch (Exception ex)
             {
@@ -133,8 +137,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             try
             {
                 await ViewModel.CreateGenericItem();
-                await Container.Resolve<IGameService>()
-                    .GetLocationSummary().ConfigureAwait(false);
+                MessageService.Send(new WorldReadLocationSummaryRequest() { });
             }
             catch (Exception ex)
             {
@@ -172,14 +175,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     if (itemCommand.Name == "* Edit JSON")
                     {
                         var itemId = itemCommand.Item.Id;
-
                         var jsonEditorPage = new JsonEditorPage(Container);
                         jsonEditorPage.ViewModel.ItemId = itemId.ToString();
                         await jsonEditorPage.ViewModel.ReadItem();
+                        jsonEditorPage.Disappearing += (disSender, disE) =>
+                        {
+                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                            ((Picker)sender).SelectedItem = null;
+                        };
                         await Navigation.PushModalAsync(jsonEditorPage);
-                        ((Picker)sender).SelectedItem = null;
-                        await Container.Resolve<IGameService>()
-                            .GetLocationSummary().ConfigureAwait(false);
                     }
                     else
                     {

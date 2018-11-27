@@ -18,6 +18,11 @@ namespace BeforeOurTime.MobileApp.Services.Messages
         /// Send a message to the server
         /// </summary>
         /// <param name="message"></param>
+        IMessageService Send(IMessage message);
+        /// <summary>
+        /// Send a message to the server
+        /// </summary>
+        /// <param name="message"></param>
         Task SendAsync(IMessage message);
         /// <summary>
         /// Send request to the server and return associated response

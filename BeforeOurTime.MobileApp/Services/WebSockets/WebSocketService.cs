@@ -177,7 +177,35 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
             }
         }
         /// <summary>
-        /// Send message to server
+        /// Send message to server asyncronously
+        /// </summary>
+        /// <param name="message"></param>
+        public IWebSocketService Send(string message)
+        {
+            var byteMessage = new UTF8Encoding(false, true).GetBytes(message);
+            var offset = 0;
+            try
+            {
+                var endOfMessage = false;
+                do
+                {
+                    var remainingBytes = byteMessage.Count() - offset;
+                    var sendBytes = Math.Min(1024, remainingBytes);
+                    var segment = new ArraySegment<byte>(byteMessage, offset, sendBytes);
+                    offset += 1024;
+                    endOfMessage = remainingBytes == sendBytes;
+                    Client.SendAsync(segment, WebSocketMessageType.Text, endOfMessage, Cts.Token);
+                } while (!endOfMessage);
+            }
+            catch (Exception e)
+            {
+                SetState(Client.State);
+                OnError?.Invoke(e.Message);
+            }
+            return this;
+        }
+        /// <summary>
+        /// Send message to server asyncronously
         /// </summary>
         /// <param name="message"></param>
         public async Task SendAsync(string message)
