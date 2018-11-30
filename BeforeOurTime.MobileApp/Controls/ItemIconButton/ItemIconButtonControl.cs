@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,11 +135,18 @@ namespace BeforeOurTime.MobileApp.Controls
         {
             var control = (ItemIconButtonControl)bindable;
             control.Item = (Item)newvalue;
-            var image = (control.Item.Type == ItemType.Exit) ?
-                control.ImageService.ReadAsync(new List<Guid>()
-                    { new Guid("a15e4ade-5fbe-4eb1-9d62-f1c1e67a207b") }).Result.First() :
-                control.ImageService.ReadAsync(new List<Guid>()
-                    { new Guid("97f0c74d-3e50-4164-aeab-cb6561998786") }).Result.First();
+            Guid imageGuid;
+            if (control.Item?.GetProperty<VisibleProperty>()?.Icon != null)
+            {
+                imageGuid = control.Item.GetProperty<VisibleProperty>().Icon.Value;
+            }
+            else
+            {
+                imageGuid = (control.Item.Type == ItemType.Exit) ?
+                    new Guid("a15e4ade-5fbe-4eb1-9d62-f1c1e67a207b") :
+                    new Guid("97f0c74d-3e50-4164-aeab-cb6561998786");
+            }
+            var image = control.ImageService.ReadAsync(new List<Guid>() { imageGuid }).Result.First();
             control._icon.Image = image;
         }
         private static void NamePropertyChanged(
