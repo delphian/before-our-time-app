@@ -1,6 +1,9 @@
-﻿using BeforeOurTime.Models.Modules.Core.Models.Items;
+﻿using Autofac;
+using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -9,8 +12,33 @@ namespace BeforeOurTime.MobileApp.Controls
 {
     public class ItemIconButtonControl : Frame
     {
+        /// <summary>
+        /// Dependency injection container
+        /// </summary>
+        public IContainer Services
+        {
+            get => (IContainer)GetValue(ServicesProperty);
+            set {
+                SetValue(ServicesProperty, value);
+                ImageService = Services.Resolve<IImageService>();
+            }
+        }
+        public static readonly BindableProperty ServicesProperty = BindableProperty.Create(
+            nameof(Services),
+            typeof(IContainer),
+            typeof(ItemIconButtonControl),
+            default(IContainer),
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (ItemIconButtonControl)bindable;
+                control.Services = (IContainer)newvalue;
+            });
+        /// <summary>
+        /// Image service
+        /// </summary>
+        private IImageService ImageService { set; get; }
         private readonly FlexLayout _flexLayout = new FlexLayout();
-        private readonly IconControl _icon = new IconControl();
+        private readonly BotImageControl _icon = new BotImageControl();
         private readonly Label _name = new Label();
         /// <summary>
         /// Callback when button is clicked
@@ -52,40 +80,18 @@ namespace BeforeOurTime.MobileApp.Controls
             default(string),
             propertyChanged: NamePropertyChanged);
         /// <summary>
-        /// Image data (svg image xml, gzipped and base64 encoded)
-        /// </summary>
-        public string Image
-        {
-            get => (string)GetValue(ImageProperty);
-            set
-            {
-                SetValue(ImageProperty, value);
-                _icon.Source = value;
-            }
-        }
-        public static readonly BindableProperty ImageProperty = BindableProperty.Create(
-            nameof(Image),
-            typeof(string),
-            typeof(ItemButtonControl),
-            default(string),
-            propertyChanged: ImagePropertyChanged);
-        /// <summary>
         /// Default image to use if none is provided
         /// </summary>
-        public string ImageDefault
+        public BeforeOurTime.Models.Primitives.Images.Image ImageDefault
         {
-            get => (string)GetValue(ImageDefaultProperty);
-            set
-            {
-                SetValue(ImageDefaultProperty, value);
-                _icon.Default = value;
-            }
+            get => (BeforeOurTime.Models.Primitives.Images.Image)GetValue(ImageDefaultProperty);
+            set => SetValue(ImageDefaultProperty, value);
         }
         public static readonly BindableProperty ImageDefaultProperty = BindableProperty.Create(
             nameof(ImageDefault),
-            typeof(string),
+            typeof(BeforeOurTime.Models.Primitives.Images.Image),
             typeof(ItemButtonControl),
-            default(string),
+            default(BeforeOurTime.Models.Primitives.Images.Image),
             propertyChanged: ImageDefaultPropertyChanged);
         /// <summary>
         /// Constructor
@@ -109,8 +115,6 @@ namespace BeforeOurTime.MobileApp.Controls
             _flexLayout.GestureRecognizers.Add(recognizer);
             _icon.Margin = 0;
             _icon.ForceMaxHeight = true;
-//            _icon.VerticalOptions = LayoutOptions.FillAndExpand;
-//            _icon.HorizontalOptions = LayoutOptions.FillAndExpand;
             FlexLayout.SetBasis(_icon, new FlexBasis(0.7f, true));
             _flexLayout.Children.Add(_icon);
             _name.FontSize = 9;
@@ -130,6 +134,12 @@ namespace BeforeOurTime.MobileApp.Controls
         {
             var control = (ItemIconButtonControl)bindable;
             control.Item = (Item)newvalue;
+            var image = (control.Item.Type == ItemType.Exit) ?
+                control.ImageService.ReadAsync(new List<Guid>()
+                    { new Guid("a15e4ade-5fbe-4eb1-9d62-f1c1e67a207b") }).Result.First() :
+                control.ImageService.ReadAsync(new List<Guid>()
+                    { new Guid("97f0c74d-3e50-4164-aeab-cb6561998786") }).Result.First();
+            control._icon.Image = image;
         }
         private static void NamePropertyChanged(
             BindableObject bindable,
@@ -139,21 +149,16 @@ namespace BeforeOurTime.MobileApp.Controls
             var control = (ItemIconButtonControl)bindable;
             control.Name = newvalue.ToString();
         }
-        private static void ImagePropertyChanged(
-            BindableObject bindable,
-            object oldvalue,
-            object newvalue)
-        {
-            var control = (ItemIconButtonControl)bindable;
-            control.Image = newvalue.ToString();
-        }
         private static void ImageDefaultPropertyChanged(
             BindableObject bindable,
             object oldvalue,
             object newvalue)
         {
             var control = (ItemIconButtonControl)bindable;
-            control.ImageDefault = newvalue.ToString();
+            if (control._icon.Image == null)
+            {
+                control._icon.Image = (BeforeOurTime.Models.Primitives.Images.Image)newvalue;
+            }
         }
     }
 }

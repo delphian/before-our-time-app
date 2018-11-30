@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BotImageControl\BotImageControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\IconControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemIconButton\ItemIconButtonControl.cs" />
@@ -152,6 +153,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Characters\ICharacterService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Games\GameService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Games\IGameService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Images\IImageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Images\ImageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Items\IItemService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Items\ItemService.cs" />

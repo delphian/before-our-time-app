@@ -1,4 +1,6 @@
-﻿using BeforeOurTime.Models.Modules.Core.Models.Items;
+﻿using Autofac;
+using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,24 @@ namespace BeforeOurTime.MobileApp.Controls
 {
     public class ItemTableControl : FlexLayout
     {
+        /// <summary>
+        /// Dependency injection container
+        /// </summary>
+        public IContainer Services
+        {
+            get => (IContainer)GetValue(ServicesProperty);
+            set => SetValue(ServicesProperty, value);
+        }
+        public static readonly BindableProperty ServicesProperty = BindableProperty.Create(
+            nameof(Services),
+            typeof(IContainer),
+            typeof(ItemTableControl),
+            default(IContainer),
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (ItemTableControl)bindable;
+                control.Services = (IContainer)newvalue;
+            });
         /// <summary>
         /// Callback to parent when button is clicked
         /// </summary>
@@ -69,6 +89,7 @@ namespace BeforeOurTime.MobileApp.Controls
             object newvalue)
         {
             var control = (ItemTableControl)bindable;
+            var imageService = control.Services.Resolve<IImageService>();
             control.SelectedItem = null;
             control.Items = (List<Item>)newvalue;
             control.Children.Clear();
@@ -79,14 +100,14 @@ namespace BeforeOurTime.MobileApp.Controls
                 {
                     control.Children.Add(new ItemIconButtonControl()
                     {
+                        Services = control.Services,
                         BorderColor = Color.Transparent,
                         BackgroundColor = Color.Transparent,
                         Padding = 0,
                         Margin = new Thickness(0, 0, 2, 0),
                         OnClicked = control.TrackOnClicked,
                         Item = item,
-                        ImageDefault = (item.Type == ItemType.Exit) ? "location" : "character",
-                        Image = null,
+                        ImageDefault = null,
                         Name = visible.Name,
                         HeightRequest = 68,
                         WidthRequest = 68

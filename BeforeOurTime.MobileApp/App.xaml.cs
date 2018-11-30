@@ -49,6 +49,7 @@ namespace BeforeOurTime.MobileApp
             var accountService = new AccountService(wsService, messageService);
             var characterService = new CharacterService(accountService, messageService);
             var gameService = new GameService(accountService, messageService);
+            var imageService = new ImageService(messageService);
             // Configure Dependency Injection
             var builder = new ContainerBuilder();
             builder.RegisterInstance<ILoggerService>(loggerService).SingleInstance();
@@ -58,6 +59,7 @@ namespace BeforeOurTime.MobileApp
             builder.RegisterInstance<IAccountService>(accountService).SingleInstance();
             builder.RegisterInstance<ICharacterService>(characterService).SingleInstance();
             builder.RegisterInstance<IGameService>(gameService).SingleInstance();
+            builder.RegisterInstance<IImageService>(imageService).SingleInstance();
             Container = builder.Build();
             // Required because of UWP 'release' build runtime error when 
             // traversing GetAssemblies()

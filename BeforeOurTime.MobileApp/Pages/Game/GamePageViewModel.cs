@@ -37,7 +37,15 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Depedency injection container
         /// </summary>
-        private IContainer Container { set; get; }
+        public IContainer Container
+        {
+            get { return _container; }
+            set { _container = value; NotifyPropertyChanged("Container"); }
+        }
+        private IContainer _container { set; get; }
+        /// <summary>
+        /// Message service
+        /// </summary>
         private IMessageService MessageService { set; get; }
         /// <summary>
         /// Player's character
