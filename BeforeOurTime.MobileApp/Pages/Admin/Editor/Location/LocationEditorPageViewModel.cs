@@ -3,8 +3,11 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
-using BeforeOurTime.Models.Modules.World.Messages.Location.DeleteLocation;
+using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.DeleteLocation;
 using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
@@ -116,7 +119,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         vmLocations.Add(new ViewModelLocation()
                         {
                             ItemId = location.Id.ToString(),
-                            LocationId = location.GetData<LocationData>().Id.ToString(),
+                            LocationId = location.GetData<LocationItemData>().Id.ToString(),
                             Name = location.Visible.Name,
                             Description = location.Visible.Description
                         });
@@ -161,15 +164,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     .ToList();
                 var children = await ItemService.ReadAsync(childrenIds);
                 VMExits = children?
-                    .Where(x => x.Type == ItemType.Exit)
-                    .Select(x => x.GetAsItem<ExitItem>())
+                    .Where(x => x.HasViewModel<ExitItemProperty>())
                     .ToList()?
                     .Select(x => new ViewModelExit()
                         {
                             ItemId = x.Id,
-                            ExitId = x.GetData<ExitData>().Id,
-                            Name = ((ExitItem)x).Visible.Name,
-                            Description = ((ExitItem)x).Visible.Description
+                            ExitId = x.GetData<ExitItemData>().Id,
+                            Name = x.GetProperty<VisibleProperty>().Name,
+                            Description = x.GetProperty<VisibleProperty>().Description
                         })
                     .ToList();
             }
@@ -195,7 +197,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 var item = _locations
                     .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
                     .FirstOrDefault();
-                var location = item.GetData<LocationData>();
+                var location = item.GetData<LocationItemData>();
                 location.Name = VMSelectedLocation.Name;
                 location.Description = VMSelectedLocation.Description;
                 await ItemService.UpdateAsync(new List<Item>() { item });
@@ -233,7 +235,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 vmLocations.Add(new ViewModelLocation()
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
-                    LocationId = result.CreateLocationEvent.Item.GetData<LocationData>().Id.ToString(),
+                    LocationId = result.CreateLocationEvent.Item.GetData<LocationItemData>().Id.ToString(),
                     Name = result.CreateLocationEvent.Item.Visible.Name,
                     Description = result.CreateLocationEvent.Item.Visible.Description
                 });

@@ -2,7 +2,7 @@
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Text;

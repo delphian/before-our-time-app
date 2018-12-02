@@ -9,7 +9,6 @@ using System.Text;
 using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Modules.World.Models.Items;
-using BeforeOurTime.Models.Modules.World.Messages.Location.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
@@ -21,10 +20,12 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes;
 using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
-using BeforeOurTime.Models.Modules.World.Messages.Location.CreateLocation;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
 using BeforeOurTime.Models.Modules.World.Models.Data;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -158,12 +159,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Selected item commands
         /// </summary>
-        public List<BeforeOurTime.Models.Modules.Core.Models.Properties.Command> Commands
+        public List<ItemCommand> Commands
         {
             get { return _commands; }
             set { _commands = value; NotifyPropertyChanged("Commands"); }
         }
-        private List<BeforeOurTime.Models.Modules.Core.Models.Properties.Command> _commands { set; get; }
+        private List<ItemCommand> _commands { set; get; }
         /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>

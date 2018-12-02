@@ -136,11 +136,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// An item command
         /// </summary>
-        public Command Command
+        public ItemCommand Command
         {
             get { return _command; }
             set { _command = value; NotifyPropertyChanged("Command"); }
         }
-        private Command _command { set; get; }
+        private ItemCommand _command { set; get; }
     }
 }
