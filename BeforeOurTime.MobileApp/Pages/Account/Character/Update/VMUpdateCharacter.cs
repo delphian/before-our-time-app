@@ -1,13 +1,9 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
-using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Models.Properties;
-using BeforeOurTime.Models.Modules.World.Models.Data;
-using BeforeOurTime.Models.Modules.World.Models.Properties;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -68,7 +64,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character.Update
         public void MapItemToProperties(Item item)
         {
             Name = item.GetProperty<VisibleItemProperty>().Name;
-            Temporary = item.GetProperty<CharacterProperty>().Temporary;
+            Temporary = item.GetProperty<CharacterItemProperty>().Temporary;
         }
         /// <summary>
         /// Register for permanent character

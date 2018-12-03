@@ -1,12 +1,8 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
-using BeforeOurTime.Models.Modules.Core.Models.Data;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
-using BeforeOurTime.Models.Modules.World.Models.Data;
-using BeforeOurTime.Models.Modules.World.Models.Items;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

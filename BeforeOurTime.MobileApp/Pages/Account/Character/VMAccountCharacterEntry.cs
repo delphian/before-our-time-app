@@ -1,4 +1,4 @@
-﻿using BeforeOurTime.Models.Modules.World.Models.Items;
+﻿using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using System;
 using System.Collections.Generic;
 using System.Text;

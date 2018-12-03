@@ -6,7 +6,7 @@ using BeforeOurTime.Models.Modules.Account.Messages.ReadCharacter;
 using BeforeOurTime.Models.Modules.Account.Messages.RegisterCharacter;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.World.Models.Items;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

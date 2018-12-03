@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Characters;
-using BeforeOurTime.Models.Modules.World.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
@@ -27,6 +26,7 @@ using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.Creat
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {

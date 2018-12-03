@@ -1,6 +1,4 @@
 ﻿using BeforeOurTime.Models.Modules.Account.Models.Data;
-using BeforeOurTime.Models.Modules.Core.Models.Properties;
-using BeforeOurTime.Models.Modules.World.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
