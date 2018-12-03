@@ -26,6 +26,7 @@ using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -150,12 +151,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Visible property of currently selected item at location
         /// </summary>
-        public VisibleProperty SelectedVisibleProperty
+        public VisibleItemProperty SelectedVisibleProperty
         {
             get { return _selectedVisibleProperty; }
             set { _selectedVisibleProperty = value; NotifyPropertyChanged("SelectedVisibleProperty"); }
         }
-        private VisibleProperty _selectedVisibleProperty { set; get; }
+        private VisibleItemProperty _selectedVisibleProperty { set; get; }
         /// <summary>
         /// Selected item commands
         /// </summary>
@@ -205,10 +206,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             VMEmotes = new VMEmotes(Container);
             ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
-            GameService.GetLocationSummary().ContinueWith((summaryTask) =>
-            {
-                ProcessListLocationResponse(summaryTask.Result.GetMessageAsType<WorldReadLocationSummaryResponse>());
-            });
             GameService.OnMessage += OnMessage;
             LocationItemTable_OnClicked = new Xamarin.Forms.Command((object itemTableControl) =>
             {
@@ -216,10 +213,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 SelectedItem = control?.SelectedItem;
                 IsItemSelected = (SelectedItem != null);
                 control.SetHighlight(SelectedItem);
-                SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleProperty>();
+                SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleItemProperty>();
                 VMItemCommands.ClearItemCommands();
                 VMItemCommands.AddItemCommands(SelectedItem);
             });
+            MessageService.SendRequestAsync<WorldReadLocationSummaryResponse>(new WorldReadLocationSummaryRequest() { });
         }
         /// <summary>
         /// Listen to unprompted incoming messages (events)
@@ -246,7 +244,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             else if (message.IsMessageType<WorldEmoteEvent>())
             {
                 var emoteEvent = message.GetMessageAsType<WorldEmoteEvent>();
-                var visible = emoteEvent.Origin?.GetProperty<VisibleProperty>();
+                var visible = emoteEvent.Origin?.GetProperty<VisibleItemProperty>();
                 if (visible != null)
                 {
                     var emote = "does something unexpected!";
@@ -272,7 +270,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             var test = Objects.Where(x => x.GetProperty<CommandProperty>() != null).ToList();
             var item = Objects.Where(x => x.GetProperty<CommandProperty>() != null)?
                    .Where(x => x.GetProperty<CommandProperty>().Commands
-                       .Any(y => y.Id == goGuid && x.GetProperty<VisibleProperty>().Name.ToLower().Contains(exitName.ToLower())))
+                       .Any(y => y.Id == goGuid && x.GetProperty<VisibleItemProperty>().Name.ToLower().Contains(exitName.ToLower())))
                    .FirstOrDefault();
             var itemCommand = item?.GetProperty<CommandProperty>()?.Commands?
                    .Where(x => x.Id == goGuid)
@@ -297,8 +295,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             SelectedItem = null;
             IsItemSelected = false;
             Location = listLocationResponse.Item;
-            LocationName = listLocationResponse.Item.Visible.Name;
-            LocationDescription = listLocationResponse.Item.Visible.Description;
+            LocationName = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Name;
+            LocationDescription = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Description;
             Characters = listLocationResponse.Characters;
             Objects = listLocationResponse.Items;
             VMItemCommands = new VMItemCommands(Container, Location);
@@ -312,7 +310,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             if (arrivalEvent.Item.Id != Me.Id)
             {
-                var name = arrivalEvent.Item.GetProperty<VisibleProperty>()?.Name ?? "**Unknown**";
+                var name = arrivalEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                 EventStream.Push($"{name} has arrived");
                 Objects.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
                 // Force notify to fire
@@ -323,7 +321,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             if (departureEvent.Item.Id != Me.Id)
             {
-                var name = departureEvent.Item.GetProperty<VisibleProperty>()?.Name ?? "**Unknown**";
+                var name = departureEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                 EventStream.Push($"{name} has departed");
                 Objects.Remove(Objects
                     .Where(x => x.Id == departureEvent.Item.Id)

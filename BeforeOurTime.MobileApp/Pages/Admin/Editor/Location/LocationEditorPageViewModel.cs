@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
@@ -120,8 +121,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         {
                             ItemId = location.Id.ToString(),
                             LocationId = location.GetData<LocationItemData>().Id.ToString(),
-                            Name = location.Visible.Name,
-                            Description = location.Visible.Description
+                            Name = location.GetData<VisibleItemData>().Name,
+                            Description = location.GetData<VisibleItemData>().Description
                         });
                     });
                     VMLocations = vmLocations;
@@ -170,8 +171,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                         {
                             ItemId = x.Id,
                             ExitId = x.GetData<ExitItemData>().Id,
-                            Name = x.GetProperty<VisibleProperty>().Name,
-                            Description = x.GetProperty<VisibleProperty>().Description
+                            Name = x.GetProperty<VisibleItemProperty>().Name,
+                            Description = x.GetProperty<VisibleItemProperty>().Description
                         })
                     .ToList();
             }
@@ -197,9 +198,9 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 var item = _locations
                     .Where(x => x.Id.ToString() == VMSelectedLocation.ItemId)
                     .FirstOrDefault();
-                var location = item.GetData<LocationItemData>();
-                location.Name = VMSelectedLocation.Name;
-                location.Description = VMSelectedLocation.Description;
+                var visibleItemData = item.GetData<VisibleItemData>();
+                visibleItemData.Name = VMSelectedLocation.Name;
+                visibleItemData.Description = VMSelectedLocation.Description;
                 await ItemService.UpdateAsync(new List<Item>() { item });
             }
             catch (Exception e)
@@ -236,8 +237,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
                     LocationId = result.CreateLocationEvent.Item.GetData<LocationItemData>().Id.ToString(),
-                    Name = result.CreateLocationEvent.Item.Visible.Name,
-                    Description = result.CreateLocationEvent.Item.Visible.Description
+                    Name = result.CreateLocationEvent.Item.GetProperty<VisibleItemProperty>().Name,
+                    Description = result.CreateLocationEvent.Item.GetProperty<VisibleItemProperty>().Description
                 });
                 (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
             }

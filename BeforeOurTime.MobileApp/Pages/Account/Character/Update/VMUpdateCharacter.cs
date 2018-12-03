@@ -3,6 +3,7 @@ using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Exceptions;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using BeforeOurTime.Models.Modules.World.Models.Data;
@@ -66,7 +67,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character.Update
         /// <param name="item"></param>
         public void MapItemToProperties(Item item)
         {
-            Name = item.GetProperty<VisibleProperty>().Name;
+            Name = item.GetProperty<VisibleItemProperty>().Name;
             Temporary = item.GetProperty<CharacterProperty>().Temporary;
         }
         /// <summary>

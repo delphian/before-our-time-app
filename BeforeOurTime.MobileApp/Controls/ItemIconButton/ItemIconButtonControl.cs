@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
@@ -136,9 +137,9 @@ namespace BeforeOurTime.MobileApp.Controls
             var control = (ItemIconButtonControl)bindable;
             control.Item = (Item)newvalue;
             Guid imageGuid;
-            if (control.Item?.GetProperty<VisibleProperty>()?.Icon != null)
+            if (control.Item?.GetProperty<VisibleItemProperty>()?.Icon != null)
             {
-                imageGuid = control.Item.GetProperty<VisibleProperty>().Icon.Value;
+                imageGuid = control.Item.GetProperty<VisibleItemProperty>().Icon.Value;
             }
             else
             {

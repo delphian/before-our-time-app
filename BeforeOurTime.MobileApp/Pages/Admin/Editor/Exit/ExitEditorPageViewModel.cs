@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
@@ -90,8 +91,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
                         {
                             ItemId = exit.Id.ToString(),
                             ExitId = exit.GetData<ExitItemData>().Id.ToString(),
-                            Name = exit.GetProperty<VisibleProperty>().Name,
-                            Description = exit.GetProperty<VisibleProperty>().Description
+                            Name = exit.GetProperty<VisibleItemProperty>().Name,
+                            Description = exit.GetProperty<VisibleItemProperty>().Description
                         });
                     });
                     VMExits = vmExits;

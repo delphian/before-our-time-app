@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System;
@@ -95,7 +96,7 @@ namespace BeforeOurTime.MobileApp.Controls
             control.Children.Clear();
             control.Items.ForEach(item =>
             {
-                var visible = item.GetProperty<VisibleProperty>();
+                var visible = item.GetProperty<VisibleItemProperty>();
                 if (visible != null)
                 {
                     control.Children.Add(new ItemIconButtonControl()
