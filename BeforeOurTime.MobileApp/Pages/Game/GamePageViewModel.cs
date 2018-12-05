@@ -21,12 +21,12 @@ using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
-using BeforeOurTime.Models.Modules.World.Models.Data;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
