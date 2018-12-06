@@ -74,7 +74,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                         Item = item
                     });
                 }
-                item?.GetProperty<CommandProperty>()?.Commands?.ForEach(command =>
+                item?.GetProperty<CommandItemProperty>()?.Commands?.ForEach(command =>
                 {
                     ItemCommands.Add(new VMItemCommand()
                     {

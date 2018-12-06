@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,12 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
         /// <summary>
         /// Account character currently being played
         /// </summary>
-        public CharacterItem PlayingCharacter
+        public Item PlayingCharacter
         {
             get { return _playingCharacter; }
             set { _playingCharacter = value; NotifyPropertyChanged("PlayingCharacter"); }
         }
-        private CharacterItem _playingCharacter { set; get; }
+        private Item _playingCharacter { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>

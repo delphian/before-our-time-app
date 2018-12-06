@@ -1,4 +1,4 @@
-﻿using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
+﻿using BeforeOurTime.Models.Modules.Core.Models.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,11 +22,11 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
         /// <summary>
         /// List item itself
         /// </summary>
-        public CharacterItem CharacterItem
+        public Item CharacterItem
         {
             get { return _characterItem; }
             set { _characterItem = value; NotifyPropertyChanged("CharacterItem"); }
         }
-        private CharacterItem _characterItem { set; get; }
+        private Item _characterItem { set; get; }
     }
 }

@@ -97,12 +97,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// All items that offer an exit
         /// </summary>
-        public List<ExitItem> Exits
+        public List<Item> Exits
         {
             get { return _exits; }
             set { _exits = value; NotifyPropertyChanged("Exits"); }
         }
-        private List<ExitItem> _exits { set; get; } = new List<ExitItem>();
+        private List<Item> _exits { set; get; } = new List<Item>();
         /// <summary>
         /// All objects (dumb items) at current location
         /// </summary>
@@ -115,12 +115,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Character items at current location
         /// </summary>
-        public List<CharacterItem> Characters
+        public List<Item> Characters
         {
             get { return _characters; }
             set { _characters = value; NotifyPropertyChanged("Characters"); }
         }
-        private List<CharacterItem> _characters { set; get; } = new List<CharacterItem>();
+        private List<Item> _characters { set; get; } = new List<Item>();
         /// <summary>
         /// Callback when location item has been clicked
         /// </summary>
@@ -267,12 +267,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         public async Task UseExit(string exitName)
         {
             var goGuid = new Guid("c558c1f9-7d01-45f3-bc35-dcab52b5a37c");
-            var test = Objects.Where(x => x.GetProperty<CommandProperty>() != null).ToList();
-            var item = Objects.Where(x => x.GetProperty<CommandProperty>() != null)?
-                   .Where(x => x.GetProperty<CommandProperty>().Commands
+            var test = Objects.Where(x => x.GetProperty<CommandItemProperty>() != null).ToList();
+            var item = Objects.Where(x => x.GetProperty<CommandItemProperty>() != null)?
+                   .Where(x => x.GetProperty<CommandItemProperty>().Commands
                        .Any(y => y.Id == goGuid && x.GetProperty<VisibleItemProperty>().Name.ToLower().Contains(exitName.ToLower())))
                    .FirstOrDefault();
-            var itemCommand = item?.GetProperty<CommandProperty>()?.Commands?
+            var itemCommand = item?.GetProperty<CommandItemProperty>()?.Commands?
                    .Where(x => x.Id == goGuid)
                    .FirstOrDefault();
             if (item == null || itemCommand == null)
@@ -304,7 +304,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)
         {
-            Exits = listLocationResponse.Exits.Select(x => x.Item.GetAsItem<ExitItem>()).ToList();
+            Exits = listLocationResponse.Exits.Select(x => x.Item).ToList();
         }
         private void ProcessArrivalEvent(CoreMoveItemEvent arrivalEvent)
         {
@@ -312,7 +312,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             {
                 var name = arrivalEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                 EventStream.Push($"{name} has arrived");
-                Objects.Add(arrivalEvent.Item.GetAsItem<CharacterItem>());
+                Objects.Add(arrivalEvent.Item);
                 // Force notify to fire
                 Objects = Objects.ToList();
             }
@@ -368,7 +368,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                         Item = new Item()
                         {
                             ParentId = fromLocationItemId,
-                            Type = ItemType.Unknown,
                             Data = new List<IItemData>()
                             {
                                 new VisibleItemData()

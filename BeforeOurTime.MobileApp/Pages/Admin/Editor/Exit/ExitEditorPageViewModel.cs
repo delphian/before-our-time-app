@@ -54,15 +54,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
         /// <returns></returns>
         public async Task ReadItem(Guid itemId)
         {
-            ExitItem exitItem = (await ItemService.ReadAsync(new List<Guid>() { itemId }))?
-                .FirstOrDefault()
-                .GetAsItem<ExitItem>();
+            Item exitItem = (await ItemService.ReadAsync(new List<Guid>() { itemId }))?
+                .FirstOrDefault();
             VMSelectedExit = new ViewModelExit()
             {
                 ItemId = exitItem.Id.ToString(),
                 ExitId = exitItem.GetData<ExitItemData>().Id.ToString(),
-                Name = exitItem.Visible.Name,
-                Description = exitItem.Visible.Description
+                Name = exitItem.GetData<VisibleItemData>().Name,
+                Description = exitItem.GetData<VisibleItemData>().Description
             };
         }
         /// <summary>
@@ -76,8 +75,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit
             {
                 if (_exits == null || _exits.Count == 0)
                 {
-                    var items = await ItemService.ReadByTypeAsync(new List<string>() {
-                        typeof(ExitItem).ToString()
+                    var items = await ItemService.ReadByDataTypeAsync(new List<string>() {
+                        typeof(ExitItemData).ToString()
                     });
                     _exits = items.ToList();
                     var vmExits = new List<ViewModelExit>();

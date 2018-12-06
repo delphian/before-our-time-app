@@ -48,7 +48,7 @@ namespace BeforeOurTime.MobileApp.Services.Items
         /// </summary>
         /// <param name="itemTypes">List of unique item type names (class names)</param>
         /// <returns></returns>
-        Task<List<Item>> ReadByTypeAsync(List<string> itemTypes);
+        Task<List<Item>> ReadByDataTypeAsync(List<string> itemDataTypes);
         /// <summary>
         /// Update multiple items
         /// </summary>

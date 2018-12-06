@@ -3,6 +3,7 @@ using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,7 +144,7 @@ namespace BeforeOurTime.MobileApp.Controls
             }
             else
             {
-                imageGuid = (control.Item.Type == ItemType.Exit) ?
+                imageGuid = (control.Item.GetProperty<ExitItemProperty>() != null) ?
                     new Guid("a15e4ade-5fbe-4eb1-9d62-f1c1e67a207b") :
                     new Guid("97f0c74d-3e50-4164-aeab-cb6561998786");
             }

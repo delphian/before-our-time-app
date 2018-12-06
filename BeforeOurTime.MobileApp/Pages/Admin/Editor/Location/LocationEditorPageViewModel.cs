@@ -33,7 +33,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// <summary>
         /// List of all locations 
         /// </summary>
-        private List<LocationItem> _locations { set; get; }
+        private List<Item> _locations { set; get; }
         /// <summary>
         /// Specify to automatically load one of the locations into editor
         /// </summary>
@@ -107,10 +107,9 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 if (_locations == null)
                 {
-                    var items = await ItemService.ReadByTypeAsync(new List<string>() {
-                        typeof(LocationItem).ToString()
+                    var _locations = await ItemService.ReadByDataTypeAsync(new List<string>() {
+                        typeof(LocationItemData).ToString()
                     });
-                    _locations = items.Select(x => x.GetAsItem<LocationItem>()).ToList();
                     var vmLocations = new List<ViewModelLocation>();
                     _locations.ForEach((location) =>
                     {
@@ -267,7 +266,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 {
                     throw new Exception(result._responseMessage);
                 }
-                _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault().GetAsItem<LocationItem>());
+                _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault());
                 var vmLocations = VMLocations;
                 vmLocations.Remove(VMSelectedLocation);
                 (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);

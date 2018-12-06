@@ -105,16 +105,16 @@ namespace BeforeOurTime.MobileApp.Services.Items
             return response.CoreReadItemGraphEvent.ItemGraph;
         }
         /// <summary>
-        /// Read multiple items based on a list of item types
+        /// Read multiple items based on a list of item data types
         /// </summary>
-        /// <param name="itemTypes">List of unique item type names (class names)</param>
+        /// <param name="itemDataTypes">List of unique item data type names (class names)</param>
         /// <returns></returns>
-        public async Task<List<Item>> ReadByTypeAsync(List<string> itemTypes)
+        public async Task<List<Item>> ReadByDataTypeAsync(List<string> itemDataTypes)
         {
             var response = await MessageService.SendRequestAsync<CoreReadItemCrudResponse>(
                 new CoreReadItemCrudRequest()
                 {
-                    ItemTypes = itemTypes
+                    ItemDataTypes = itemDataTypes
                 });
             return response.CoreReadItemCrudEvent.Items;
         }
