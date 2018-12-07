@@ -30,18 +30,6 @@
                                 SelectedIndexChanged="LocationPicker_OnSelectedIndexChanged"
                                 FlexLayout.Basis="60%"
                                 FlexLayout.Grow="1" />
-                        <Picker x:Name="ExitPicker"
-                                VerticalOptions="End"
-                                HorizontalOptions="FillAndExpand"
-                                Title="Edit Exit"
-                                Margin="2"
-                                ItemsSource="{Binding VMExits}"
-                                SelectedItem="{Binding VMSelectedExit}"
-                                ItemDisplayBinding="{Binding Name}"
-                                SelectedIndexChanged="ExitPicker_OnSelectedIndexChanged"
-                                IsEnabled="{Binding LocationSelected}"
-                                FlexLayout.Basis="40%"
-                                FlexLayout.Shrink="1"></Picker>
                     </FlexLayout>
                     <StackLayout VerticalOptions="FillAndExpand"
                                  HorizontalOptions="FillAndExpand"

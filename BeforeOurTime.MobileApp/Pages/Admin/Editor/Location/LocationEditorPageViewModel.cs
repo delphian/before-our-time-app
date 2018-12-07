@@ -4,7 +4,6 @@ using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.DeleteLocation;
@@ -41,16 +40,16 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         /// <summary>
         /// List of all locations as view models
         /// </summary>
-        public List<ViewModelLocation> VMLocations
+        public List<VMLocation> VMLocations
         {
             get { return _vmLocations; }
             set { _vmLocations = value; NotifyPropertyChanged("VMLocations"); }
         }
-        private List<ViewModelLocation> _vmLocations { set; get; } = new List<ViewModelLocation>();
+        private List<VMLocation> _vmLocations { set; get; } = new List<VMLocation>();
         /// <summary>
         /// Selected location view model
         /// </summary>
-        public ViewModelLocation VMSelectedLocation
+        public VMLocation VMSelectedLocation
         {
             get { return _vmSelectedLocation; }
             set {
@@ -58,25 +57,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 NotifyPropertyChanged("VMSelectedLocation");
             }
         }
-        private ViewModelLocation _vmSelectedLocation { set; get; }
-        /// <summary>
-        /// List of all exits for selected location
-        /// </summary>
-        public List<ViewModelExit> VMExits
-        {
-            get { return _vmExits; }
-            set { _vmExits = value; NotifyPropertyChanged("VMExits"); }
-        }
-        private List<ViewModelExit> _vmExits { set; get; }
-        /// <summary>
-        /// Selected exit view model
-        /// </summary>
-        public ViewModelExit VMSelectedExit
-        {
-            get { return _vmSelectedExit; }
-            set { _vmSelectedExit = value; NotifyPropertyChanged("VMSelectedExit"); }
-        }
-        private ViewModelExit _vmSelectedExit { set; get; }
+        private VMLocation _vmSelectedLocation { set; get; }
         /// <summary>
         /// Indicate if a location is currently selected in the editor
         /// </summary>
@@ -107,13 +88,13 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 if (_locations == null)
                 {
-                    var _locations = await ItemService.ReadByDataTypeAsync(new List<string>() {
+                    _locations = await ItemService.ReadByDataTypeAsync(new List<string>() {
                         typeof(LocationItemData).ToString()
                     });
-                    var vmLocations = new List<ViewModelLocation>();
+                    var vmLocations = new List<VMLocation>();
                     _locations.ForEach((location) =>
                     {
-                        vmLocations.Add(new ViewModelLocation()
+                        vmLocations.Add(new VMLocation()
                         {
                             ItemId = location.Id.ToString(),
                             LocationId = location.GetData<LocationItemData>().Id.ToString(),
@@ -128,53 +109,13 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                     VMSelectedLocation = VMLocations
                         .Where(x => x.ItemId == PreSelectLocation.Value.ToString())
                         .FirstOrDefault();
+                    LocationSelected = true;
                     PreSelectLocation = null;
                 }
             }
             catch (Exception e)
             {
                 LoggerService.Log("Unable to load locations", e);
-                throw e;
-            }
-            finally
-            {
-                Working = false;
-            }
-        }
-        /// <summary>
-        /// Load all exits for a given location
-        /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        public async Task LoadExits(ViewModelLocation location)
-        {
-            Working = true;
-            try
-            {
-                if (location == null)
-                {
-                    throw new Exception("Invalid location");
-                }
-                var childrenIds = _locations
-                    .Where(x => x.Id.ToString() == location.ItemId)
-                    .SelectMany(x => x.ChildrenIds)
-                    .ToList();
-                var children = await ItemService.ReadAsync(childrenIds);
-                VMExits = children?
-                    .Where(x => x.HasViewModel<ExitItemProperty>())
-                    .ToList()?
-                    .Select(x => new ViewModelExit()
-                        {
-                            ItemId = x.Id,
-                            ExitId = x.GetData<ExitItemData>().Id,
-                            Name = x.GetProperty<VisibleItemProperty>().Name,
-                            Description = x.GetProperty<VisibleItemProperty>().Description
-                        })
-                    .ToList();
-            }
-            catch (Exception e)
-            {
-                LoggerService.Log("Unable to load exits", e);
                 throw e;
             }
             finally
@@ -229,14 +170,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 }
                 _locations.Add(result.CreateLocationEvent.Item);
                 var vmLocations = VMLocations;
-                vmLocations.Add(new ViewModelLocation()
+                vmLocations.Add(new VMLocation()
                 {
                     ItemId = result.CreateLocationEvent.Item.Id.ToString(),
                     LocationId = result.CreateLocationEvent.Item.GetData<LocationItemData>().Id.ToString(),
                     Name = result.CreateLocationEvent.Item.GetProperty<VisibleItemProperty>().Name,
                     Description = result.CreateLocationEvent.Item.GetProperty<VisibleItemProperty>().Description
                 });
-                (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
+                (VMLocations = new List<VMLocation>()).AddRange(vmLocations);
             }
             catch (Exception e)
             {
@@ -269,10 +210,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
                 _locations.Remove(result.DeleteItemEvent.Items.FirstOrDefault());
                 var vmLocations = VMLocations;
                 vmLocations.Remove(VMSelectedLocation);
-                (VMLocations = new List<ViewModelLocation>()).AddRange(vmLocations);
+                (VMLocations = new List<VMLocation>()).AddRange(vmLocations);
                 VMSelectedLocation = null;
-                VMSelectedExit = null;
-                VMExits = new List<ViewModelExit>();
                 LocationSelected = false;
             }
             catch (Exception e)

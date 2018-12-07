@@ -5,30 +5,30 @@ using System.Text;
 namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
 {
     /// <summary>
-    /// View model for exit item
+    /// View model for item locations
     /// </summary>
-    public class ViewModelExit : BotViewModel, System.ComponentModel.INotifyPropertyChanged
+    public class VMLocation : BotViewModel, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
-        /// Unique item identifier
+        /// Unique location item identifier
         /// </summary>
-        public Guid ItemId
+        public string ItemId
         {
             get { return _itemId; }
             set { _itemId = value; NotifyPropertyChanged("ItemId"); }
         }
-        private Guid _itemId { set; get; }
+        private string _itemId { set; get; }
         /// <summary>
-        /// Unique exit identifier
+        /// Unique location identifier
         /// </summary>
-        public Guid ExitId
+        public string LocationId
         {
-            get { return _exitId; }
-            set { _exitId = value; NotifyPropertyChanged("ExitId"); }
+            get { return _locationId; }
+            set { _locationId = value; NotifyPropertyChanged("LocationId"); }
         }
-        private Guid _exitId { set; get; }
+        private string _locationId { set; get; }
         /// <summary>
-        /// Name of exit
+        /// Name of location
         /// </summary>
         public string Name
         {
@@ -37,7 +37,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
         }
         private string _name { set; get; }
         /// <summary>
-        /// Description of exit
+        /// Description of location
         /// </summary>
         public string Description
         {

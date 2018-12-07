@@ -72,29 +72,12 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.Location
             {
                 try
                 {
-                    await ViewModel.LoadExits(LocationPicker.SelectedItem as ViewModelLocation);
                     ViewModel.LocationSelected = true;
                 }
                 catch (Exception ex)
                 {
                     await DisplayAlert("Error", "Unable to load exits from server. " + ex.Message, "Sadness");
                 }
-            }
-        }
-        /// <summary>
-        /// Switch to exit editor after exit is selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ExitPicker_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ExitPicker.SelectedItem != null)
-            {
-                var itemId = ViewModel.VMSelectedExit.ItemId;
-                MessagingCenter.Send<ContentPage, Guid>(this, "ExitEditorPage:Load", itemId);
-                ((TabbedPage)this.Parent).CurrentPage = ((TabbedPage)this.Parent).Children
-                    .Where(x => x.GetType() == typeof(ExitEditorPage))
-                    .First();
             }
         }
         /// <summary>
