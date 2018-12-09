@@ -1,8 +1,6 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
-using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
@@ -134,6 +132,19 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             {
                 await ViewModel.CreateGenericItem();
                 MessageService.Send(new WorldReadLocationSummaryRequest() { });
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+        }
+        public async void ButtonInventory_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewModel.ShowInventory = !ViewModel.ShowInventory;
+                ViewModel.LocationItems = ViewModel.LocationItems.ToList();
+                ViewModel.Inventory.Items = ViewModel.Inventory.Items.ToList();
             }
             catch (Exception ex)
             {

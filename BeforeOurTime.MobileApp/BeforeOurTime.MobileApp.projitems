@@ -113,12 +113,13 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\VMLocation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\EventStreamVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMEventStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMInventory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMItemCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMEmotes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Main\MainPage.xaml.cs">

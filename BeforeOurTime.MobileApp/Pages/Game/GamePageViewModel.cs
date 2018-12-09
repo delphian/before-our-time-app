@@ -23,10 +23,11 @@ using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
+using BeforeOurTime.Models.Exceptions;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -53,6 +54,24 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Player's character
         /// </summary>
         private Item Me { set; get; }
+        /// <summary>
+        /// Player's inventory
+        /// </summary>
+        public VMInventory Inventory
+        {
+            get { return _inventory; }
+            set { _inventory = value; NotifyPropertyChanged("Inventory"); }
+        }
+        private VMInventory _inventory { set; get; }
+        /// <summary>
+        /// Show player inventory or location items
+        /// </summary>
+        public bool ShowInventory
+        {
+            get { return _showInventory; }
+            set { _showInventory = value; NotifyPropertyChanged("ShowInventory"); }
+        }
+        private bool _showInventory { set; get; } = false;
         /// <summary>
         /// Current account has administrative permissions
         /// </summary>
@@ -106,12 +125,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// All objects (dumb items) at current location
         /// </summary>
-        public List<Item> Objects
+        public List<Item> LocationItems
         {
-            get { return _objects; }
-            set { _objects = value; NotifyPropertyChanged("Objects"); }
+            get { return _locationItems; }
+            set { _locationItems = value; NotifyPropertyChanged("LocationItems"); }
         }
-        private List<Item> _objects { set; get; } = new List<Item>();
+        private List<Item> _locationItems { set; get; } = new List<Item>();
         /// <summary>
         /// Character items at current location
         /// </summary>
@@ -169,12 +188,12 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Last message recieved from server in it's raw format
         /// </summary>
-        public EventStreamVM EventStream
+        public VMEventStream EventStream
         {
             get { return _eventStream; }
             set { _eventStream = value; NotifyPropertyChanged("EventStream"); }
         }
-        private EventStreamVM _eventStream { set; get; } = new EventStreamVM();
+        private VMEventStream _eventStream { set; get; } = new VMEventStream();
         /// <summary>
         /// View model for all possible emotes
         /// </summary>
@@ -201,6 +220,17 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
+            Inventory = new VMInventory(Container);
+            if (Me.ChildrenIds.Count() > 0)
+            {
+                Container.Resolve<IMessageService>().SendRequestAsync<CoreReadItemCrudResponse>(new CoreReadItemCrudRequest()
+                {
+                    ItemIds = Me.ChildrenIds
+                }).ContinueWith(messageTask =>
+                {
+                    Inventory.Add(messageTask.Result.CoreReadItemCrudEvent.Items);
+                });
+            }
             MessageService = Container.Resolve<IMessageService>();
             IsAdmin = Me.GetData<AccountData>().Admin;
             VMEmotes = new VMEmotes(Container);
@@ -255,7 +285,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     EventStream.Push($"{visible.Name} {emote}");
                 }
             }
-            else if (message.IsMessageType<WorldPerformEmoteResponse>())
+            else if (message.IsMessageType<WorldPerformEmoteResponse>() ||
+                     message.IsMessageType<CoreUseItemResponse>())
             {
                 // Sit on it
             }
@@ -267,8 +298,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         public async Task UseExit(string exitName)
         {
             var goGuid = new Guid("c558c1f9-7d01-45f3-bc35-dcab52b5a37c");
-            var test = Objects.Where(x => x.GetProperty<CommandItemProperty>() != null).ToList();
-            var item = Objects.Where(x => x.GetProperty<CommandItemProperty>() != null)?
+            var item = LocationItems.Where(x => x.GetProperty<CommandItemProperty>() != null)?
                    .Where(x => x.GetProperty<CommandItemProperty>().Commands
                        .Any(y => y.Id == goGuid && x.GetProperty<VisibleItemProperty>().Name.ToLower().Contains(exitName.ToLower())))
                    .FirstOrDefault();
@@ -284,7 +314,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 ItemId = item.Id,
                 Use = itemCommand
             };
-            await Container.Resolve<IMessageService>().SendAsync(useRequest);
+            var response = await Container.Resolve<IMessageService>().SendRequestAsync<CoreUseItemResponse>(useRequest);
+            if (!response.IsSuccess())
+            {
+                throw new BeforeOurTimeException(response._responseMessage);
+            }
         }
         /// <summary>
         /// Location has updated
@@ -298,7 +332,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             LocationName = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Name;
             LocationDescription = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Description;
             Characters = listLocationResponse.Characters;
-            Objects = listLocationResponse.Items;
+            LocationItems = listLocationResponse.Items;
+            LocationItems = LocationItems.ToList();
             VMItemCommands = new VMItemCommands(Container, Location);
             ProcessExits(listLocationResponse);
         }
@@ -311,10 +346,23 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             if (arrivalEvent.Item.Id != Me.Id)
             {
                 var name = arrivalEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                EventStream.Push($"{name} has arrived");
-                Objects.Add(arrivalEvent.Item);
+                if (arrivalEvent.OldParent.HasProperty<CharacterItemProperty>())
+                {
+                    var who = arrivalEvent.OldParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                    EventStream.Push($"{who} has dropped {name}");
+                }
+                else
+                {
+                    EventStream.Push($"{name} has arrived");
+                }
+                LocationItems.Add(arrivalEvent.Item);
+                if (arrivalEvent.OldParent.Id == Me.Id)
+                {
+                    Inventory.Remove(new List<Item>() { arrivalEvent.Item });
+                }
                 // Force notify to fire
-                Objects = Objects.ToList();
+                LocationItems = LocationItems.ToList();
+                Inventory.Items = Inventory.Items.ToList();
             }
         }
         private void ProcessDepartureEvent(CoreMoveItemEvent departureEvent)
@@ -322,13 +370,25 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             if (departureEvent.Item.Id != Me.Id)
             {
                 var name = departureEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                EventStream.Push($"{name} has departed");
-                Objects.Remove(Objects
+                if (departureEvent.NewParent.HasProperty<CharacterItemProperty>())
+                {
+                    var who = departureEvent.NewParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                    EventStream.Push($"{who} has picked up {name}");
+                }
+                else
+                {
+                    EventStream.Push($"{name} has departed");
+                }
+                LocationItems.Remove(LocationItems
                     .Where(x => x.Id == departureEvent.Item.Id)
                     .Select(x => x)
                     .FirstOrDefault());
+                if (departureEvent.NewParent.Id == Me.Id)
+                {
+                    Inventory.Add(new List<Item>() { departureEvent.Item });
+                }
                 // Force notify to fire
-                Objects = Objects.ToList();
+                LocationItems = LocationItems.ToList();
             }
         }
         /// <summary>

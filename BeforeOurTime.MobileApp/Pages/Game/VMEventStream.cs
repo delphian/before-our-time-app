@@ -8,7 +8,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
     /// <summary>
     /// View model and logic for controlling the text stream
     /// </summary>
-    public class EventStreamVM : BotViewModel, System.ComponentModel.INotifyPropertyChanged
+    public class VMEventStream : BotViewModel, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
         /// List of text events to be displayed
@@ -31,7 +31,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Constructor
         /// </summary>
-        public EventStreamVM()
+        public VMEventStream()
         {
             Push("Logos...");
         }
@@ -41,7 +41,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <param name="message"></param>
         public void Push(string message)
         {
-            if (Events.Count() > 2)
+            if (Events.Count() > 6)
             {
                 Events.Remove(Events.OrderBy(x => x.Time).First());
             }
@@ -62,7 +62,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             var output = "";
             events?.ForEach(eventMessage => {
-                output += $"{eventMessage.Time.ToString("mm:ss")} {eventMessage.Message}\n";
+                output += $"{eventMessage.Time.ToString("hh:mm:ss")} {eventMessage.Message}\n";
             });
             return output;
         }
