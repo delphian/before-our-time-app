@@ -1,4 +1,14 @@
-﻿using System;
+﻿using BeforeOurTime.Models.Messages;
+using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
+using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
+using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
+using BeforeOurTime.Models.Modules.World.Messages.Emotes;
+using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +44,81 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         public VMEventStream()
         {
             Push("Logos...");
+        }
+        /// <summary>
+        /// Deconstruct an IMessage into a text message
+        /// </summary>
+        /// <param name="message">IMessage to deconstruct into a simple text message</param>
+        /// <param name="vmGamePage">View model of explore page</param>
+        public VMEventStream OnIMessage(IMessage message, GamePageViewModel vmExplorePage)
+        {
+            if (message.IsMessageType<WorldEmoteEvent>())
+            {
+                var messageEvent = message.GetMessageAsType<WorldEmoteEvent>();
+                var visible = messageEvent.Origin?.GetProperty<VisibleItemProperty>();
+                if (visible != null)
+                {
+                    var emote = "does something unexpected!";
+                    if (messageEvent.EmoteType == WorldEmoteType.Smile)
+                        emote = "smiles happily";
+                    if (messageEvent.EmoteType == WorldEmoteType.Frown)
+                        emote = "frowns in consternation";
+                    Push($"{visible.Name} {emote}");
+                }
+            }
+            else if (message.IsMessageType<CoreMoveItemEvent>()) {
+                var messageEvent = message.GetMessageAsType<CoreMoveItemEvent>();
+                if (messageEvent.Item.Id != vmExplorePage.Me.Id)
+                {
+                    bool arrival = (messageEvent.NewParent.Id == vmExplorePage.Location.Id);
+                    var what = messageEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                    var text = "";
+                    if (arrival)
+                    {
+                        var who = messageEvent.OldParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                        text = (messageEvent.OldParent.HasProperty<CharacterItemProperty>()) ?
+                            $"{who} has dropped {what}" :
+                            $"{what} has arrived";
+                    }
+                    else
+                    {
+                        var who = messageEvent.NewParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                        text = (messageEvent.NewParent.HasProperty<CharacterItemProperty>()) ?
+                            $"{who} has taken {what}" :
+                            $"{what} has departed";
+                    }
+                    Push(text);
+                }
+            }
+            else if (message.IsMessageType<CoreUpdateItemJsonEvent>())
+            {
+                var messageEvent = message.GetMessageAsType<CoreUpdateItemJsonEvent>();
+                var who = messageEvent.Origin?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                var what = messageEvent.Items?.First()?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                var streamMessage = $"{who} used the magic of JSON to change {what}";
+                Push(streamMessage);
+            }
+            else if (message.IsMessageType<CoreReadItemJsonEvent>())
+            {
+                var messageEvent = message.GetMessageAsType<CoreReadItemJsonEvent>();
+                var who = messageEvent.Origin?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                var what = messageEvent.Items?.First()?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+                var streamMessage = $"{who} interrogates {what} through the power of JSON magic";
+                Push(streamMessage);
+            }
+            else if (message.IsMessageType<WorldPerformEmoteResponse>() ||
+                     message.IsMessageType<CoreUseItemResponse>() ||
+                     message.IsMessageType<CoreUpdateItemJsonResponse>() ||
+                     message.IsMessageType<CoreReadItemJsonResponse>() ||
+                     message.IsMessageType<WorldReadLocationSummaryResponse>())
+            {
+                // Sit on it
+            }
+            else
+            {
+                Push(message.GetMessageName());
+            }
+            return this;
         }
         /// <summary>
         /// Remove last message and push another one

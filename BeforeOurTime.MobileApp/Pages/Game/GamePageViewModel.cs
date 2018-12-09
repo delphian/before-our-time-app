@@ -28,6 +28,7 @@ using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 
 namespace BeforeOurTime.MobileApp.Pages.Game
 {
@@ -53,7 +54,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// Player's character
         /// </summary>
-        private Item Me { set; get; }
+        public Item Me { set; get; }
         /// <summary>
         /// Player's inventory
         /// </summary>
@@ -271,29 +272,8 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     ProcessDepartureEvent(moveItemEvent);
                 }
             }
-            else if (message.IsMessageType<WorldEmoteEvent>())
-            {
-                var emoteEvent = message.GetMessageAsType<WorldEmoteEvent>();
-                var visible = emoteEvent.Origin?.GetProperty<VisibleItemProperty>();
-                if (visible != null)
-                {
-                    var emote = "does something unexpected!";
-                    if (emoteEvent.EmoteType == WorldEmoteType.Smile)
-                        emote = "smiles happily";
-                    if (emoteEvent.EmoteType == WorldEmoteType.Frown)
-                        emote = "frowns in consternation";
-                    EventStream.Push($"{visible.Name} {emote}");
-                }
-            }
-            else if (message.IsMessageType<WorldPerformEmoteResponse>() ||
-                     message.IsMessageType<CoreUseItemResponse>())
-            {
-                // Sit on it
-            }
-            else
-            {
-                EventStream.Push(message.GetMessageName());
-            }
+            // Output as text message into event stream
+            EventStream.OnIMessage(message, this);
         }
         public async Task UseExit(string exitName)
         {
@@ -345,16 +325,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             if (arrivalEvent.Item.Id != Me.Id)
             {
-                var name = arrivalEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                if (arrivalEvent.OldParent.HasProperty<CharacterItemProperty>())
-                {
-                    var who = arrivalEvent.OldParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                    EventStream.Push($"{who} has dropped {name}");
-                }
-                else
-                {
-                    EventStream.Push($"{name} has arrived");
-                }
                 LocationItems.Add(arrivalEvent.Item);
                 if (arrivalEvent.OldParent.Id == Me.Id)
                 {
@@ -369,16 +339,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             if (departureEvent.Item.Id != Me.Id)
             {
-                var name = departureEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                if (departureEvent.NewParent.HasProperty<CharacterItemProperty>())
-                {
-                    var who = departureEvent.NewParent.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                    EventStream.Push($"{who} has picked up {name}");
-                }
-                else
-                {
-                    EventStream.Push($"{name} has departed");
-                }
                 LocationItems.Remove(LocationItems
                     .Where(x => x.Id == departureEvent.Item.Id)
                     .Select(x => x)
