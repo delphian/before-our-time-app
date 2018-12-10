@@ -13,40 +13,6 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10">
-            <StackLayout Orientation="Horizontal">
-                <Label Text="{Binding LocationName}" 
-                    FontAttributes="Bold" 
-                    HorizontalOptions="Start" 
-                    VerticalOptions="Center" />
-                <Button Text="Edit" 
-                    Clicked="ButtonLocationEdit_OnClicked"
-                    IsVisible="{Binding IsAdmin}" 
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Padding="0"
-                    Margin="0"
-                    BackgroundColor="LightGreen"
-                    BorderRadius="4"
-                    Scale=".8" />
-                <Button Text="+Location" 
-                    Clicked="ButtonLocationCreate_OnClicked"
-                    IsVisible="{Binding IsAdmin}" 
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Padding="0"
-                    Margin="0"
-                    BackgroundColor="Yellow"
-                    Scale=".8" />
-                <Button Text="+Item" 
-                    Clicked="ButtonItemCreate_OnClicked"
-                    IsVisible="{Binding IsAdmin}" 
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Padding="0"
-                    Margin="0"
-                    BackgroundColor="Yellow"
-                    Scale=".8" />
-            </StackLayout>
             <Label Text="{Binding LocationDescription}" FontSize="Small" FontFamily="Arial Narrow"
                        HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
             <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
@@ -110,38 +76,38 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="StartAndExpand"
                         FlexLayout.Basis="50%">
                     <Button IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}" 
-                                Clicked="ButtonInventory_OnClicked" 
-                                Text="At Location:"
-                                BackgroundColor="LightGreen"
-                                BorderRadius="10"></Button>
+                            Clicked="ButtonInventory_OnClicked" 
+                            Text="At Location:"
+                            BackgroundColor="LightGreen"
+                            BorderRadius="10"></Button>
                     <Button IsVisible="{Binding ShowInventory}"
-                                Clicked="ButtonInventory_OnClicked"
-                                Text="In Inventory:"
-                                BackgroundColor="LightGreen"
-                                BorderRadius="10"></Button>
-                    <ScrollView VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
+                            Clicked="ButtonInventory_OnClicked"
+                            Text="In Inventory:"
+                            BackgroundColor="LightGreen"
+                            BorderRadius="10"></Button>
+                    <ScrollView VerticalOptions="Start" HorizontalOptions="StartAndExpand"
                             IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}">
                         <local:ItemTableControl
-                                x:Name="ItemTableLocation"
-                                IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}"
-                                Services="{Binding Container}"
-                                VerticalOptions="StartAndExpand"
-                                HorizontalOptions="StartAndExpand"
-                                Margin="10, 0, 0, 0"
-                                Wrap="Wrap"
-                                Items="{Binding LocationItems}"
-                                OnClicked="{Binding LocationItemTable_OnClicked}" />
+                            x:Name="ItemTableLocation"
+                            IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}"
+                            Services="{Binding Container}"
+                            VerticalOptions="Start"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="10, 0, 0, 0"
+                            Wrap="Wrap"
+                            Items="{Binding LocationItems}"
+                            OnClicked="{Binding LocationItemTable_OnClicked}" />
                     </ScrollView>
-                    <ScrollView VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
+                    <ScrollView VerticalOptions="Start" HorizontalOptions="StartAndExpand"
                             IsVisible="{Binding ShowInventory}">
                         <local:ItemTableControl
                             x:Name="ItemTableInventory"
                             IsVisible="{Binding ShowInventory}"
                             Services="{Binding Container}"
-                            VerticalOptions="StartAndExpand"
+                            VerticalOptions="Start"
                             HorizontalOptions="StartAndExpand"
                             Margin="10, 0, 0, 0"
                             Wrap="Wrap"
@@ -151,11 +117,11 @@
                     <Picker 
                         x:Name="ItemCommandPicker"
                         Title="Commands"
-                        Grid.Row="1" Grid.Column="1"
                         IsVisible="{Binding IsItemSelected}"
+                        FontSize="Micro"
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
-                        Margin="0"
+                        Margin="20, 0, 20, 0"
                         ItemsSource="{Binding VMItemCommands.ItemCommands}" 
                         SelectedItem="{Binding VMItemCommands.SelectedCommand}"
                         ItemDisplayBinding="{Binding Name}"

@@ -70,7 +70,22 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 {
                     ItemCommands.Add(new VMItemCommand()
                     {
-                        Name = "* Edit JSON",
+                        Name = ">> Edit Current Location",
+                        Item = null
+                    });
+                    ItemCommands.Add(new VMItemCommand()
+                    {
+                        Name = ">> Create New Location",
+                        Item = null
+                    });
+                    ItemCommands.Add(new VMItemCommand()
+                    {
+                        Name = ">> Create New Item",
+                        Item = null
+                    });
+                    ItemCommands.Add(new VMItemCommand()
+                    {
+                        Name = ">> Edit Item JSON",
                         Item = item
                     });
                 }

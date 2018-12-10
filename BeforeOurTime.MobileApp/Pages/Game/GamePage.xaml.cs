@@ -82,62 +82,10 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             }
         }
         /// <summary>
-        /// Edit current location
+        /// Toggle between inventory and location items
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void ButtonLocationEdit_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                var itemId = ViewModel.Location.Id;
-                var locationEditorPage = new LocationEditorPage(Container);
-                locationEditorPage.ViewModel.PreSelectLocation = itemId;
-                locationEditorPage.Disappearing += (disSender, disE) =>
-                {
-                    MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                };
-                await Navigation.PushModalAsync(locationEditorPage);
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        /// <summary>
-        /// Create new location
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ButtonLocationCreate_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.CreateFromCurrentLocation();
-                MessageService.Send(new WorldReadLocationSummaryRequest() { });
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        /// <summary>
-        /// Create new generic item
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ButtonItemCreate_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.CreateGenericItem();
-                MessageService.Send(new WorldReadLocationSummaryRequest() { });
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
         public async void ButtonInventory_OnClicked(object sender, EventArgs e)
         {
             try
@@ -179,7 +127,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 var itemCommand = (VMItemCommand)((Picker)sender).SelectedItem;
                 if (itemCommand != null)
                 {
-                    if (itemCommand.Name == "* Edit JSON")
+                    if (itemCommand.Name == ">> Edit Item JSON")
                     {
                         var itemId = itemCommand.Item.Id;
                         var jsonEditorPage = new JsonEditorPage(Container);
@@ -191,6 +139,48 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                             ((Picker)sender).SelectedItem = null;
                         };
                         await Navigation.PushModalAsync(jsonEditorPage);
+                    }
+                    else if (itemCommand.Name == ">> Edit Current Location")
+                    {
+                        try
+                        {
+                            var itemId = ViewModel.Location.Id;
+                            var locationEditorPage = new LocationEditorPage(Container);
+                            locationEditorPage.ViewModel.PreSelectLocation = itemId;
+                            locationEditorPage.Disappearing += (disSender, disE) =>
+                            {
+                                MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                            };
+                            await Navigation.PushModalAsync(locationEditorPage);
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Error", ex.Message, "Ok");
+                        }
+                    }
+                    else if (itemCommand.Name == ">> Create New Location")
+                    {
+                        try
+                        {
+                            await ViewModel.CreateFromCurrentLocation();
+                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Error", ex.Message, "Ok");
+                        }
+                    }
+                    else if (itemCommand.Name == ">> Create New Item")
+                    {
+                        try
+                        {
+                            await ViewModel.CreateGenericItem();
+                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Error", ex.Message, "Ok");
+                        }
                     }
                     else
                     {
