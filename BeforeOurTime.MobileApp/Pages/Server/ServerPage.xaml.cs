@@ -89,7 +89,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await ViewModel.SelectCharacterAsync();
                     var masterPage = new Play.PlayPage(Container)
                     {
-                        Detail = new NavigationPage(new Game.GamePage(Container)),
+                        Detail = new NavigationPage(new Explore.ExplorePage(Container)),
                         IsPresented = false
                     };
                     await Navigation.PushAsync(masterPage);
@@ -97,7 +97,8 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             }
             catch (AuthenticationDeniedException)
             {
-                await DisplayAlert("Error", $"Username or password is invalid. If you wish to use a trial account please leave the login name and password blank. Please try and connect again.", "Ok");
+                await ViewModel.ClearCache();
+                await DisplayAlert("Error", $"Username or password is invalid. If you wish to use a trial account simply leave the login name and password blank. Please try and connect again.", "Ok");
             }
             catch (Exception ex)
             {
@@ -149,16 +150,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// <param name="e"></param>
         public async void ButtonClearCache_OnClicked(object sender, EventArgs e)
         {
-            await Container.Resolve<IWebSocketService>().Clear();
-            await Container.Resolve<IMessageService>().Clear();
-            await Container.Resolve<IAccountService>().Clear();
-            await Container.Resolve<ICharacterService>().Clear();
-            await Container.Resolve<IGameService>().Clear();
-            Application.Current.Properties.Clear();
-            await Application.Current.SavePropertiesAsync();
-            ViewModel.Settings = new Models.Settings();
-            Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(ViewModel.Settings));
-            await Application.Current.SavePropertiesAsync();
+            await ViewModel.ClearCache();
             await DisplayAlert("Warning", "Cache has been reset", "OK");
         }
     }

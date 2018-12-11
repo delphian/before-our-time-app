@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
-             x:Class="BeforeOurTime.MobileApp.Pages.Game.GamePage"
-             Title="{Binding LocationName}">
+             x:Class="BeforeOurTime.MobileApp.Pages.Explore.ExplorePage"
+             Title="{Binding VMLocation.Name}">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
@@ -13,8 +13,10 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10">
-            <Label Text="{Binding LocationDescription}" FontSize="Small" FontFamily="Arial Narrow"
-                       HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+            <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
+                   FontSize="Small" 
+                   FontFamily="Arial Narrow"
+                   HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
             <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                         IsClippedToBounds="True"
                         Margin="0, 10, 0, 0">

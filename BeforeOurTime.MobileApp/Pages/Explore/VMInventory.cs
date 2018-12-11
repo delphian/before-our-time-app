@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeforeOurTime.MobileApp.Pages.Game
+namespace BeforeOurTime.MobileApp.Pages.Explore
 {
     /// <summary>
     /// View model for player inventory

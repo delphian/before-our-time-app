@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BeforeOurTime.MobileApp.Pages.Game
+namespace BeforeOurTime.MobileApp.Pages.Explore
 {
     /// <summary>
     /// View model and logic for controlling the text stream
@@ -50,7 +50,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// </summary>
         /// <param name="message">IMessage to deconstruct into a simple text message</param>
         /// <param name="vmGamePage">View model of explore page</param>
-        public VMEventStream OnIMessage(IMessage message, GamePageViewModel vmExplorePage)
+        public VMEventStream OnIMessage(IMessage message, VMExplorePage vmExplorePage)
         {
             if (message.IsMessageType<WorldEmoteEvent>())
             {
@@ -70,7 +70,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                 var messageEvent = message.GetMessageAsType<CoreMoveItemEvent>();
                 if (messageEvent.Item.Id != vmExplorePage.Me.Id)
                 {
-                    bool arrival = (messageEvent.NewParent.Id == vmExplorePage.Location.Id);
+                    bool arrival = (messageEvent.NewParent.Id == vmExplorePage.VMLocation.Item.Id);
                     var what = messageEvent.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                     var text = "";
                     if (arrival)

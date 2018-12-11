@@ -113,15 +113,16 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\VMLocation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMEventStream.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePage.xaml.cs">
-      <DependentUpon>GamePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMEventStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\ExplorePage.xaml.cs">
+      <DependentUpon>ExplorePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\GamePageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMInventory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMItemCommands.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Game\VMEmotes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMExplorePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMInventory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMItemCommands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMEmotes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -172,7 +173,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Game\GamePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Explore\ExplorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

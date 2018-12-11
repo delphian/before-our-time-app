@@ -24,15 +24,13 @@ using BeforeOurTime.Models.Modules.Core.Models.Data;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
-using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 
-namespace BeforeOurTime.MobileApp.Pages.Game
+namespace BeforeOurTime.MobileApp.Pages.Explore
 {
-    public class GamePageViewModel : System.ComponentModel.INotifyPropertyChanged
+    public class VMExplorePage : System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
         /// Structure that subscriber must implement to recieve property updates
@@ -83,37 +81,20 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         }
         private bool _isAdmin { set; get; }
         /// <summary>
-        /// Current location item
+        /// Current location view model
         /// </summary>
-        public Item Location
+        public VMLocation VMLocation
         {
-            get { return _location; }
-            set { _location = value; NotifyPropertyChanged("Location"); }
+            get { return _vmLocation; }
+            set { _vmLocation = value; NotifyPropertyChanged("VMLocation"); }
         }
-        private Item _location { set; get; }
+        private VMLocation _vmLocation { set; get; }
         public int ExitElements
         {
             get { return _exitElements; }
             set { _exitElements = value; NotifyPropertyChanged("ExitElements"); }
         }
         private int _exitElements { set; get; }
-        /// <summary>
-        /// Short name of the current location
-        /// </summary>
-        public string LocationName {
-            get { return _locationName; }
-            set { _locationName = value; NotifyPropertyChanged("LocationName"); }
-        }
-        private string _locationName { set; get; } = "Before Our Time";
-        /// <summary>
-        /// Long description of the current location
-        /// </summary>
-        public string LocationDescription
-        {
-            get { return _locationDescription; }
-            set { _locationDescription = value; NotifyPropertyChanged("LocationDescription"); }
-        }
-        private string _locationDescription { set; get; }
         /// <summary>
         /// All items that offer an exit
         /// </summary>
@@ -217,10 +198,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
-        public GamePageViewModel(IContainer container)
+        public VMExplorePage(IContainer container)
         {
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
+            VMLocation = new VMLocation(Container);
             Inventory = new VMInventory(Container);
             if (Me.ChildrenIds.Count() > 0)
             {
@@ -263,11 +245,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             else if (message.IsMessageType<CoreMoveItemEvent>())
             {
                 var moveItemEvent = message.GetMessageAsType<CoreMoveItemEvent>();
-                if (moveItemEvent.NewParent.Id == Location.Id)
+                if (moveItemEvent.NewParent.Id == VMLocation.Item.Id)
                 {
                     ProcessArrivalEvent(moveItemEvent);
                 }
-                if (moveItemEvent.OldParent.Id == Location.Id)
+                if (moveItemEvent.OldParent.Id == VMLocation.Item.Id)
                 {
                     ProcessDepartureEvent(moveItemEvent);
                 }
@@ -308,13 +290,11 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             SelectedItem = null;
             IsItemSelected = false;
-            Location = listLocationResponse.Item;
-            LocationName = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Name;
-            LocationDescription = listLocationResponse.Item.GetProperty<VisibleItemProperty>().Description;
+            VMLocation.Set(listLocationResponse.Item, listLocationResponse.Items);
             Characters = listLocationResponse.Characters;
             LocationItems = listLocationResponse.Items;
             LocationItems = LocationItems.ToList();
-            VMItemCommands = new VMItemCommands(Container, Location);
+            VMItemCommands = new VMItemCommands(Container, VMLocation.Item);
             ProcessExits(listLocationResponse);
         }
         private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)
@@ -358,7 +338,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             try
             {
-                var fromLocationItemId = Location.Id;
+                var fromLocationItemId = VMLocation.Item.Id;
                 var result = await MessageService
                     .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
                     {
@@ -381,7 +361,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             try
             {
-                var fromLocationItemId = Location.Id;
+                var fromLocationItemId = VMLocation.Item.Id;
                 var result = await MessageService
                     .SendRequestAsync<CoreCreateItemCrudResponse>(new CoreCreateItemCrudRequest()
                     {

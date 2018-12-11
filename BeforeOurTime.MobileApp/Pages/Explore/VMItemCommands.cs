@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeforeOurTime.MobileApp.Pages.Game
+namespace BeforeOurTime.MobileApp.Pages.Explore
 {
 
     /// <summary>
@@ -50,6 +50,24 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         {
             Container = container;
             MessageService = Container.Resolve<IMessageService>();
+            if (Container.Resolve<IAccountService>().GetAccount().Admin)
+            {
+                ItemCommands.Add(new VMItemCommand()
+                {
+                    Name = ">> Edit Current Location",
+                    Item = null
+                });
+                ItemCommands.Add(new VMItemCommand()
+                {
+                    Name = ">> Create New Location",
+                    Item = null
+                });
+                ItemCommands.Add(new VMItemCommand()
+                {
+                    Name = ">> Create New Item",
+                    Item = null
+                });
+            }
         }
         /// <summary>
         /// Remove any item specific commands
@@ -68,21 +86,6 @@ namespace BeforeOurTime.MobileApp.Pages.Game
             {
                 if (Container.Resolve<IAccountService>().GetAccount().Admin)
                 {
-                    ItemCommands.Add(new VMItemCommand()
-                    {
-                        Name = ">> Edit Current Location",
-                        Item = null
-                    });
-                    ItemCommands.Add(new VMItemCommand()
-                    {
-                        Name = ">> Create New Location",
-                        Item = null
-                    });
-                    ItemCommands.Add(new VMItemCommand()
-                    {
-                        Name = ">> Create New Item",
-                        Item = null
-                    });
                     ItemCommands.Add(new VMItemCommand()
                     {
                         Name = ">> Edit Item JSON",

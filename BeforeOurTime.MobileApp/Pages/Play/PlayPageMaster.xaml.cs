@@ -5,7 +5,7 @@ using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor;
 using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup;
 using BeforeOurTime.MobileApp.Pages.Admin.Debug;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor;
-using BeforeOurTime.MobileApp.Pages.Game;
+using BeforeOurTime.MobileApp.Pages.Explore;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using System;
 using System.Collections.Generic;
@@ -52,8 +52,8 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                 menuItemsArray = menuItemsArray.Append(new PlayPageMenuItem()
                 {
                     Id = 0,
-                    Title = "Play",
-                    TargetType = typeof(GamePage)
+                    Title = "Explore",
+                    TargetType = typeof(ExplorePage)
                 });
                 menuItemsArray = menuItemsArray.Append(new PlayPageMenuItem()
                 {

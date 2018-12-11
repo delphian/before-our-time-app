@@ -2,6 +2,8 @@
 using BeforeOurTime.MobileApp.Models;
 using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
+using BeforeOurTime.MobileApp.Services.Games;
+using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using Newtonsoft.Json;
 using System;
@@ -268,6 +270,23 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                 await Application.Current.SavePropertiesAsync();
                 throw new Exception("Can't locate temporary character");
             }
+        }
+        /// <summary>
+        /// Clear all caches
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearCache()
+        {
+            await Container.Resolve<IWebSocketService>().Clear();
+            await Container.Resolve<IMessageService>().Clear();
+            await Container.Resolve<IAccountService>().Clear();
+            await Container.Resolve<ICharacterService>().Clear();
+            await Container.Resolve<IGameService>().Clear();
+            Application.Current.Properties.Clear();
+            await Application.Current.SavePropertiesAsync();
+            Settings = new Models.Settings();
+            Application.Current.Properties.Add("Settings", JsonConvert.SerializeObject(Settings));
+            await Application.Current.SavePropertiesAsync();
         }
     }
 }

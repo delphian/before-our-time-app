@@ -38,7 +38,7 @@ namespace BeforeOurTime.MobileApp.Pages.Main
         }
         public async void OnTappedPlay(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Game.GamePage(Container));
+            await Navigation.PushAsync(new Explore.ExplorePage(Container));
         }
         public async void OnTappedAccount(object sender, EventArgs e)
         {

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BeforeOurTime.MobileApp.Pages.Game
+namespace BeforeOurTime.MobileApp.Pages.Explore
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class GamePage : ContentPage
+	public partial class ExplorePage : ContentPage
 	{
         /// <summary>
         /// Dependency injection container
@@ -25,17 +25,17 @@ namespace BeforeOurTime.MobileApp.Pages.Game
         /// <summary>
         /// View model
         /// </summary>
-        public GamePageViewModel ViewModel { set; get; }
+        public VMExplorePage ViewModel { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
-        public GamePage (IContainer container)
+        public ExplorePage (IContainer container)
 		{
 			InitializeComponent();
             Container = container;
             MessageService = container.Resolve<IMessageService>();
-            BindingContext = ViewModel = new GamePageViewModel(Container);
+            BindingContext = ViewModel = new VMExplorePage(Container);
         }
         public async void ButtonWest_OnClicked(object sender, EventArgs e)
         {
@@ -144,7 +144,7 @@ namespace BeforeOurTime.MobileApp.Pages.Game
                     {
                         try
                         {
-                            var itemId = ViewModel.Location.Id;
+                            var itemId = ViewModel.VMLocation.Item.Id;
                             var locationEditorPage = new LocationEditorPage(Container);
                             locationEditorPage.ViewModel.PreSelectLocation = itemId;
                             locationEditorPage.Disappearing += (disSender, disE) =>
