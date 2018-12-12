@@ -36,47 +36,6 @@
                         SelectedItem="{Binding VMEmotes.SelectedEmote}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
-                    <Frame
-                        VerticalOptions="EndAndExpand"
-                        Margin="0"
-                        Padding="0"
-                        BorderColor="Transparent"
-                        BackgroundColor="Transparent">
-                        <StackLayout Orientation="Horizontal"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand">
-                            <Button Text="W"
-                                Clicked="ButtonWest_OnClicked"
-                                WidthRequest="50"
-                                HeightRequest="50"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="FillAndExpand"
-                                BorderRadius="10"></Button>
-                            <StackLayout
-                                    VerticalOptions="FillAndExpand"
-                                    HorizontalOptions="FillAndExpand">
-                                <Button Text="N"
-                                        Clicked="ButtonNorth_OnClicked"
-                                        WidthRequest="50"
-                                        HeightRequest="50"
-                                        VerticalOptions="StartAndExpand"
-                                        BorderRadius="10"></Button>
-                                <Button Text="S"
-                                        Clicked="ButtonSouth_OnClicked"
-                                        WidthRequest="50"
-                                        HeightRequest="50"
-                                        VerticalOptions="EndAndExpand"
-                                        BorderRadius="10"></Button>
-                            </StackLayout>
-                            <Button Text="E"
-                                    Clicked="ButtonEast_OnClicked"
-                                    WidthRequest="50"
-                                    HeightRequest="50"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="FillAndExpand"
-                                    BorderRadius="10"></Button>
-                        </StackLayout>
-                    </Frame>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="StartAndExpand"
                         FlexLayout.Basis="50%">

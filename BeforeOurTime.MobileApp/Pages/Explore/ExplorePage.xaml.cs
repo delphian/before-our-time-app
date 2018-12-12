@@ -37,50 +37,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             MessageService = container.Resolve<IMessageService>();
             BindingContext = ViewModel = new VMExplorePage(Container);
         }
-        public async void ButtonWest_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.UseExit("west");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        public async void ButtonEast_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.UseExit("east");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        public async void ButtonNorth_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.UseExit("north");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        public async void ButtonSouth_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await ViewModel.UseExit("south");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
         /// <summary>
         /// Toggle between inventory and location items
         /// </summary>
