@@ -59,7 +59,7 @@
                             HorizontalOptions="StartAndExpand"
                             Margin="10, 0, 0, 0"
                             Wrap="Wrap"
-                            Items="{Binding LocationItems}"
+                            Items="{Binding VMGroundItems.Items}"
                             OnClicked="{Binding LocationItemTable_OnClicked}" />
                     </ScrollView>
                     <ScrollView VerticalOptions="Start" HorizontalOptions="StartAndExpand"

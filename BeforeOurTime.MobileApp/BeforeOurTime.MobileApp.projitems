@@ -119,6 +119,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMExplorePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMGroundItems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMInventory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMItemCommands.cs" />

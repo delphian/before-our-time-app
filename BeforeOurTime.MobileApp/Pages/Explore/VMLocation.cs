@@ -1,10 +1,12 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Exceptions;
+using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +64,18 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         public VMLocation(IContainer container)
         {
             Container = container;
+        }
+        /// <summary>
+        /// Listen to unprompted incoming messages (events)
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnMessage(IMessage message)
+        {
+            if (message.IsMessageType<WorldReadLocationSummaryResponse>())
+            {
+                var msg = message.GetMessageAsType<WorldReadLocationSummaryResponse>();
+                Set(msg.Item, msg.Items);
+            }
         }
         /// <summary>
         /// Update view model to reflect new location

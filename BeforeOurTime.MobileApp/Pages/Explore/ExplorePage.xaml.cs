@@ -47,7 +47,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             try
             {
                 ViewModel.ShowInventory = !ViewModel.ShowInventory;
-                ViewModel.LocationItems = ViewModel.LocationItems.ToList();
+                ViewModel.VMGroundItems.Items = ViewModel.VMGroundItems.Items.ToList();
                 ViewModel.Inventory.Items = ViewModel.Inventory.Items.ToList();
             }
             catch (Exception ex)

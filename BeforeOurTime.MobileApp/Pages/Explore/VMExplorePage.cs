@@ -16,8 +16,6 @@ using System.Windows.Input;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System.Threading.Tasks;
 using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Modules.World.Messages.Emotes;
-using BeforeOurTime.Models.Modules.World.Messages.Emotes.PerformEmote;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Models.Data;
@@ -89,30 +87,21 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             set { _vmLocation = value; NotifyPropertyChanged("VMLocation"); }
         }
         private VMLocation _vmLocation { set; get; }
+        /// <summary>
+        /// View Model for items on the ground
+        /// </summary>
+        public VMGroundItems VMGroundItems
+        {
+            get { return _vmGroundItems; }
+            set { _vmGroundItems = value; NotifyPropertyChanged("VMGroundItems"); }
+        }
+        private VMGroundItems _vmGroundItems { set; get; }
         public int ExitElements
         {
             get { return _exitElements; }
             set { _exitElements = value; NotifyPropertyChanged("ExitElements"); }
         }
         private int _exitElements { set; get; }
-        /// <summary>
-        /// All items that offer an exit
-        /// </summary>
-        public List<Item> Exits
-        {
-            get { return _exits; }
-            set { _exits = value; NotifyPropertyChanged("Exits"); }
-        }
-        private List<Item> _exits { set; get; } = new List<Item>();
-        /// <summary>
-        /// All objects (dumb items) at current location
-        /// </summary>
-        public List<Item> LocationItems
-        {
-            get { return _locationItems; }
-            set { _locationItems = value; NotifyPropertyChanged("LocationItems"); }
-        }
-        private List<Item> _locationItems { set; get; } = new List<Item>();
         /// <summary>
         /// Character items at current location
         /// </summary>
@@ -203,6 +192,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             Container = container;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
             VMLocation = new VMLocation(Container);
+            VMGroundItems = new VMGroundItems(Container, VMLocation, Me.Id);
             Inventory = new VMInventory(Container);
             if (Me.ChildrenIds.Count() > 0)
             {
@@ -220,6 +210,8 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
             GameService.OnMessage += OnMessage;
+            GameService.OnMessage += VMLocation.OnMessage;
+            GameService.OnMessage += VMGroundItems.OnMessage;
             LocationItemTable_OnClicked = new Xamarin.Forms.Command((object itemTableControl) =>
             {
                 var control = (ItemTableControl)itemTableControl;
@@ -257,31 +249,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             // Output as text message into event stream
             EventStream.OnIMessage(message, this);
         }
-        public async Task UseExit(string exitName)
-        {
-            var goGuid = new Guid("c558c1f9-7d01-45f3-bc35-dcab52b5a37c");
-            var item = LocationItems.Where(x => x.GetProperty<CommandItemProperty>() != null)?
-                   .Where(x => x.GetProperty<CommandItemProperty>().Commands
-                       .Any(y => y.Id == goGuid && x.GetProperty<VisibleItemProperty>().Name.ToLower().Contains(exitName.ToLower())))
-                   .FirstOrDefault();
-            var itemCommand = item?.GetProperty<CommandItemProperty>()?.Commands?
-                   .Where(x => x.Id == goGuid)
-                   .FirstOrDefault();
-            if (item == null || itemCommand == null)
-            {
-                throw new Exception("No such exit found");
-            }
-            var useRequest = new CoreUseItemRequest()
-            {
-                ItemId = item.Id,
-                Use = itemCommand
-            };
-            var response = await Container.Resolve<IMessageService>().SendRequestAsync<CoreUseItemResponse>(useRequest);
-            if (!response.IsSuccess())
-            {
-                throw new BeforeOurTimeException(response._responseMessage);
-            }
-        }
         /// <summary>
         /// Location has updated
         /// </summary>
@@ -290,28 +257,18 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             SelectedItem = null;
             IsItemSelected = false;
-            VMLocation.Set(listLocationResponse.Item, listLocationResponse.Items);
             Characters = listLocationResponse.Characters;
-            LocationItems = listLocationResponse.Items;
-            LocationItems = LocationItems.ToList();
             VMItemCommands = new VMItemCommands(Container, VMLocation.Item);
-            ProcessExits(listLocationResponse);
-        }
-        private void ProcessExits(WorldReadLocationSummaryResponse listLocationResponse)
-        {
-            Exits = listLocationResponse.Exits.Select(x => x.Item).ToList();
         }
         private void ProcessArrivalEvent(CoreMoveItemEvent arrivalEvent)
         {
             if (arrivalEvent.Item.Id != Me.Id)
             {
-                LocationItems.Add(arrivalEvent.Item);
                 if (arrivalEvent.OldParent.Id == Me.Id)
                 {
                     Inventory.Remove(new List<Item>() { arrivalEvent.Item });
                 }
                 // Force notify to fire
-                LocationItems = LocationItems.ToList();
                 Inventory.Items = Inventory.Items.ToList();
             }
         }
@@ -319,16 +276,10 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             if (departureEvent.Item.Id != Me.Id)
             {
-                LocationItems.Remove(LocationItems
-                    .Where(x => x.Id == departureEvent.Item.Id)
-                    .Select(x => x)
-                    .FirstOrDefault());
                 if (departureEvent.NewParent.Id == Me.Id)
                 {
                     Inventory.Add(new List<Item>() { departureEvent.Item });
                 }
-                // Force notify to fire
-                LocationItems = LocationItems.ToList();
             }
         }
         /// <summary>
