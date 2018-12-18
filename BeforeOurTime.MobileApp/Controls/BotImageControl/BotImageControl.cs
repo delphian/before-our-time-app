@@ -11,6 +11,9 @@ using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace BeforeOurTime.MobileApp.Controls
 {
+    /// <summary>
+    /// Display an Images.Image
+    /// </summary>
     public class BotImageControl : Frame
     {
         /// <summary>
@@ -26,10 +29,7 @@ namespace BeforeOurTime.MobileApp.Controls
             }
         }
         public static readonly BindableProperty ServicesProperty = BindableProperty.Create(
-            nameof(Services),
-            typeof(IContainer),
-            typeof(ItemIconButtonControl),
-            default(IContainer),
+            nameof(Services), typeof(IContainer), typeof(ItemIconButtonControl), default(IContainer),
             propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
             {
                 var control = (ItemIconButtonControl)bindable;
@@ -48,13 +48,15 @@ namespace BeforeOurTime.MobileApp.Controls
             get => (BeforeOurTime.Models.Primitives.Images.Image)GetValue(ImageProperty);
             set => SetValue(ImageProperty, value);
         }
-        public static readonly BindableProperty ImageProperty = 
-            BindableProperty.Create(
-                nameof(Image), 
-                typeof(BeforeOurTime.Models.Primitives.Images.Image), 
-                typeof(BotImageControl), 
-                default(BeforeOurTime.Models.Primitives.Images.Image), 
-                propertyChanged: RedrawCanvas);
+        public static readonly BindableProperty ImageProperty = BindableProperty.Create(
+            nameof(Image), typeof(BeforeOurTime.Models.Primitives.Images.Image), typeof(BotImageControl), 
+            default(BeforeOurTime.Models.Primitives.Images.Image), 
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+        {
+            var control = (BotImageControl)bindable;
+            control.Image = (BeforeOurTime.Models.Primitives.Images.Image)newvalue;
+            control?._canvasView.InvalidateSurface();
+        });
         /// <summary>
         /// Force icon to assume maximum height allowed by container and maintain ratio regardless of clip
         /// </summary>
@@ -75,10 +77,7 @@ namespace BeforeOurTime.MobileApp.Controls
             }
         }
         public static readonly BindableProperty ForceMaxHeightProperty = BindableProperty.Create(
-            nameof(ForceMaxHeight),
-            typeof(bool),
-            typeof(IconControl),
-            default(bool),
+            nameof(ForceMaxHeight), typeof(bool), typeof(IconControl), default(bool),
             propertyChanged: RedrawCanvas);
         /// <summary>
         /// Constructor
@@ -87,8 +86,6 @@ namespace BeforeOurTime.MobileApp.Controls
         {
             Padding = new Thickness(0);
             Margin = new Thickness(0);
-            BackgroundColor = Color.Transparent;
-            HasShadow = false;
             if (ForceMaxHeight == true)
             {
                 VerticalOptions = LayoutOptions.FillAndExpand;
@@ -103,40 +100,43 @@ namespace BeforeOurTime.MobileApp.Controls
             object oldvalue, 
             object newvalue)
         {
-            BotImageControl svgIcon = bindable as BotImageControl;
-            svgIcon?._canvasView.InvalidateSurface();
+            var control = (BotImageControl)bindable;
+            control?._canvasView.InvalidateSurface();
         }
         private void CanvasViewOnPaintSurface(
             object sender, 
             SKPaintSurfaceEventArgs args)
         {
-            string rawImage = Image.Value;
             SKCanvas canvas = args.Surface.Canvas;
             canvas.Clear();
-            var svgText = BeforeOurTime.Models.Model.Decompress(rawImage);
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(svgText)))
+            if (Image != null)
             {
-                SKSvg svg = new SKSvg();
-                svg.Load(stream);
-                SKImageInfo info = args.Info;
-                canvas.Translate(info.Width / 2f, info.Height / 2f);
-                SKRect bounds = svg.ViewBox;
-                float xRatio = info.Width / bounds.Width;
-                float yRatio = info.Height / bounds.Height;
-                float ratio;
-                if (ForceMaxHeight)
+                string rawImage = Image.Value;
+                var svgText = BeforeOurTime.Models.Model.Decompress(rawImage);
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(svgText)))
                 {
-                    ratio = yRatio;
-                    _canvasView.MinimumWidthRequest = Height * (bounds.Width / bounds.Height);
-                    _canvasView.WidthRequest = Height * (bounds.Width / bounds.Height);
+                    SKSvg svg = new SKSvg();
+                    svg.Load(stream);
+                    SKImageInfo info = args.Info;
+                    canvas.Translate(info.Width / 2f, info.Height / 2f);
+                    SKRect bounds = svg.ViewBox;
+                    float xRatio = info.Width / bounds.Width;
+                    float yRatio = info.Height / bounds.Height;
+                    float ratio;
+                    if (ForceMaxHeight)
+                    {
+                        ratio = yRatio;
+                        _canvasView.MinimumWidthRequest = Height * (bounds.Width / bounds.Height);
+                        _canvasView.WidthRequest = Height * (bounds.Width / bounds.Height);
+                    }
+                    else
+                    {
+                        ratio = Math.Min(xRatio, yRatio);
+                    }
+                    canvas.Scale(ratio);
+                    canvas.Translate(-bounds.MidX, -bounds.MidY);
+                    canvas.DrawPicture(svg.Picture);
                 }
-                else
-                {
-                    ratio = Math.Min(xRatio, yRatio);
-                }
-                canvas.Scale(ratio);
-                canvas.Translate(-bounds.MidX, -bounds.MidY);
-                canvas.DrawPicture(svg.Picture);
             }
         }
     }

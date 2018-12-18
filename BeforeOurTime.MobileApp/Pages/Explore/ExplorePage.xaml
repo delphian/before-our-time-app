@@ -4,6 +4,7 @@
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
              x:Class="BeforeOurTime.MobileApp.Pages.Explore.ExplorePage"
+             BackgroundColor="Black"
              Title="{Binding VMLocation.Name}">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
@@ -16,20 +17,26 @@
             <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
                    FontSize="Small" 
                    FontFamily="Arial Narrow"
-                   HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+                   HorizontalOptions="FillAndExpand" 
+                   VerticalOptions="Start"
+                   TextColor="White" />
+            <Label Text="{Binding EventStream.Output}" 
+                VerticalOptions="Start" 
+                HorizontalOptions="Start"
+                FontSize="Small"
+                FontFamily="Arial Narrow"
+                FontAttributes="Italic" />
             <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                         IsClippedToBounds="True"
                         Margin="0, 10, 0, 0">
-                <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="Start"
-                        FlexLayout.Basis="50%">
-                    <Label Text="{Binding EventStream.Output}" 
-                        VerticalOptions="Start" 
-                        HorizontalOptions="Start"
-                        FontSize="Micro"
-                        FontFamily="Arial Narrow"
-                        FontAttributes="Italic" />
-                    <Picker x:Name="EmotePicker" Title="Emote"
-                        VerticalOptions="End"
+                <StackLayout 
+                    VerticalOptions="FillAndExpand" 
+                    HorizontalOptions="Start"
+                    FlexLayout.Basis="50%"
+                    Padding="10">
+                    <Picker x:Name="EmotePicker" 
+                        Title="Emote"
+                        VerticalOptions="EndAndExpand"
                         HorizontalOptions="FillAndExpand"
                         Margin="0"
                         ItemsSource="{Binding VMEmotes.Emotes}" 
@@ -37,56 +44,53 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
                 </StackLayout>
-                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="StartAndExpand"
-                        FlexLayout.Basis="50%">
-                    <Button IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}" 
-                            Clicked="ButtonInventory_OnClicked" 
-                            Text="At Location:"
-                            BackgroundColor="LightGreen"
-                            BorderRadius="10"></Button>
-                    <Button IsVisible="{Binding ShowInventory}"
-                            Clicked="ButtonInventory_OnClicked"
-                            Text="In Inventory:"
-                            BackgroundColor="LightGreen"
-                            BorderRadius="10"></Button>
-                    <ScrollView VerticalOptions="Start" HorizontalOptions="StartAndExpand"
-                            IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}">
-                        <local:ItemTableControl
-                            x:Name="ItemTableLocation"
-                            IsVisible="{Binding ShowInventory, Converter={StaticResource inverter}}"
-                            Services="{Binding Container}"
-                            VerticalOptions="Start"
-                            HorizontalOptions="StartAndExpand"
-                            Margin="10, 0, 0, 0"
-                            Wrap="Wrap"
-                            Items="{Binding VMGroundItems.Items}"
-                            OnClicked="{Binding LocationItemTable_OnClicked}" />
+                <StackLayout 
+                    VerticalOptions="FillAndExpand" 
+                    HorizontalOptions="StartAndExpand"
+                    FlexLayout.Basis="50%">
+                    <ScrollView
+                        IsVisible="{Binding IsItemSelected, Converter={StaticResource inverter}}"
+                        VerticalOptions="EndAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                        <Frame
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BorderColor="LightGray"
+                            BackgroundColor="DarkGreen"
+                            Padding="10">
+                            <StackLayout
+                                VerticalOptions="EndAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Margin="0"
+                                Padding="0">
+                                    <Label
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        Text="Inventory"></Label>
+                                    <local:ItemTableControl
+                                        x:Name="ItemTableInventory"
+                                        Services="{Binding Container}"
+                                        VerticalOptions="EndAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        Margin="10, 0, 0, 0"
+                                        Wrap="Wrap"
+                                        Items="{Binding Inventory.Items}"
+                                        OnClicked="{Binding LocationItemTable_OnClicked}" />
+                            </StackLayout>
+                        </Frame>
                     </ScrollView>
-                    <ScrollView VerticalOptions="Start" HorizontalOptions="StartAndExpand"
-                            IsVisible="{Binding ShowInventory}">
-                        <local:ItemTableControl
-                            x:Name="ItemTableInventory"
-                            IsVisible="{Binding ShowInventory}"
-                            Services="{Binding Container}"
-                            VerticalOptions="Start"
-                            HorizontalOptions="StartAndExpand"
-                            Margin="10, 0, 0, 0"
-                            Wrap="Wrap"
-                            Items="{Binding Inventory.Items}"
-                            OnClicked="{Binding LocationItemTable_OnClicked}" />
-                    </ScrollView>
-                    <Picker 
-                        x:Name="ItemCommandPicker"
-                        Title="Commands"
+                    <local:BotItemDetailControl
+                        x:Name="ItemDetailControl"
+                        Services="{Binding Container}"
+                        Item="{Binding SelectedItem}"
+                        OnCommand="{Binding ItemDetailControl_OnCommand}"
+                        OnClose="{Binding ItemDetailControl_OnClose}"
                         IsVisible="{Binding IsItemSelected}"
-                        FontSize="Micro"
-                        VerticalOptions="Start"
+                        VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
-                        Margin="20, 0, 20, 0"
-                        ItemsSource="{Binding VMItemCommands.ItemCommands}" 
-                        SelectedItem="{Binding VMItemCommands.SelectedCommand}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedIndexChanged="ItemCommandPicker_OnSelectedIndexChanged" />
+                        BorderColor="LightGray"
+                        BackgroundColor="DarkGreen"
+                        Padding="10" />
                 </StackLayout>
             </FlexLayout>
         </StackLayout>

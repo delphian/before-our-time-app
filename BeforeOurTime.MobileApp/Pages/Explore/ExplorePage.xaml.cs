@@ -1,14 +1,16 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Controls;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -35,7 +37,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
 			InitializeComponent();
             Container = container;
             MessageService = container.Resolve<IMessageService>();
-            BindingContext = ViewModel = new VMExplorePage(Container);
+            BindingContext = ViewModel = new VMExplorePage(Container, this);
         }
         /// <summary>
         /// Toggle between inventory and location items
@@ -65,84 +67,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             try
             {
                 await ViewModel.VMEmotes.PerformSelectedEmote();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
-        }
-        /// <summary>
-        /// Perform an emote
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ItemCommandPicker_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var itemCommand = (VMItemCommand)((Picker)sender).SelectedItem;
-                if (itemCommand != null)
-                {
-                    if (itemCommand.Name == ">> Edit Item JSON")
-                    {
-                        var itemId = itemCommand.Item.Id;
-                        var jsonEditorPage = new JsonEditorPage(Container);
-                        jsonEditorPage.ViewModel.ItemId = itemId.ToString();
-                        await jsonEditorPage.ViewModel.ReadItem();
-                        jsonEditorPage.Disappearing += (disSender, disE) =>
-                        {
-                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                            ((Picker)sender).SelectedItem = null;
-                        };
-                        await Navigation.PushModalAsync(jsonEditorPage);
-                    }
-                    else if (itemCommand.Name == ">> Edit Current Location")
-                    {
-                        try
-                        {
-                            var itemId = ViewModel.VMLocation.Item.Id;
-                            var locationEditorPage = new LocationEditorPage(Container);
-                            locationEditorPage.ViewModel.PreSelectLocation = itemId;
-                            locationEditorPage.Disappearing += (disSender, disE) =>
-                            {
-                                MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                            };
-                            await Navigation.PushModalAsync(locationEditorPage);
-                        }
-                        catch (Exception ex)
-                        {
-                            await DisplayAlert("Error", ex.Message, "Ok");
-                        }
-                    }
-                    else if (itemCommand.Name == ">> Create New Location")
-                    {
-                        try
-                        {
-                            await ViewModel.CreateFromCurrentLocation();
-                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                        }
-                        catch (Exception ex)
-                        {
-                            await DisplayAlert("Error", ex.Message, "Ok");
-                        }
-                    }
-                    else if (itemCommand.Name == ">> Create New Item")
-                    {
-                        try
-                        {
-                            await ViewModel.CreateGenericItem();
-                            MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                        }
-                        catch (Exception ex)
-                        {
-                            await DisplayAlert("Error", ex.Message, "Ok");
-                        }
-                    }
-                    else
-                    {
-                        await ViewModel.VMItemCommands.PerformSelectedCommand();
-                    }
-                }
             }
             catch (Exception ex)
             {

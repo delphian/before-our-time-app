@@ -9,7 +9,6 @@ using System.Text;
 using Xamarin.Forms;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
-using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.MobileApp.Controls;
 using System.Windows.Input;
@@ -25,6 +24,9 @@ using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
+using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 
 namespace BeforeOurTime.MobileApp.Pages.Explore
 {
@@ -47,6 +49,10 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// Message service
         /// </summary>
         private IMessageService MessageService { set; get; }
+        /// <summary>
+        /// Page that this code behind is acting as view model for
+        /// </summary>
+        public Page Page { set; get; }
         /// <summary>
         /// Player's character
         /// </summary>
@@ -96,21 +102,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             set { _vmGroundItems = value; NotifyPropertyChanged("VMGroundItems"); }
         }
         private VMGroundItems _vmGroundItems { set; get; }
-        public int ExitElements
-        {
-            get { return _exitElements; }
-            set { _exitElements = value; NotifyPropertyChanged("ExitElements"); }
-        }
-        private int _exitElements { set; get; }
-        /// <summary>
-        /// Character items at current location
-        /// </summary>
-        public List<Item> Characters
-        {
-            get { return _characters; }
-            set { _characters = value; NotifyPropertyChanged("Characters"); }
-        }
-        private List<Item> _characters { set; get; } = new List<Item>();
         /// <summary>
         /// Callback when location item has been clicked
         /// </summary>
@@ -120,6 +111,24 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             set { _locationItemTable_OnClicked = value; NotifyPropertyChanged("LocationItemTable_OnClicked"); }
         }
         private ICommand _locationItemTable_OnClicked { set; get; }
+        /// <summary>
+        /// Callback when an item command has been invoked by child control
+        /// </summary>
+        public ICommand ItemDetailControl_OnCommand
+        {
+            get { return _itemDetailControl_OnCommand; }
+            set { _itemDetailControl_OnCommand = value; NotifyPropertyChanged("ItemDetailControl_OnCommand"); }
+        }
+        private ICommand _itemDetailControl_OnCommand { set; get; }
+        /// <summary>
+        /// Callback when an item command has been invoked by child control
+        /// </summary>
+        public ICommand ItemDetailControl_OnClose
+        {
+            get { return _itemDetailControl_OnClose; }
+            set { _itemDetailControl_OnClose = value; NotifyPropertyChanged("ItemDetailControl_OnClose"); }
+        }
+        private ICommand _itemDetailControl_OnClose { set; get; }
         /// <summary>
         /// Currently selected item at location
         /// </summary>
@@ -175,23 +184,16 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         }
         private VMEmotes _vmEmotes { set; get; }
         /// <summary>
-        /// View model for all item commands
-        /// </summary>
-        public VMItemCommands VMItemCommands
-        {
-            get { return _vmItemCommands; }
-            set { _vmItemCommands = value; NotifyPropertyChanged("VMItemCommands"); }
-        }
-        private VMItemCommands _vmItemCommands { set; get; }
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
-        public VMExplorePage(IContainer container)
+        public VMExplorePage(IContainer container, Page page)
         {
             Container = container;
+            Page = page;
             Me = Container.Resolve<ICharacterService>().GetCharacter();
-            VMLocation = new VMLocation(Container);
+            VMLocation = new VMLocation(Container, Me.Id);
+            VMLocation.OnItemSelected += SelectItem;
             VMGroundItems = new VMGroundItems(Container, VMLocation, Me.Id);
             Inventory = new VMInventory(Container);
             if (Me.ChildrenIds.Count() > 0)
@@ -207,7 +209,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             MessageService = Container.Resolve<IMessageService>();
             IsAdmin = Me.GetData<AccountData>().Admin;
             VMEmotes = new VMEmotes(Container);
-            ExitElements = Convert.ToInt32(Math.Floor(Application.Current.MainPage.Width / 200));
             var GameService = container.Resolve<IGameService>();
             GameService.OnMessage += OnMessage;
             GameService.OnMessage += VMLocation.OnMessage;
@@ -215,14 +216,74 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             LocationItemTable_OnClicked = new Xamarin.Forms.Command((object itemTableControl) =>
             {
                 var control = (ItemTableControl)itemTableControl;
-                SelectedItem = control?.SelectedItem;
-                IsItemSelected = (SelectedItem != null);
-                control.SetHighlight(SelectedItem);
-                SelectedVisibleProperty = SelectedItem?.GetProperty<VisibleItemProperty>();
-                VMItemCommands.ClearItemCommands();
-                VMItemCommands.AddItemCommands(SelectedItem);
+                SelectItem(control?.SelectedItem);
+//                control.SetHighlight(SelectedItem);
+            });
+            ItemDetailControl_OnCommand = new Xamarin.Forms.Command((object itemDetailControl) =>
+            {
+                var control = (BotItemDetailControl)itemDetailControl;
+                OnItemCommand(control.Item, control.ItemCommand);
+            });
+            ItemDetailControl_OnClose = new Xamarin.Forms.Command((object itemDetailControl) =>
+            {
+                var control = (BotItemDetailControl)itemDetailControl;
+                SelectItem(null);
             });
             MessageService.SendRequestAsync<WorldReadLocationSummaryResponse>(new WorldReadLocationSummaryRequest() { });
+        }
+        /// <summary>
+        /// Process an item command
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="itemCommand"></param>
+        private async void OnItemCommand(Item item, ItemCommand itemCommand)
+        {
+            if (itemCommand.Name == ">> Edit JSON")
+            {
+                var itemId = item.Id;
+                var jsonEditorPage = new JsonEditorPage(Container);
+                jsonEditorPage.ViewModel.ItemId = itemId.ToString();
+                await jsonEditorPage.ViewModel.ReadItem();
+                jsonEditorPage.Disappearing += (disSender, disE) =>
+                {
+                    MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                };
+                await Page.Navigation.PushModalAsync(jsonEditorPage);
+            }
+            else if (itemCommand.Name == ">> Edit Location")
+            {
+                var itemId = VMLocation.Item.Id;
+                var locationEditorPage = new LocationEditorPage(Container);
+                locationEditorPage.ViewModel.PreSelectLocation = itemId;
+                locationEditorPage.Disappearing += (disSender, disE) =>
+                {
+                    MessageService.Send(new WorldReadLocationSummaryRequest() { });
+                };
+                await Page.Navigation.PushModalAsync(locationEditorPage);
+            }
+            else if (itemCommand.Name == ">> Create Location")
+            {
+                await CreateFromCurrentLocation();
+                MessageService.Send(new WorldReadLocationSummaryRequest() { });
+            }
+            else if (itemCommand.Name == ">> Create Item")
+            {
+                await CreateGenericItem();
+                MessageService.Send(new WorldReadLocationSummaryRequest() { });
+            }
+            else
+            {
+                var useRequest = new CoreUseItemRequest()
+                {
+                    ItemId = item.Id,
+                    Use = itemCommand
+                };
+                var result = await MessageService.SendRequestAsync<CoreUseItemResponse>(useRequest);
+                if (!result.IsSuccess())
+                {
+                    throw new BeforeOurTimeException(result._responseMessage);
+                }
+            }
         }
         /// <summary>
         /// Listen to unprompted incoming messages (events)
@@ -250,6 +311,16 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             EventStream.OnIMessage(message, this);
         }
         /// <summary>
+        /// An item has been selected by one of the child controls
+        /// </summary>
+        /// <param name="item"></param>
+        public void SelectItem(Item item)
+        {
+            SelectedItem = item;
+            IsItemSelected = (SelectedItem != null);
+            SelectedVisibleProperty = item?.GetProperty<VisibleItemProperty>();
+        }
+        /// <summary>
         /// Location has updated
         /// </summary>
         /// <param name="listLocationResponse"></param>
@@ -257,8 +328,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             SelectedItem = null;
             IsItemSelected = false;
-            Characters = listLocationResponse.Characters;
-            VMItemCommands = new VMItemCommands(Container, VMLocation.Item);
         }
         private void ProcessArrivalEvent(CoreMoveItemEvent arrivalEvent)
         {

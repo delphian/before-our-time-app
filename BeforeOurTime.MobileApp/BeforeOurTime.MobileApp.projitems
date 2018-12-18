@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BotImageControl\BotImageControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\IconControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BotItemDetail\BotItemDetailControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemIconButton\ItemIconButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemTable\ItemTableControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ScrollListView.cs" />
@@ -113,6 +114,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\VMLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\Models\ItemSpan.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMEventStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\ExplorePage.xaml.cs">
       <DependentUpon>ExplorePage.xaml</DependentUpon>
@@ -122,7 +124,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMGroundItems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMInventory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMItemCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMEmotes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
