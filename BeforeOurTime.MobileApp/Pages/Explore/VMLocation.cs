@@ -188,8 +188,13 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             var visible = itemSpan.Item.GetProperty<VisibleItemProperty>();
             var name = visible?.Name ?? "**Unknown**";
             itemSpan.Span.Text = $"{name}";
-            itemSpan.Span.TextColor = (itemSpan.Selected) ? Color.Red : Color.LightBlue;
-            itemSpan.Span.TextDecorations = (itemSpan.Selected) ? TextDecorations.None : TextDecorations.Underline;
+            itemSpan.Span.TextColor = (itemSpan.Selected) ? Color.Gray : Color.White;
+            itemSpan.Span.TextDecorations = (itemSpan.Selected) ? TextDecorations.Underline : TextDecorations.Underline;
+            // Why for this particular property must be set on UI thread?
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
+            });
             if (itemSpan.Span.GestureRecognizers.Count() == 0)
             {
                 itemSpan.Span.GestureRecognizers.Add(new TapGestureRecognizer()

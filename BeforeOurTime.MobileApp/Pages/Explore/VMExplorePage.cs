@@ -94,15 +94,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         }
         private VMLocation _vmLocation { set; get; }
         /// <summary>
-        /// View Model for items on the ground
-        /// </summary>
-        public VMGroundItems VMGroundItems
-        {
-            get { return _vmGroundItems; }
-            set { _vmGroundItems = value; NotifyPropertyChanged("VMGroundItems"); }
-        }
-        private VMGroundItems _vmGroundItems { set; get; }
-        /// <summary>
         /// Callback when location item has been clicked
         /// </summary>
         public ICommand LocationItemTable_OnClicked
@@ -194,7 +185,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             Me = Container.Resolve<ICharacterService>().GetCharacter();
             VMLocation = new VMLocation(Container, Me.Id);
             VMLocation.OnItemSelected += SelectItem;
-            VMGroundItems = new VMGroundItems(Container, VMLocation, Me.Id);
             Inventory = new VMInventory(Container);
             if (Me.ChildrenIds.Count() > 0)
             {
@@ -212,7 +202,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             var GameService = container.Resolve<IGameService>();
             GameService.OnMessage += OnMessage;
             GameService.OnMessage += VMLocation.OnMessage;
-            GameService.OnMessage += VMGroundItems.OnMessage;
             LocationItemTable_OnClicked = new Xamarin.Forms.Command((object itemTableControl) =>
             {
                 var control = (ItemTableControl)itemTableControl;
@@ -298,6 +287,13 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             else if (message.IsMessageType<CoreMoveItemEvent>())
             {
                 var moveItemEvent = message.GetMessageAsType<CoreMoveItemEvent>();
+                // Refresh selected item or close item detail box
+                if (SelectedItem.Id == moveItemEvent.Item.Id)
+                {
+                    IsItemSelected = (moveItemEvent.Item.ParentId == Me.Id || 
+                                      moveItemEvent.Item.ParentId == VMLocation.Item.Id);
+                    SelectedItem = (IsItemSelected) ? moveItemEvent.Item : null;
+                }
                 if (moveItemEvent.NewParent.Id == VMLocation.Item.Id)
                 {
                     ProcessArrivalEvent(moveItemEvent);

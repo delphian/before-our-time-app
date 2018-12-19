@@ -4,7 +4,7 @@
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
              x:Class="BeforeOurTime.MobileApp.Pages.Explore.ExplorePage"
-             BackgroundColor="Black"
+             BackgroundColor="#202020"
              Title="{Binding VMLocation.Name}">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
@@ -56,7 +56,7 @@
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
                             BorderColor="LightGray"
-                            BackgroundColor="DarkGreen"
+                            BackgroundColor="#404040"
                             Padding="10">
                             <StackLayout
                                 VerticalOptions="EndAndExpand"
@@ -89,7 +89,7 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
                         BorderColor="LightGray"
-                        BackgroundColor="DarkGreen"
+                        BackgroundColor="#404040"
                         Padding="10" />
                 </StackLayout>
             </FlexLayout>

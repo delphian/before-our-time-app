@@ -43,6 +43,11 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// </summary>
         public VMEventStream()
         {
+            Push(".");
+            Push(".");
+            Push(".");
+            Push(".");
+            Push(".");
             Push("Logos...");
         }
         /// <summary>
@@ -126,7 +131,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <param name="message"></param>
         public void Push(string message)
         {
-            if (Events.Count() > 6)
+            if (Events.Count() > 5)
             {
                 Events.Remove(Events.OrderBy(x => x.Time).First());
             }

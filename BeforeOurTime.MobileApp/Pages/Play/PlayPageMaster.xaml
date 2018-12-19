@@ -2,14 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BeforeOurTime.MobileApp.Pages.Play.PlayPageMaster"
-             Title="Master">
+             Title="Master"
+             BackgroundColor="#303030">
   <StackLayout>
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
+        <Grid BackgroundColor="#404040">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
@@ -35,7 +36,8 @@
               <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
-                    FontSize="24"/>
+                    FontSize="24"
+                    TextColor="White"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>
