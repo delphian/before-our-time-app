@@ -5,7 +5,7 @@
              x:Class="BeforeOurTime.MobileApp.Pages.Server.ServerPage"
              Title="Connect to World"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="#404040">
+             BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>

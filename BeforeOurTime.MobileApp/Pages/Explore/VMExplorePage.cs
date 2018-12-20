@@ -27,6 +27,7 @@ using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 
 namespace BeforeOurTime.MobileApp.Pages.Explore
 {
@@ -221,11 +222,37 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             MessageService.SendRequestAsync<WorldReadLocationSummaryResponse>(new WorldReadLocationSummaryRequest() { });
         }
         /// <summary>
+        /// Use an exit item and reference the item by a direction
+        /// </summary>
+        /// <param name="direction"></param>
+        public async Task UseExitByDirection(string direction)
+        {
+            ExitDirection? directionId = null;
+            directionId = (direction.ToLower() == "n") ? ExitDirection.North : directionId;
+            directionId = (direction.ToLower() == "s") ? ExitDirection.South : directionId;
+            directionId = (direction.ToLower() == "e") ? ExitDirection.East : directionId;
+            directionId = (direction.ToLower() == "w") ? ExitDirection.West : directionId;
+            var exitItem = VMLocation.Items
+                .Where(x => x.HasProperty<ExitItemProperty>() &&
+                            x.GetProperty<ExitItemProperty>()?.Direction != null &&
+                            x.GetProperty<ExitItemProperty>()?.Direction == directionId)
+                .FirstOrDefault();
+            var goCommand = exitItem?
+                .GetProperty<CommandItemProperty>()?
+                    .Commands
+                        .Where(x => x.Id == new Guid("c558c1f9-7d01-45f3-bc35-dcab52b5a37c"))
+                        .FirstOrDefault();
+            if (exitItem != null && goCommand != null)
+            {
+                await OnItemCommand(exitItem, goCommand);
+            }
+        }
+        /// <summary>
         /// Process an item command
         /// </summary>
         /// <param name="item"></param>
         /// <param name="itemCommand"></param>
-        private async void OnItemCommand(Item item, ItemCommand itemCommand)
+        private async Task OnItemCommand(Item item, ItemCommand itemCommand)
         {
             if (itemCommand.Name == ">> Edit JSON")
             {
@@ -288,7 +315,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             {
                 var moveItemEvent = message.GetMessageAsType<CoreMoveItemEvent>();
                 // Refresh selected item or close item detail box
-                if (SelectedItem.Id == moveItemEvent.Item.Id)
+                if (IsItemSelected && SelectedItem.Id == moveItemEvent.Item.Id)
                 {
                     IsItemSelected = (moveItemEvent.Item.ParentId == Me.Id || 
                                       moveItemEvent.Item.ParentId == VMLocation.Item.Id);

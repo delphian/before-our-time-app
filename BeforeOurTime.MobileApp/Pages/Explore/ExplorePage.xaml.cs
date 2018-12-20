@@ -1,10 +1,4 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Controls;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
-using BeforeOurTime.MobileApp.Services.Messages;
-using BeforeOurTime.Models.Modules.Core.Models.Properties;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +17,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// Dependency injection container
         /// </summary>
         private IContainer Container { set; get; }
-        private IMessageService MessageService { set; get; }
         /// <summary>
         /// View model
         /// </summary>
@@ -36,25 +29,18 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
 		{
 			InitializeComponent();
             Container = container;
-            MessageService = container.Resolve<IMessageService>();
             BindingContext = ViewModel = new VMExplorePage(Container, this);
         }
         /// <summary>
-        /// Toggle between inventory and location items
+        /// Key has been pressed (N,S,E,W, etc...)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void ButtonInventory_OnClicked(object sender, EventArgs e)
+        public async Task KeyPressed(object sender, KeyEventArgs e)
         {
-            try
+            if (new List<String>() { "n", "s", "e", "w" }.Contains(e.Key.ToLower()))
             {
-                ViewModel.ShowInventory = !ViewModel.ShowInventory;
-//                ViewModel.VMGroundItems.Items = ViewModel.VMGroundItems.Items.ToList();
-                ViewModel.Inventory.Items = ViewModel.Inventory.Items.ToList();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
+                await ViewModel.UseExitByDirection(e.Key);
             }
         }
         /// <summary>
@@ -73,5 +59,9 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 await DisplayAlert("Error", ex.Message, "Ok");
             }
         }
+    }
+    public class KeyEventArgs : EventArgs
+    {
+        public string Key { get; set; }
     }
 }
