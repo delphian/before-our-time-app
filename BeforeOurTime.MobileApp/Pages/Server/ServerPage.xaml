@@ -4,7 +4,6 @@
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              x:Class="BeforeOurTime.MobileApp.Pages.Server.ServerPage"
              Title="Connect to World"
-             NavigationPage.HasNavigationBar="False"
              BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />

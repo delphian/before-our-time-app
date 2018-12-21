@@ -2,6 +2,5 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BeforeOurTime.MobileApp.Pages.Play.PlayPage"
-             xmlns:master="clr-namespace:BeforeOurTime.MobileApp.Pages.Play"
              NavigationPage.HasNavigationBar="False">
 </MasterDetailPage>

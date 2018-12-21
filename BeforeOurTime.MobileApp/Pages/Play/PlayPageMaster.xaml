@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BeforeOurTime.MobileApp.Pages.Play.PlayPageMaster"
-             Title="Master"
-             BackgroundColor="#303030">
+             Title="Test"
+             BackgroundColor="#303030"
+             NavigationPage.HasNavigationBar="False">
   <StackLayout>
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"

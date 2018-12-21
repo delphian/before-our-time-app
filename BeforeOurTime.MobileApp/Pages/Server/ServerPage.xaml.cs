@@ -92,7 +92,12 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                         Detail = new NavigationPage(new Explore.ExplorePage(Container)),
                         IsPresented = false
                     };
+#if __MOBILE__
                     await Navigation.PushAsync(masterPage);
+#else
+                    // Use modal to hide top command bar in UWP
+                    await Navigation.PushModalAsync(masterPage);
+#endif
                 }
             }
             catch (AuthenticationDeniedException)

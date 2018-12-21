@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin;
 using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor;
-using BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.Backup;
 using BeforeOurTime.MobileApp.Pages.Admin.Debug;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor;
 using BeforeOurTime.MobileApp.Services.Accounts;
@@ -32,6 +30,7 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             InitializeComponent();
             Container = container;
             Master = new PlayPageMaster(Container);
+            this.MasterBehavior = MasterBehavior.Popover;
             ((PlayPageMaster)Master).ListView.ItemSelected += ListView_ItemSelected;
         }
         /// <summary>
@@ -55,17 +54,23 @@ namespace BeforeOurTime.MobileApp.Pages.Play
             {
                 if (item.TargetType == null)
                 {
+#if __MOBILE__
                     await Navigation.PopAsync();
+#else
+                    // Use modal to hide top command bar in UWP
+                    // See ServerPage.xaml.cs
+                    await Navigation.PopModalAsync();
+#endif
                 }
                 else
                 {
                     var page = (Page)Activator.CreateInstance(item.TargetType, Container);
                     Title = item.Title;
-                    Detail = new NavigationPage(page);
+                    Detail = page;
                     IsPresented = false;
                 }
             }
-            ((PlayPageMaster)Master).ListView.SelectedItem = null;
+//            ((NavigationPage)Master).((PlayPageMaster)Master).ListView.SelectedItem = null;
         }
     }
 }
