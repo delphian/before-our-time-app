@@ -89,7 +89,11 @@ namespace BeforeOurTime.MobileApp.Pages.Server
                     await ViewModel.SelectCharacterAsync();
                     var masterPage = new Play.PlayPage(Container)
                     {
-                        Detail = new NavigationPage(new Explore.ExplorePage(Container)),
+                        Detail = new NavigationPage(new Explore.ExplorePage(Container))
+                        {
+                            BarBackgroundColor = Color.FromHex("606060"),
+                            BarTextColor = Color.FromHex("f0f0f0")
+                        },
                         IsPresented = false
                     };
 #if __MOBILE__

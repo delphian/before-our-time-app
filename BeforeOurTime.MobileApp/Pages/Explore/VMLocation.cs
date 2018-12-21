@@ -110,13 +110,14 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 {
                     // Item has arrived
                     Add(new List<Item>() { msg.Item });
+                    Set(Item, Items);
                 }
                 if (msg.OldParent.Id == Item.Id && msg.Item.Id != PlayerId)
                 {
                     // Item has departed
                     Remove(new List<Item>() { msg.Item });
+                    Set(Item, Items);
                 }
-                Set(Item, Items);
             }
         }
         /// <summary>
@@ -155,6 +156,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                     });
                 }
             });
+            NotifyPropertyChanged("DescriptionFormatted");
             return this;
         }
         /// <summary>
@@ -191,10 +193,10 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             itemSpan.Span.TextColor = (itemSpan.Selected) ? Color.Gray : Color.White;
             itemSpan.Span.TextDecorations = (itemSpan.Selected) ? TextDecorations.Underline : TextDecorations.Underline;
             // Why for this particular property must be set on UI thread?
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-            {
-                itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
-            });
+            //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            //{
+            //    itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
+            //});
             if (itemSpan.Span.GestureRecognizers.Count() == 0)
             {
                 itemSpan.Span.GestureRecognizers.Add(new TapGestureRecognizer()

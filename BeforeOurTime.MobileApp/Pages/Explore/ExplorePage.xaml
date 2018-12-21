@@ -14,6 +14,12 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10">
+            <StackLayout.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped"/>
+                <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped"/>
+            </StackLayout.GestureRecognizers>
             <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
                    FontSize="Small" 
                    FontFamily="Arial Narrow"

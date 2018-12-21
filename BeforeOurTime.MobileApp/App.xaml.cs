@@ -70,7 +70,7 @@ namespace BeforeOurTime.MobileApp
             // Setup main page
             MainPage = new NavigationPage(new ServerPage(Container))
             {
-                BarBackgroundColor = Color.FromHex("666666"),
+                BarBackgroundColor = Color.FromHex("606060"),
                 BarTextColor = Color.White,
                 BackgroundColor = Color.FromHex("202020")
             };

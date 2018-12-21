@@ -44,6 +44,30 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             }
         }
         /// <summary>
+        /// Map a swipe to a directional keypress
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public async void OnSwiped(object sender, SwipedEventArgs e)
+        {
+            switch (e.Direction)
+            {
+                case SwipeDirection.Left:
+                    await KeyPressed(sender, new KeyEventArgs() { Key = "e" });
+                    break;
+                case SwipeDirection.Right:
+                    await KeyPressed(sender, new KeyEventArgs() { Key = "w" });
+                    break;
+                case SwipeDirection.Up:
+                    await KeyPressed(sender, new KeyEventArgs() { Key = "s" });
+                    break;
+                case SwipeDirection.Down:
+                    await KeyPressed(sender, new KeyEventArgs() { Key = "n" });
+                    break;
+            }
+        }
+        /// <summary>
         /// Perform an emote
         /// </summary>
         /// <param name="sender"></param>
