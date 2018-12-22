@@ -65,7 +65,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
                     Characters.Add(new VMAccountCharacterEntry()
                     {
                         IsSelected = false,
-                        CharacterItem = result
+                        Item = result
                     });
                     Characters = Characters.ToList();
                 });

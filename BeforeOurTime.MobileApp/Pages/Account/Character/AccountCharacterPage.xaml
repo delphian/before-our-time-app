@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              x:Class="BeforeOurTime.MobileApp.Pages.Account.Character.AccountCharacterPage"
-             Title="Characters">
+             Title="Characters"
+             BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
@@ -32,18 +33,27 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Frame BorderColor="LightGray" Margin="0" Padding="4" VerticalOptions="FillAndExpand" >
-                                    <StackLayout BackgroundColor="WhiteSmoke" 
-                                                 Orientation="Horizontal"
-                                                 VerticalOptions="FillAndExpand"
-                                                 HorizontalOptions="FillAndExpand"
-                                                 Padding="0">
+                                <Frame 
+                                    BackgroundColor="#404040"
+                                    BorderColor="#606060"
+                                    Margin="0" 
+                                    Padding="4" 
+                                    VerticalOptions="FillAndExpand" >
+                                    <StackLayout 
+                                        Orientation="Horizontal"
+                                        VerticalOptions="FillAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        Padding="0">
                                         <StackLayout 
                                             Orientation="Vertical" 
                                             Padding="0" Margin="2" 
                                             VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
-                                            <Label FontAttributes="Bold" Text="{Binding CharacterItem.Visible.Name}"></Label>
-                                            <Label Text="{Binding CharacterItem.Visible.Description}"></Label>
+                                            <Label Text="{Binding Name}"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White">
+                                            </Label>
+                                            <Label Text="{Binding Description}"
+                                                   TextColor="White"></Label>
                                         </StackLayout>
                                         <StackLayout IsVisible="{Binding IsSelected}" 
                                                      Orientation="Horizontal"
@@ -52,18 +62,20 @@
                                             <Button Text="Play"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
-                                                Margin="0, 0, 6, 0"
-                                                BackgroundColor="LightGreen"
+                                                Margin="6"
+                                                BackgroundColor="#606060"
+                                                TextColor="White"
                                                 CornerRadius="10"
-                                                BorderColor="Black" />
+                                                BorderColor="#202020" />
                                             <Button Text="Edit"
                                                 Clicked="EditButton_Clicked"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
-                                                Margin="0, 0, 0, 0"
-                                                BackgroundColor="Yellow"
+                                                Margin="6"
+                                                BackgroundColor="#606060"
+                                                TextColor="White"
                                                 CornerRadius="10"
-                                                BorderColor="Black" />
+                                                BorderColor="#202020" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>

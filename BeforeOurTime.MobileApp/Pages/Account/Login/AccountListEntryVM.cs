@@ -19,12 +19,26 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login
         }
         private bool _isSelected { set; get; }
         /// <summary>
+        /// Cast Account.Id as a string for display on the UI
+        /// </summary>
+        public string Id
+        {
+            get { return _id; }
+            set { _id = value; NotifyPropertyChanged("Id"); }
+        }
+        private string _id { set; get; }
+        /// <summary>
         /// List item itself
         /// </summary>
         public BeforeOurTime.Models.Modules.Account.Models.Account Account
         {
             get { return _account; }
-            set { _account = value; NotifyPropertyChanged("AccountItem"); }
+            set
+            {
+                _account = value;
+                Id = _account.Id.ToString();
+                NotifyPropertyChanged("AccountItem");
+            }
         }
         private BeforeOurTime.Models.Modules.Account.Models.Account _account { set; get; }
     }

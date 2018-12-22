@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
-             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.Update.UpdateLoginPage">
+             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.Update.UpdateLoginPage"
+             BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
@@ -13,8 +14,8 @@
                    WidthRequest="400"
                    Padding="20"
                    Margin="20"
-                   BackgroundColor="White"
-                   BorderColor="Black">
+                   BackgroundColor="#404040"
+                   BorderColor="#606060">
                 <StackLayout>
                     <StackLayout IsVisible="{Binding Account.Temporary, Converter={StaticResource inverter}}">
                         <Grid>
@@ -31,14 +32,20 @@
                             <Entry Text="{Binding VMUpdateAccount.OldPassword}"
                                    HorizontalOptions="FillAndExpand"
                                    Grid.Row="0" Grid.Column="1"
+                                   BackgroundColor="#202020"
+                                   TextColor="White"
                                    IsPassword="True" />
                             <StackLayout Grid.Row="1" Grid.Column="1">
                                 <Entry Text="{Binding VMUpdateAccount.NewPassword}"
                                        HorizontalOptions="FillAndExpand"
+                                       BackgroundColor="#202020"
+                                       TextColor="White"
                                        IsPassword="True" />
                                 <Entry Text="{Binding VMUpdateAccount.NewPasswordConfirm}"
                                        Placeholder="Confirm Password"
                                        HorizontalOptions="FillAndExpand"
+                                       BackgroundColor="#202020"
+                                       TextColor="White"
                                        IsPassword="True" />
                             </StackLayout>
                         </Grid>
@@ -46,19 +53,23 @@
                             <Button Text="Update"
                                     HorizontalOptions="FillAndExpand"
                                     Clicked="UpdateButton_Clicked"
-                                    BackgroundColor="LightGreen" />
+                                    TextColor="White"
+                                    BackgroundColor="#608060" />
                             <Button Text="Cancel"
                                     HorizontalOptions="FillAndExpand"
+                                    TextColor="White"
+                                    BackgroundColor="#606060"
                                     Clicked="CancelButton_Clicked" />
                         </StackLayout>
                         <ActivityIndicator IsRunning="{Binding Working}"
                                            HorizontalOptions="FillAndExpand"
-                                           Color="Blue" />
+                                           Color="White" />
                     </StackLayout>
                     <StackLayout IsVisible="{Binding Account.Temporary}">
                         <Label Text="You are using a temporary account. Choose a name and password to make permanent. Temporary accounts are subject to termination after evaluation period has expired."
-                       FontSize="Medium"
-                       Margin="10, 10, 10, 20"/>
+                           FontSize="Medium"
+                           TextColor="White"
+                           Margin="10, 10, 10, 20"/>
                         <StackLayout>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -69,17 +80,27 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="2*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Text="Set Name" Grid.Row="0" Grid.Column="0" />
-                                <Label Text="Set Password" Grid.Row="1" Grid.Column="0" />
+                                <Label Text="Set Name" 
+                                       TextColor="White"
+                                       Grid.Row="0" Grid.Column="0" />
+                                <Label Text="Set Password" 
+                                       TextColor="White" 
+                                       Grid.Row="1" Grid.Column="0" />
                                 <Entry Text="{Binding Account.Name}"
-                                   HorizontalOptions="FillAndExpand"
-                                   Grid.Row="0" Grid.Column="1" />
+                                       BackgroundColor="#202020"
+                                       TextColor="White"
+                                       HorizontalOptions="FillAndExpand"
+                                       Grid.Row="0" Grid.Column="1" />
                                 <StackLayout Grid.Row="1" Grid.Column="1">
                                     <Entry Text="{Binding Account.Password}"
-                                       HorizontalOptions="FillAndExpand" />
+                                           BackgroundColor="#202020"
+                                           TextColor="White"
+                                           HorizontalOptions="FillAndExpand" />
                                     <Entry Text="{Binding ConfirmPassword}"
-                                       Placeholder="Confirm Password"
-                                       HorizontalOptions="FillAndExpand" />
+                                           BackgroundColor="#202020"
+                                           TextColor="White"
+                                           Placeholder="Confirm Password"
+                                           HorizontalOptions="FillAndExpand" />
                                 </StackLayout>
                             </Grid>
                         </StackLayout>
@@ -87,14 +108,17 @@
                             <Button Text="Update"
                                 HorizontalOptions="FillAndExpand"
                                 Clicked="RegisterButton_Clicked"
-                                BackgroundColor="LightGreen" />
+                                TextColor="White"
+                                BackgroundColor="#608060" />
                             <Button Text="Cancel"
                                 HorizontalOptions="FillAndExpand"
-                                Clicked="CancelButton_Clicked" />
+                                Clicked="CancelButton_Clicked"
+                                BackgroundColor="#606060"
+                                TextColor="White" />
                         </StackLayout>
                         <ActivityIndicator IsRunning="{Binding Working}"
                                        HorizontalOptions="FillAndExpand"
-                                       Color="Blue" />
+                                       Color="White" />
                     </StackLayout>
                 </StackLayout>
             </Frame>

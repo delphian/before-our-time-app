@@ -53,7 +53,7 @@
                                                 FontAttributes="Bold" 
                                                 Text="{Binding Account.Name}"
                                                 TextColor="White"></Label>
-                                            <Label Text="{Binding Account.Id}"
+                                            <Label Text="{Binding Id}"
                                                    TextColor="White"></Label>
                                         </StackLayout>
                                         <StackLayout IsVisible="{Binding IsSelected}" 
@@ -64,20 +64,20 @@
                                                 IsVisible="{Binding IsSelected, Converter={StaticResource inverter}}"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
-                                                Margin="0, 0, 6, 0"
+                                                Margin="6"
                                                 BackgroundColor="#606060"
                                                 TextColor="White"
                                                 CornerRadius="10"
-                                                BorderColor="Black" />
+                                                BorderColor="#202020" />
                                             <Button Text="Edit"
                                                 Clicked="EditButton_Clicked"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
-                                                Margin="0, 0, 6, 0"
+                                                Margin="6"
                                                 BackgroundColor="#606060"
                                                 TextColor="White"
                                                 CornerRadius="10"
-                                                BorderColor="Black" />
+                                                BorderColor="#202020" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>

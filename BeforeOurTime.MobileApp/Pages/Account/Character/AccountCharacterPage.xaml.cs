@@ -87,7 +87,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Character
         {
             var updateLoginPage = new UpdateCharacterPage(
                 Container,
-                ViewModel.Characters.Where(x => x.IsSelected == true).Select(x => x.CharacterItem).First());
+                ViewModel.Characters.Where(x => x.IsSelected == true).Select(x => x.Item).First());
             await Navigation.PushModalAsync(updateLoginPage);
         }
     }
