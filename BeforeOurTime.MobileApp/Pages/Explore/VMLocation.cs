@@ -135,30 +135,29 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             Description = Item.GetProperty<VisibleItemProperty>()?.Description ?? "**Unknown**";
             DescriptionFormatted = new FormattedString();
             DescriptionFormatted.Spans.Add(new Span() { Text = Description });
-            ItemSpans.Clear();
-
             children?.ForEach(child =>
             {
                 if (child.HasProperty<VisibleItemProperty>())
                 {
-                    var visible = child.GetProperty<VisibleItemProperty>();
-                    var desc = visible?.Description ?? "**Something hidden is here**";
-                    DescriptionFormatted.Spans.Add(new Span()
+                    Device.BeginInvokeOnMainThread(() =>
                     {
-                        Text = $". "
-                    });
-                    var span = new Span();
-                    var itemSpan = new ItemSpan() { Span = span, Item = child };
-                    BuildItemSpan(itemSpan);
-                    ItemSpans.Add(itemSpan);
-                    DescriptionFormatted.Spans.Add(span);
-                    DescriptionFormatted.Spans.Add(new Span()
-                    {
-                        Text = $" {desc}"
+                        var visible = child.GetProperty<VisibleItemProperty>();
+                        var desc = visible?.Description ?? "**Something hidden is here**";
+                        DescriptionFormatted.Spans.Add(new Span()
+                        {
+                            Text = ". "
+                        });
+                        var span = new Span();
+                        BuildItemSpan(child, span, false);
+                        DescriptionFormatted.Spans.Add(span);
+                        DescriptionFormatted.Spans.Add(new Span()
+                        {
+                            Text = $" {desc}"
+                        });
                     });
                 }
             });
-            NotifyPropertyChanged("DescriptionFormatted");
+//            NotifyPropertyChanged("DescriptionFormatted");
             return this;
         }
         /// <summary>
@@ -187,11 +186,11 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             Items.RemoveAll(x => items.Select(y => y.Id).ToList().Contains(x.Id));
             return this;
         }
-        public void BuildItemSpan(ItemSpan itemSpan)
+        public void BuildItemSpan(Item item, Span span, bool selected)
         {
-            var visible = itemSpan.Item.GetProperty<VisibleItemProperty>();
+            var visible = item.GetProperty<VisibleItemProperty>();
             var direction = "";
-            if (itemSpan.Item?.GetProperty<ExitItemProperty>() is ExitItemProperty exitProperty)
+            if (item?.GetProperty<ExitItemProperty>() is ExitItemProperty exitProperty)
             {
                 direction = (exitProperty.Direction == ExitDirection.North) ? "N" : direction;
                 direction = (exitProperty.Direction == ExitDirection.South) ? "S" : direction;
@@ -200,38 +199,47 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 direction = $"({direction}) ";
             }
             var name = visible?.Name ?? "**Unknown**";
-            itemSpan.Span.Text = $"{direction}{name}";
-            itemSpan.Span.TextColor = (itemSpan.Selected) ? Color.Gray : Color.White;
-            itemSpan.Span.TextDecorations = (itemSpan.Selected) ? TextDecorations.Underline : TextDecorations.Underline;
             // Why for this particular property must be set on UI thread?
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(() =>
             {
-                itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
-            });
-            if (itemSpan.Span.GestureRecognizers.Count() == 0)
-            {
-                itemSpan.Span.GestureRecognizers.Add(new TapGestureRecognizer()
+                span.Text = $"{direction}{name}";
+                if (span.GestureRecognizers.Count() == 0)
                 {
-                    CommandParameter = itemSpan,
-                    Command = new Command<ItemSpan>(async (itemSpanParam) =>
+                    span.GestureRecognizers.Add(new TapGestureRecognizer()
                     {
-                        await TextClickCommand(itemSpanParam);
-                        OnItemSelected?.Invoke((itemSpan.Selected) ? itemSpan.Item : null);
-                    }),
-                });
-            }
+                        Command = new Command(() =>
+                        {
+                            // Toggle clicked item's selected status
+                            selected = !selected;
+                            UpdateItemSpanStyling(span, selected);
+                            // Invoke item select callback
+                            OnItemSelected?.Invoke((selected) ? item : null);
+                        }),
+                    });
+                }
+            });
+            UpdateItemSpanStyling(span, selected);
         }
         /// <summary>
-        /// Inline text item has been clicked
+        /// Update a item span's styling depending on it's selected status
         /// </summary>
-        public async Task TextClickCommand(ItemSpan itemSpan)
+        /// <param name="span"></param>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+        public void UpdateItemSpanStyling(Span span, bool selected)
         {
-            itemSpan.Selected = !itemSpan.Selected;
-            ItemSpans.Where(x => x.Item.Id != itemSpan.Item.Id).Select(x => x.Selected = false).ToList();
-            foreach(ItemSpan oldItemSpan in ItemSpans)
+            Device.BeginInvokeOnMainThread(() =>
             {
-                BuildItemSpan(oldItemSpan);
-            }
+                span.FontAttributes = (selected) ?
+                    FontAttributes.Bold :
+                    FontAttributes.Bold;
+                span.TextColor = (selected) ? 
+                    Color.Gray : 
+                    Color.White;
+                span.TextDecorations = (selected) ? 
+                    TextDecorations.Underline : 
+                    TextDecorations.Underline;
+            });
         }
     }
 }

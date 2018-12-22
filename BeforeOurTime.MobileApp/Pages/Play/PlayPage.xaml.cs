@@ -66,11 +66,14 @@ namespace BeforeOurTime.MobileApp.Pages.Play
                 {
                     var page = (Page)Activator.CreateInstance(item.TargetType, Container);
                     Title = item.Title;
-                    Detail = page;
+                    Detail = new NavigationPage(page)
+                    {
+                        BarBackgroundColor = Color.FromHex("606060"),
+                        BarTextColor = Color.FromHex("f0f0f0")
+                    };
                     IsPresented = false;
                 }
             }
-//            ((NavigationPage)Master).((PlayPageMaster)Master).ListView.SelectedItem = null;
         }
     }
 }
