@@ -51,6 +51,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// </summary>
         private IMessageService MessageService { set; get; }
         /// <summary>
+        /// Page is working on a process
+        /// </summary>
+        public bool Working
+        {
+            get { return _working; }
+            set { _working = value; NotifyPropertyChanged("Working"); }
+        }
+        private bool _working { set; get; }
+        /// <summary>
         /// Page that this code behind is acting as view model for
         /// </summary>
         public Page Page { set; get; }

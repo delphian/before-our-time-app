@@ -26,6 +26,11 @@
                    HorizontalOptions="FillAndExpand" 
                    VerticalOptions="Start"
                    TextColor="White" />
+            <ActivityIndicator IsRunning="{Binding Working}"
+                               VerticalOptions="Start"
+                               HorizontalOptions="FillAndExpand"
+                               Color="White"
+                               Margin="0" />
             <Label Text="{Binding EventStream.Output}" 
                 VerticalOptions="Start" 
                 HorizontalOptions="Start"

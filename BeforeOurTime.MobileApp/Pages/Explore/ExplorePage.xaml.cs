@@ -38,9 +38,21 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <param name="e"></param>
         public async Task KeyPressed(object sender, KeyEventArgs e)
         {
-            if (new List<String>() { "n", "s", "e", "w" }.Contains(e.Key.ToLower()))
+            try
             {
-                await ViewModel.UseExitByDirection(e.Key);
+                ViewModel.Working = true;
+                if (new List<String>() { "n", "s", "e", "w" }.Contains(e.Key.ToLower()))
+                {
+                    await ViewModel.UseExitByDirection(e.Key);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+            finally
+            {
+                ViewModel.Working = false;
             }
         }
         /// <summary>

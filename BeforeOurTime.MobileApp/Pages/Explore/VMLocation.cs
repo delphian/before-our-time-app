@@ -8,6 +8,7 @@ using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Core.Models.Properties;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using System;
 using System.Collections.Generic;
@@ -135,6 +136,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             DescriptionFormatted = new FormattedString();
             DescriptionFormatted.Spans.Add(new Span() { Text = Description });
             ItemSpans.Clear();
+
             children?.ForEach(child =>
             {
                 if (child.HasProperty<VisibleItemProperty>())
@@ -188,15 +190,24 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         public void BuildItemSpan(ItemSpan itemSpan)
         {
             var visible = itemSpan.Item.GetProperty<VisibleItemProperty>();
+            var direction = "";
+            if (itemSpan.Item?.GetProperty<ExitItemProperty>() is ExitItemProperty exitProperty)
+            {
+                direction = (exitProperty.Direction == ExitDirection.North) ? "N" : direction;
+                direction = (exitProperty.Direction == ExitDirection.South) ? "S" : direction;
+                direction = (exitProperty.Direction == ExitDirection.East) ? "E" : direction;
+                direction = (exitProperty.Direction == ExitDirection.West) ? "W" : direction;
+                direction = $"({direction}) ";
+            }
             var name = visible?.Name ?? "**Unknown**";
-            itemSpan.Span.Text = $"{name}";
+            itemSpan.Span.Text = $"{direction}{name}";
             itemSpan.Span.TextColor = (itemSpan.Selected) ? Color.Gray : Color.White;
             itemSpan.Span.TextDecorations = (itemSpan.Selected) ? TextDecorations.Underline : TextDecorations.Underline;
             // Why for this particular property must be set on UI thread?
-            //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
-            //});
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                itemSpan.Span.FontAttributes = (itemSpan.Selected) ? FontAttributes.Bold : FontAttributes.Bold;
+            });
             if (itemSpan.Span.GestureRecognizers.Count() == 0)
             {
                 itemSpan.Span.GestureRecognizers.Add(new TapGestureRecognizer()

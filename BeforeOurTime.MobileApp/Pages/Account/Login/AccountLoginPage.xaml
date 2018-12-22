@@ -2,14 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
-             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.AccountLoginPage">
+             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.AccountLoginPage"
+             BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Margin="10">
             <StackLayout IsVisible="{Binding Working}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <ActivityIndicator Color="Blue" IsRunning="True" IsVisible="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+                <ActivityIndicator Color="White" IsRunning="True" IsVisible="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
             </StackLayout>
             <StackLayout 
                 IsVisible="{Binding Working, Converter={StaticResource inverter}}"
@@ -18,6 +19,7 @@
                 <Label Text="You are using a temporary account. Edit account and choose a name to make permanent. Temporary accounts are subject to termination after evaluation period has expired."
                        IsVisible="{Binding LoggedInAccount.Temporary}"
                        FontSize="Medium"
+                       TextColor="White"
                        Margin="10"/>
                 <ListView 
                     x:Name="AccountListView"
@@ -37,7 +39,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Frame BorderColor="LightGray" Margin="0" Padding="4" VerticalOptions="FillAndExpand" >
-                                    <StackLayout BackgroundColor="WhiteSmoke" 
+                                    <StackLayout BackgroundColor="#404040" 
                                                  Orientation="Horizontal"
                                                  VerticalOptions="FillAndExpand"
                                                  HorizontalOptions="FillAndExpand"
@@ -45,9 +47,14 @@
                                         <StackLayout 
                                             Orientation="Vertical" 
                                             Padding="0" Margin="2" 
-                                            VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
-                                            <Label FontAttributes="Bold" Text="{Binding Account.Name}"></Label>
-                                            <Label Text="{Binding Account.Id}"></Label>
+                                            VerticalOptions="CenterAndExpand" 
+                                            HorizontalOptions="Start">
+                                            <Label 
+                                                FontAttributes="Bold" 
+                                                Text="{Binding Account.Name}"
+                                                TextColor="White"></Label>
+                                            <Label Text="{Binding Account.Id}"
+                                                   TextColor="White"></Label>
                                         </StackLayout>
                                         <StackLayout IsVisible="{Binding IsSelected}" 
                                                      Orientation="Horizontal"
@@ -58,7 +65,8 @@
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
                                                 Margin="0, 0, 6, 0"
-                                                BackgroundColor="LightGreen"
+                                                BackgroundColor="#606060"
+                                                TextColor="White"
                                                 CornerRadius="10"
                                                 BorderColor="Black" />
                                             <Button Text="Edit"
@@ -66,7 +74,8 @@
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="Center"
                                                 Margin="0, 0, 6, 0"
-                                                BackgroundColor="Yellow"
+                                                BackgroundColor="#606060"
+                                                TextColor="White"
                                                 CornerRadius="10"
                                                 BorderColor="Black" />
                                         </StackLayout>
