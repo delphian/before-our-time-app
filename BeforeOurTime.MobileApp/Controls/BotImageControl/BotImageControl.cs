@@ -14,6 +14,8 @@ namespace BeforeOurTime.MobileApp.Controls
     /// <summary>
     /// Display an Images.Image
     /// </summary>
+    /// <example>
+    /// </example>
     public class BotImageControl : Frame
     {
         /// <summary>

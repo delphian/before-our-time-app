@@ -28,6 +28,7 @@ using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
+using BeforeOurTime.MobileApp.Services.Items;
 
 namespace BeforeOurTime.MobileApp.Pages.Explore
 {
@@ -67,6 +68,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// Player's character
         /// </summary>
         public Item Me { set; get; }
+        /// <summary>
+        /// Background Image
+        /// </summary>
+        public BeforeOurTime.Models.Primitives.Images.Image BackgroundImage
+        {
+            get { return _backgroundImage; }
+            set { _backgroundImage = value; NotifyPropertyChanged("BackgroundImage"); }
+        }
+        private BeforeOurTime.Models.Primitives.Images.Image _backgroundImage { set; get; }
         /// <summary>
         /// Player's inventory
         /// </summary>
@@ -196,6 +206,13 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             VMLocation = new VMLocation(Container, Me.Id);
             VMLocation.OnItemSelected += SelectItem;
             Inventory = new VMInventory(Container);
+            Container.Resolve<IImageService>()
+                .ReadAsync(new List<Guid>() { new Guid("a15e4ade-5fbe-4eb1-9d62-f1c1e67a207b") })
+                .ContinueWith((task) =>
+                {
+                    var image = task.Result?.FirstOrDefault();
+                    BackgroundImage = image;
+                });
             if (Me.ChildrenIds.Count() > 0)
             {
                 Container.Resolve<IMessageService>().SendRequestAsync<CoreReadItemCrudResponse>(new CoreReadItemCrudRequest()
