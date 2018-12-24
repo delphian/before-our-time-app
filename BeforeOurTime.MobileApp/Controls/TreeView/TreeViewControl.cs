@@ -87,6 +87,7 @@ namespace BeforeOurTime.MobileApp.Controls.TreeView
         /// </summary>
         public TreeViewControl()
         {
+            CornerRadius = 10;
             Padding = new Thickness(0);
             BackgroundColor = Color.Transparent;
             HasShadow = false;
@@ -117,7 +118,11 @@ namespace BeforeOurTime.MobileApp.Controls.TreeView
                                 Title = property.GetValue(item, null) as string
                             };
                             Formatter.Execute(customTitle);
-                            var label = new Label() { Text = customTitle.Title };
+                            var label = new Label()
+                            {
+                                Text = customTitle.Title,
+                                TextColor = Color.White
+                            };
                             label.GestureRecognizers.Add(new TapGestureRecognizer()
                             {
                                 Command = new Command(() => {

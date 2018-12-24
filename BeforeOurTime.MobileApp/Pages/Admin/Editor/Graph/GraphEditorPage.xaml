@@ -2,14 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls.TreeView" 
-             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph.GraphEditorPage">
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph.GraphEditorPage"
+             BackgroundColor="#f0f0f0">
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView
+            BackgroundColor="#202020">
             <local:TreeViewControl
                 Source="{Binding ItemGraph}"
                 Formatter="{Binding FormatItemTitle}"
-                Clicked="{Binding TreeViewControl_OnClicked}"
-                TitleProperty="Name">
+                Clicked="{Binding TreeViewControl_OnClicked}"                
+                TitleProperty="Name"
+                Margin="0, 10, 0, 10"
+                Padding="8"
+                BackgroundColor="#404040"
+                BorderColor="#606060">
             </local:TreeViewControl>
         </ScrollView>
     </ContentPage.Content>
