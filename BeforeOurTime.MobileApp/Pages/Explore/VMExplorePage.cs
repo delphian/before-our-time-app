@@ -375,6 +375,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <param name="listLocationResponse"></param>
         private void ProcessListLocationResponse(WorldReadLocationSummaryResponse listLocationResponse)
         {
+            EventStream.Clear();
             SelectedItem = null;
             IsItemSelected = false;
         }

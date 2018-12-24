@@ -43,12 +43,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// </summary>
         public VMEventStream()
         {
-            Push(".");
-            Push(".");
-            Push(".");
-            Push(".");
-            Push(".");
-            Push("Logos...");
         }
         /// <summary>
         /// Deconstruct an IMessage into a text message
@@ -124,6 +118,14 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 Push(message.GetMessageName());
             }
             return this;
+        }
+        /// <summary>
+        /// Reset all events
+        /// </summary>
+        public void Clear()
+        {
+            Events.Clear();
+            Output = BuildOutput(Events);
         }
         /// <summary>
         /// Remove last message and push another one
