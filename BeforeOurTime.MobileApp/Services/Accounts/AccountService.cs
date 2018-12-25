@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Account.Messages.CreateAccount;
+using BeforeOurTime.Models.Modules.Account.Messages.DeleteAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.Json;
 using BeforeOurTime.Models.Modules.Account.Messages.Json.ReadAccount;
 using BeforeOurTime.Models.Modules.Account.Messages.Json.RestoreAccount;
@@ -216,6 +217,27 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
             Account = account;
             Application.Current.Properties["Account"] = JsonConvert.SerializeObject(Account);
             await Application.Current.SavePropertiesAsync();
+        }
+        /// <summary>
+        /// Delete an account
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public async Task DeleteAsync(Guid accountId)
+        {
+            if (accountId == Account.Id)
+            {
+                throw new BeforeOurTimeException("May not delete currently logged in account");
+            }
+            var result = await MessageService
+                .SendRequestAsync<AccountDeleteAccountResponse>(new AccountDeleteAccountRequest()
+                {
+                    AccountId = accountId
+                });
+            if (!result.IsSuccess())
+            {
+                throw new Exception($"{result._responseMessage}");
+            }
         }
         /// <summary>
         /// Logout of server

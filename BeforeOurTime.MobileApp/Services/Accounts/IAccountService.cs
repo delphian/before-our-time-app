@@ -45,6 +45,12 @@ namespace BeforeOurTime.MobileApp.Services.Accounts
         /// <returns></returns>
         Task UpdateAsync(Account account);
         /// <summary>
+        /// Delete an account
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        Task DeleteAsync(Guid accountId);
+        /// <summary>
         /// Login to server
         /// </summary>
         /// <param name="name">Account name</param>

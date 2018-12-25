@@ -2,16 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
-             x:Class="BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List.AccountEditorListPage">
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List.AccountEditorListPage"
+             BackgroundColor="#202020">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout IsVisible="{Binding Working}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <ActivityIndicator Color="Blue" IsRunning="True" IsVisible="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></ActivityIndicator>
-            </StackLayout>
-            <StackLayout IsVisible="{Binding Working, Converter={StaticResource inverter}}"
+            <ActivityIndicator 
+                Color="White" 
+                IsRunning="{Binding Working}"
+                IsVisible="{Binding Working}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+            <StackLayout 
                          VerticalOptions="FillAndExpand"
                          HorizontalOptions="FillAndExpand">
                 <ListView 
@@ -26,35 +30,59 @@
                     <ListView.Header>
                         <Label Text="Select Account to Edit" 
                                FontSize="Medium"
+                               TextColor="White"
                                Margin="0, 0, 0, 10"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Frame BorderColor="LightGray" Margin="0" Padding="4" VerticalOptions="FillAndExpand" >
-                                    <StackLayout BackgroundColor="WhiteSmoke" 
-                                                    Orientation="Horizontal"
-                                                    VerticalOptions="FillAndExpand"
-                                                    HorizontalOptions="FillAndExpand"
-                                                    Padding="0">
+                                <Frame 
+                                    BackgroundColor="Black"
+                                    BorderColor="#606060" 
+                                    CornerRadius="10"
+                                    Margin="0, 4, 0, 4" 
+                                    Padding="2" 
+                                    VerticalOptions="FillAndExpand" >
+                                    <StackLayout 
+                                        BackgroundColor="#404040" 
+                                        Orientation="Horizontal"
+                                        VerticalOptions="FillAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        Padding="0"
+                                        Margin="2">
                                         <StackLayout 
                                                 Orientation="Vertical" 
                                                 Padding="0" Margin="2" 
                                                 VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
-                                            <Label FontAttributes="Bold" Text="{Binding AccountItem.Name}"></Label>
-                                            <Label Text="{Binding Id}"></Label>
+                                            <Label FontAttributes="Bold" 
+                                                   Text="{Binding AccountItem.Name}"
+                                                   TextColor="White"></Label>
+                                            <Label Text="{Binding Id}"
+                                                   TextColor="White"></Label>
                                         </StackLayout>
                                         <StackLayout IsVisible="{Binding IsSelected}" 
-                                                         Orientation="Horizontal"
-                                                         HorizontalOptions="EndAndExpand"
-                                                         VerticalOptions="CenterAndExpand">
+                                                     Orientation="Horizontal"
+                                                     HorizontalOptions="EndAndExpand"
+                                                     VerticalOptions="CenterAndExpand">
                                             <Button Text="Edit"
+                                                    IsEnabled="{Binding Working, Converter={StaticResource inverter}}"
                                                     HorizontalOptions="Start"
                                                     VerticalOptions="Center"
-                                                    Margin="0, 0, 0, 0"
-                                                    BackgroundColor="Yellow"
+                                                    Margin="6"
+                                                    BackgroundColor="#606060"
+                                                    TextColor="White"
                                                     CornerRadius="10"
-                                                    BorderColor="Black" />
+                                                    BorderColor="#404040" />
+                                            <Button Text="Delete"
+                                                    IsEnabled="{Binding Working, Converter={StaticResource inverter}}"
+                                                    Clicked="ButtonDelete_Clicked"
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Center"
+                                                    Margin="6"
+                                                    BackgroundColor="#606060"
+                                                    TextColor="White"
+                                                    CornerRadius="10"
+                                                    BorderColor="#404040" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>

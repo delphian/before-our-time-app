@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountEditorListPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AccountEditorListPage : ContentPage
+    {
         /// <summary>
         /// Dependency injection container
         /// </summary>
@@ -25,9 +25,9 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
-		public AccountEditorListPage (IContainer container)
-		{
-			InitializeComponent ();
+		public AccountEditorListPage(IContainer container)
+        {
+            InitializeComponent();
             Container = container;
             BindingContext = ViewModel = new VMAccountEditorListPage(container);
         }
@@ -72,6 +72,27 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+        /// <summary>
+        /// Delete an account and all associated characters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonDelete_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewModel.Working = true;
+                await ViewModel.DeleteSelectedAccount();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Ok");
+            }
+            finally
+            {
+                ViewModel.Working = false;
             }
         }
     }

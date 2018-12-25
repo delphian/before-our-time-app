@@ -2,7 +2,10 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.AccountEditorPage"
-            Title="Account Editor">
+            Title="Account Editor"
+            BackgroundColor="#202020"
+            BarBackgroundColor="#404040"
+            BarTextColor="White">
     <TabbedPage.Children>
     </TabbedPage.Children>
 </TabbedPage>

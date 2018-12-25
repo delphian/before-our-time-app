@@ -11,8 +11,33 @@ using System.Threading.Tasks;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
 {
-    public class VMAccountEditorListPage : BotPageVM, System.ComponentModel.INotifyPropertyChanged
+    public class VMAccountEditorListPage : System.ComponentModel.INotifyPropertyChanged
     {
+        /// <summary>
+        /// Structure that subscriber must implement to recieve property updates
+        /// </summary>
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Notify all subscribers that a property has been updated
+        /// </summary>
+        /// <param name="propertyName">Name of public property that has changed</param>
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+        /// <summary>
+        /// Depedency injection container
+        /// </summary>
+        protected IContainer Container { set; get; }
+        /// <summary>
+        /// Indicate if network request is still pending with service
+        /// </summary>
+        public bool Working
+        {
+            get { return _working; }
+            set { _working = value; NotifyPropertyChanged("Working"); }
+        }
+        protected bool _working { set; get; } = false;
         /// <summary>
         /// Record errors and information during program execution
         /// </summary>
@@ -34,8 +59,9 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection controller</param>
-        public VMAccountEditorListPage(IContainer container) : base(container)
+        public VMAccountEditorListPage(IContainer container)
         {
+            Container = container;
             LoggerService = container.Resolve<ILoggerService>();
             AccountService = container.Resolve<IAccountService>();
         }
@@ -53,6 +79,19 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
             });
             // Force notify to fire
             AccountList = updatedList.ToList();
+        }
+        /// <summary>
+        /// Delete currently selected account
+        /// </summary>
+        /// <returns></returns>
+        public async Task DeleteSelectedAccount()
+        {
+            var accountEntry = AccountList.Where(x => x.IsSelected).FirstOrDefault();
+            if (accountEntry != null)
+            {
+                await AccountService.DeleteAsync(accountEntry.AccountItem.Id);
+                AccountList.Remove(accountEntry);
+            }
         }
     }
 }
