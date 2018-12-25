@@ -9,12 +9,11 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <ActivityIndicator 
-                Color="White" 
-                IsRunning="{Binding Working}"
-                IsVisible="{Binding Working}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"></ActivityIndicator>
+            <ActivityIndicator IsRunning="{Binding Working}"
+                               IsVisible="{Binding Working}"
+                               HorizontalOptions="FillAndExpand"
+                               Color="White"
+                               Margin="0, 10, 0, 0" />
             <StackLayout 
                          VerticalOptions="FillAndExpand"
                          HorizontalOptions="FillAndExpand">

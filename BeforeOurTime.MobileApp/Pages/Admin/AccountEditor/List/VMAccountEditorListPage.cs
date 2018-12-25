@@ -91,6 +91,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.AccountEditor.List
             {
                 await AccountService.DeleteAsync(accountEntry.AccountItem.Id);
                 AccountList.Remove(accountEntry);
+                AccountList.ToList();
             }
         }
     }
