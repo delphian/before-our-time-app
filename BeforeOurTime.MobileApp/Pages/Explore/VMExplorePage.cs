@@ -258,6 +258,8 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             directionId = (direction.ToLower() == "s") ? ExitDirection.South : directionId;
             directionId = (direction.ToLower() == "e") ? ExitDirection.East : directionId;
             directionId = (direction.ToLower() == "w") ? ExitDirection.West : directionId;
+            directionId = (direction.ToLower() == "u") ? ExitDirection.Up : directionId;
+            directionId = (direction.ToLower() == "d") ? ExitDirection.Down : directionId;
             var exitItem = VMLocation.Items
                 .Where(x => x.HasProperty<ExitItemProperty>() &&
                             x.GetProperty<ExitItemProperty>()?.Direction != null &&

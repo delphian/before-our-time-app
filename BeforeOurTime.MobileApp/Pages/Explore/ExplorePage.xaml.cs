@@ -41,7 +41,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             try
             {
                 ViewModel.Working = true;
-                if (new List<String>() { "n", "s", "e", "w" }.Contains(e.Key.ToLower()))
+                if (new List<String>() { "n", "s", "e", "w", "u", "d" }.Contains(e.Key.ToLower()))
                 {
                     await ViewModel.UseExitByDirection(e.Key);
                 }

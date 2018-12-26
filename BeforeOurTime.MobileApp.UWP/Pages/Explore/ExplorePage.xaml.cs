@@ -19,19 +19,19 @@ namespace BeforeOurTime.MobileApp.UWP.Pages.Explore
         /// </summary>
         public CustomExplorePageRenderer() : base()
         {
-//            var _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-//            _timer.Tick += ExamineControllerState;
+            var _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
+            _timer.Tick += ExamineControllerState;
             // When ExplorePage appears then attach to the ui core keydown event
             Loaded += (object sender, RoutedEventArgs e) =>
             {
                 Windows.UI.Core.CoreWindow.GetForCurrentThread().KeyDown += HandleKeyDown;
-//                _timer.Start();
+                _timer.Start();
             };
             // When ExplorePage disappears then detach from the ui core keydown event
             Unloaded += (object sender, RoutedEventArgs e) =>
             {
                 Windows.UI.Core.CoreWindow.GetForCurrentThread().KeyDown -= HandleKeyDown;
-//                _timer.Stop();
+                _timer.Stop();
             };
         }
         /// <summary>
@@ -45,22 +45,37 @@ namespace BeforeOurTime.MobileApp.UWP.Pages.Explore
             if (gamepad != null)
             {
                 var currentState = gamepad.GetCurrentReading();
-                if (currentState.LeftThumbstickY >= 0.5)
+                switch (currentState.Buttons)
                 {
-                    await HandleKeyInput("n");
+                    case Windows.Gaming.Input.GamepadButtons.DPadUp:
+                        await HandleKeyInput("n");
+                        break;
+                    case Windows.Gaming.Input.GamepadButtons.DPadDown:
+                        await HandleKeyInput("s");
+                        break;
+                    case Windows.Gaming.Input.GamepadButtons.DPadRight:
+                        await HandleKeyInput("e");
+                        break;
+                    case Windows.Gaming.Input.GamepadButtons.DPadLeft:
+                        await HandleKeyInput("w");
+                        break;
                 }
-                if (currentState.LeftThumbstickY <= -0.5)
-                {
-                    await HandleKeyInput("s");
-                }
-                if (currentState.LeftThumbstickX >= 0.5)
-                {
-                    await HandleKeyInput("e");
-                }
-                if (currentState.LeftThumbstickX <= -0.5)
-                {
-                    await HandleKeyInput("w");
-                }
+                //if (currentState.LeftThumbstickY >= 0.5)
+                //{
+                //    await HandleKeyInput("n");
+                //}
+                //if (currentState.LeftThumbstickY <= -0.5)
+                //{
+                //    await HandleKeyInput("s");
+                //}
+                //if (currentState.LeftThumbstickX >= 0.5)
+                //{
+                //    await HandleKeyInput("e");
+                //}
+                //if (currentState.LeftThumbstickX <= -0.5)
+                //{
+                //    await HandleKeyInput("w");
+                //}
             }
         }
         /// <summary>
@@ -89,6 +104,12 @@ namespace BeforeOurTime.MobileApp.UWP.Pages.Explore
                 case Windows.System.VirtualKey.W:
                 case Windows.System.VirtualKey.GamepadDPadLeft:
                     key = "W";
+                    break;
+                case Windows.System.VirtualKey.U:
+                    key = "U";
+                    break;
+                case Windows.System.VirtualKey.D:
+                    key = "D";
                     break;
             }
             await HandleKeyInput(key);

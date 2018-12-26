@@ -20,7 +20,9 @@ namespace BeforeOurTime.MobileApp.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
+            // Force draw to edge on xbox
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView()
+                .SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
             LoadApplication(new BeforeOurTime.MobileApp.App());
         }
     }
