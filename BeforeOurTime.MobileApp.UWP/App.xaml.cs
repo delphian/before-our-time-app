@@ -30,6 +30,7 @@ namespace BeforeOurTime.MobileApp.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
         }
 
         /// <summary>
