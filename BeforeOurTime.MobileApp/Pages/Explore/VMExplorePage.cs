@@ -287,7 +287,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 var itemId = item.Id;
                 var jsonEditorPage = new JsonEditorPage(Container);
                 jsonEditorPage.ViewModel.ItemId = itemId.ToString();
-                await jsonEditorPage.ViewModel.ReadItem();
                 jsonEditorPage.Disappearing += (disSender, disE) =>
                 {
                     MessageService.Send(new WorldReadLocationSummaryRequest() { });

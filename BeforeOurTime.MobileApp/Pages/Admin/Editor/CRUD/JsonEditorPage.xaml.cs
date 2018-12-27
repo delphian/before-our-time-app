@@ -51,6 +51,23 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         }
         public JsonEditorPage(IContainer container) : this(container, null) { }
         /// <summary>
+        /// Load an item if one has been pre-selected
+        /// </summary>
+        protected override async void OnAppearing()
+        {
+            try
+            {
+                if (ViewModel.ItemId != null)
+                {
+                    await ViewModel.ReadItem();
+                }
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Unable to load item: " + e.Message, "Sadness");
+            }
+        }
+        /// <summary>
         /// Read an item
         /// </summary>
         /// <param name="sender"></param>

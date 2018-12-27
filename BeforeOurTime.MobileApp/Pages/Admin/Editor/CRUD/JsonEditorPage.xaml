@@ -49,26 +49,26 @@
             </StackLayout>
             <StackLayout VerticalOptions="End"
                          HorizontalOptions="FillAndExpand">
-                <FlexLayout Direction="Row"
-                            AlignItems="Center"
-                            JustifyContent="SpaceEvenly">
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Fill"
+                             HorizontalOptions="FillAndExpand">
                     <Button Text="Cancel"
                             Clicked="ButtonItemCancel_OnClicked"
                             BackgroundColor="#608060"
                             Margin="0, 0, 4, 0"
                             BorderRadius="10"
-                            FlexLayout.Basis="33%"></Button>
+                            HorizontalOptions="FillAndExpand"></Button>
                     <Button Text="Update"
                             Clicked="ButtonItemUpdate_OnClicked"
                             BackgroundColor="#808060"
                             Margin="0, 0, 4, 0"
-                            FlexLayout.Basis="33%"></Button>
+                            HorizontalOptions="FillAndExpand"></Button>
                     <Button Text="Delete"
                             Clicked="ButtonItemDelete_OnClicked"
                             BackgroundColor="#806060"
                             Margin="4, 0, 0, 0"
-                            FlexLayout.Basis="33%"></Button>
-                </FlexLayout>
+                            HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

@@ -137,50 +137,41 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <returns></returns>
         public VMLocation Set(Item location, List<Item> children = null)
         {
-            //var samples = 100;
-            //var watch = new Stopwatch();
-            //watch.Start();
-            //for (var x = 0; x < samples; x++)
-            //{
-                Item = location;
-                Items = children;
-                Name = Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                Description = Item.GetProperty<VisibleItemProperty>()?.Description ?? "**Unknown**";
-                var buildingDescription = new FormattedString();
-                buildingDescription.Spans.Add(new Span() { Text = $"{Description}. " });
-                children?.ForEach(child =>
+            Item = location;
+            Items = children;
+            Name = Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+            Description = Item.GetProperty<VisibleItemProperty>()?.Description ?? "**Unknown**";
+            var buildingDescription = new FormattedString();
+            buildingDescription.Spans.Add(new Span() { Text = $"{Description}. " });
+            children?.ForEach(child =>
+            {
+                if (child.HasProperty<VisibleItemProperty>())
                 {
-                    if (child.HasProperty<VisibleItemProperty>())
+                    var tcs = new TaskCompletionSource<bool>();
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        var tcs = new TaskCompletionSource<bool>();
-                        Device.BeginInvokeOnMainThread(async () =>
+                        try
                         {
-                            try
+                            var visible = child.GetProperty<VisibleItemProperty>();
+                            var desc = visible?.Description ?? "**Something hidden is here**";
+                            var span = new Span();
+                            await BuildItemSpan(child, span, false);
+                            buildingDescription.Spans.Add(span);
+                            buildingDescription.Spans.Add(new Span()
                             {
-                                var visible = child.GetProperty<VisibleItemProperty>();
-                                var desc = visible?.Description ?? "**Something hidden is here**";
-                                var span = new Span();
-                                await BuildItemSpan(child, span, false);
-                                buildingDescription.Spans.Add(span);
-                                buildingDescription.Spans.Add(new Span()
-                                {
-                                    Text = $": {desc}. "
-                                });
-                                tcs.SetResult(true);
-                            }
-                            catch (Exception e)
-                            {
-                                tcs.SetException(e);
-                            }
-                        });
-                        tcs.Task.Wait();
-                    }
-                });
-                DescriptionFormatted = buildingDescription;
-            //}
-            //watch.Stop();
-            //var miliseconds = watch.ElapsedMilliseconds / samples;
-            // 685 | 652, 77, 83, 84
+                                Text = $": {desc}. "
+                            });
+                            tcs.SetResult(true);
+                        }
+                        catch (Exception e)
+                        {
+                            tcs.SetException(e);
+                        }
+                    });
+                    tcs.Task.Wait();
+                }
+            });
+            DescriptionFormatted = buildingDescription;
             return this;
         }
         /// <summary>
