@@ -46,6 +46,9 @@
                         BackgroundColor="#404040"
                         TextColor="White"></Editor>
                 </Frame>
+            </StackLayout>
+            <StackLayout VerticalOptions="End"
+                         HorizontalOptions="FillAndExpand">
                 <FlexLayout Direction="Row"
                             AlignItems="Center"
                             JustifyContent="SpaceEvenly">

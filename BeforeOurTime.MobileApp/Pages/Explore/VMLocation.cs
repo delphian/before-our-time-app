@@ -4,6 +4,7 @@ using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
@@ -103,7 +104,14 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 Add(msg.Items);
                 Set(Item, Items);
             }
-            // Item has moved
+            // Item has been created
+            if (message.IsMessageType<CoreCreateItemCrudEvent>())
+            {
+                var msg = message.GetMessageAsType<CoreCreateItemCrudEvent>();
+                Add(new List<Item>() { msg.Item });
+                Set(Item, Items);
+            }
+            // Item has moved (arrived or departed)
             if (message.IsMessageType<CoreMoveItemEvent>())
             {
                 var msg = message.GetMessageAsType<CoreMoveItemEvent>();

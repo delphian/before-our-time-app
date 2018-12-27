@@ -1,5 +1,6 @@
 ﻿using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
@@ -95,6 +96,14 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 var who = messageEvent.Origin?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                 var what = messageEvent.Items?.First()?.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
                 var streamMessage = $"{who} used the magic of JSON to change {what}";
+                Push(streamMessage);
+            }
+            else if (message.IsMessageType<CoreCreateItemCrudEvent>())
+            {
+                var messageEvent = message.GetMessageAsType<CoreCreateItemCrudEvent>();
+                var what = messageEvent.Item.GetProperty<VisibleItemProperty>()?.Name ??
+                           "**Unknown**";
+                var streamMessage = $"{what} materializes into existance";
                 Push(streamMessage);
             }
             else if (message.IsMessageType<CoreReadItemJsonEvent>())
