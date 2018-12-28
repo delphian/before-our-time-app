@@ -20,6 +20,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BotImageControl\BotImageControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BotItemDescriptions\BotItemDescriptionsControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\IconControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BotItemDetail\BotItemDetailControl.cs" />

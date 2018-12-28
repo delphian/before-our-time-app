@@ -39,6 +39,31 @@
                    HorizontalOptions="FillAndExpand" 
                    VerticalOptions="Start"
                    TextColor="White" />
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+                    <local:BotItemDescriptionsControl
+                            ItemIncludes="ExitItemProperty"
+                            ItemNewLine="True"
+                            Items="{Binding VMLocation.Items}"
+                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
+                            Margin="2"
+                            Padding="0"
+                            HorizontalOptions="FillAndExpand"/>
+                    <local:BotItemDescriptionsControl
+                            ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
+                            ItemNewLine="True"
+                            Items="{Binding VMLocation.Items}"
+                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
+                            Margin="2"
+                            Padding="0"
+                            HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <Label Text="{Binding EventStream.Output}" 
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Start"
+                    FontSize="Small"
+                    FontFamily="Arial Narrow"
+                    FontAttributes="Italic" />
                 <ActivityIndicator 
                     IsRunning="{Binding Working}"
                     IsVisible="{Binding Working}"
@@ -46,12 +71,6 @@
                     HorizontalOptions="FillAndExpand"
                     Color="White"
                     Margin="0" />
-                <Label Text="{Binding EventStream.Output}" 
-                    VerticalOptions="Start" 
-                    HorizontalOptions="Start"
-                    FontSize="Small"
-                    FontFamily="Arial Narrow"
-                    FontAttributes="Italic" />
                 <FlexLayout Direction="Row" 
                             VerticalOptions="FillAndExpand" 
                             HorizontalOptions="FillAndExpand" 

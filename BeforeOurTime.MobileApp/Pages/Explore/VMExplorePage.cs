@@ -141,6 +141,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         }
         private ICommand _itemDetailControl_OnClose { set; get; }
         /// <summary>
+        /// Callback when an item's selected status has changed by child control
+        /// </summary>
+        public ICommand ItemDescriptions_ItemOnSelect
+        {
+            get { return _itemDescriptions_ItemOnSelect; }
+            set { _itemDescriptions_ItemOnSelect = value; NotifyPropertyChanged("ItemDescriptions_ItemOnSelect"); }
+        }
+        private ICommand _itemDescriptions_ItemOnSelect { set; get; }
+        /// <summary>
         /// Currently selected item at location
         /// </summary>
         public Item SelectedItem
@@ -240,7 +249,11 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 var control = (BotItemDetailControl)itemDetailControl;
                 OnItemCommand(control.Item, control.ItemCommand);
             });
-            ItemDetailControl_OnClose = new Xamarin.Forms.Command((object itemDetailControl) =>
+            ItemDescriptions_ItemOnSelect = new Xamarin.Forms.Command((object itemDescriptionsControl) =>
+            {
+                var control = (BotItemDescriptionsControl)itemDescriptionsControl;
+                SelectItem((control.ItemSelectedLastStatus) ? control.ItemSelectedLast : null);
+            }); ItemDetailControl_OnClose = new Xamarin.Forms.Command((object itemDetailControl) =>
             {
                 var control = (BotItemDetailControl)itemDetailControl;
                 SelectItem(null);

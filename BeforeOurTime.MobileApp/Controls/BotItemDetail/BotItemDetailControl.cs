@@ -273,7 +273,7 @@ namespace BeforeOurTime.MobileApp.Controls
                     formattedCommands.Spans.Add(CreateSpanCommand(control, "Create Location\n", Color.Yellow,
                         new ItemCommand() { Name = ">> Create Location" }));
                     formattedCommands.Spans.Add(CreateSpanCommand(control, "Create Item\n\n", Color.Yellow,
-                        new ItemCommand() { Name = ">> Create Item " }));
+                        new ItemCommand() { Name = ">> Create Item" }));
                 }
                 commands?.ForEach(command =>
                 {

@@ -42,7 +42,12 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <summary>
         /// Items at location
         /// </summary>
-        public List<Item> Items { set; get; } = new List<Item>();
+        public List<Item> Items
+        {
+            get { return _items; }
+            set { _items = value; NotifyPropertyChanged("Items"); }
+        }
+        private List<Item> _items = new List<Item>();
         /// <summary>
         /// Player's character item id
         /// </summary>
@@ -99,7 +104,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             if (message.IsMessageType<WorldReadLocationSummaryResponse>())
             {
                 var msg = message.GetMessageAsType<WorldReadLocationSummaryResponse>();
-                Items.Clear();
+                Items = new List<Item>();
                 Item = msg.Item;
                 Add(msg.Items);
                 Set(Item, Items);
@@ -138,39 +143,39 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         public VMLocation Set(Item location, List<Item> children = null)
         {
             Item = location;
-            Items = children;
+            Items = children.ToList();
             Name = Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
             Description = Item.GetProperty<VisibleItemProperty>()?.Description ?? "**Unknown**";
             var buildingDescription = new FormattedString();
             buildingDescription.Spans.Add(new Span() { Text = $"{Description}. " });
-            children?.ForEach(child =>
-            {
-                if (child.HasProperty<VisibleItemProperty>())
-                {
-                    var tcs = new TaskCompletionSource<bool>();
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        try
-                        {
-                            var visible = child.GetProperty<VisibleItemProperty>();
-                            var desc = visible?.Description ?? "**Something hidden is here**";
-                            var span = new Span();
-                            await BuildItemSpan(child, span, false);
-                            buildingDescription.Spans.Add(span);
-                            buildingDescription.Spans.Add(new Span()
-                            {
-                                Text = $": {desc}. "
-                            });
-                            tcs.SetResult(true);
-                        }
-                        catch (Exception e)
-                        {
-                            tcs.SetException(e);
-                        }
-                    });
-                    tcs.Task.Wait();
-                }
-            });
+            //children?.ForEach(child =>
+            //{
+            //    if (child.HasProperty<VisibleItemProperty>())
+            //    {
+            //        var tcs = new TaskCompletionSource<bool>();
+            //        Device.BeginInvokeOnMainThread(async () =>
+            //        {
+            //            try
+            //            {
+            //                var visible = child.GetProperty<VisibleItemProperty>();
+            //                var desc = visible?.Description ?? "**Something hidden is here**";
+            //                var span = new Span();
+            //                await BuildItemSpan(child, span, false);
+            //                buildingDescription.Spans.Add(span);
+            //                buildingDescription.Spans.Add(new Span()
+            //                {
+            //                    Text = $": {desc}. "
+            //                });
+            //                tcs.SetResult(true);
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                tcs.SetException(e);
+            //            }
+            //        });
+            //        tcs.Task.Wait();
+            //    }
+            //});
             DescriptionFormatted = buildingDescription;
             return this;
         }
@@ -185,7 +190,9 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             {
                 if (item.HasProperty<VisibleItemProperty>())
                 {
-                    Items.Add(item);
+                    var newItems = Items.ToList();
+                    newItems.Add(item);
+                    Items = newItems.ToList();
                 }
             });
             return this;
