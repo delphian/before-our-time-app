@@ -2,6 +2,7 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using System;
@@ -26,6 +27,7 @@ namespace BeforeOurTime.MobileApp.Controls
     ///     - ItemShowCommands          In
     ///     - ItemShowDescriptions      In
     ///     - ItemOnSelect              In
+    ///     - ItemOnCommand             In
     ///     - ItemsSelected             Out
     ///     - ItemSelectedLast          Out
     ///     - ItemSelectedLastStatus    Out
@@ -206,6 +208,20 @@ namespace BeforeOurTime.MobileApp.Controls
                 var control = (BotItemDescriptionsControl)bindable;
             });
         /// <summary>
+        /// Callback when item command is clicked
+        /// </summary>
+        public ICommand ItemOnCommand
+        {
+            get => (ICommand)GetValue(ItemOnCommandProperty);
+            set => SetValue(ItemOnCommandProperty, value);
+        }
+        public static readonly BindableProperty ItemOnCommandProperty = BindableProperty.Create(
+            nameof(ItemOnCommand), typeof(ICommand), typeof(BotItemDescriptionsControl), default(ICommand), BindingMode.OneWay,
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (BotItemDescriptionsControl)bindable;
+            });
+        /// <summary>
         /// Formatted paragraph that includes item names and descriptions
         /// </summary>
         public Label Paragraph { set; get; } = new Label();
@@ -213,6 +229,10 @@ namespace BeforeOurTime.MobileApp.Controls
         /// Tracking item meta information, such as which items are currently selected.
         /// </summary>
         public List<ItemEntry> ItemEntries { set; get; } = new List<ItemEntry>();
+        /// <summary>
+        /// Last clicked command
+        /// </summary>
+        public ItemCommand ItemCommand { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -340,9 +360,52 @@ namespace BeforeOurTime.MobileApp.Controls
         public List<Span> BuildDescriptionSpans(ItemEntry itemEntry)
         {
             var descriptionSpans = new List<Span>();
-            if (itemEntry.Selected || ItemShowDescriptions)
+            void BuildPrefix()
             {
                 var prefixSpan = new Span() { Text = ": " };
+                itemEntry.SpanDescriptionIds.Add(prefixSpan.Id);
+                descriptionSpans.Add(prefixSpan);
+            }
+            void BuildCommands()
+            {
+                var lastIndex = itemEntry.Item.GetProperty<CommandItemProperty>()?.Commands?.Count();
+                if (lastIndex != null)
+                {
+                    BuildPrefix();
+                    itemEntry.Item.GetProperty<CommandItemProperty>()?.Commands?.ForEach((command) =>
+                    {
+                        var commandSpan = new Span() { Text = $"[{command.Name}]" };
+                        if (ItemOnCommand != null)
+                        {
+                            commandSpan.GestureRecognizers.Add(new TapGestureRecognizer()
+                            {
+                                CommandParameter = this,
+                                Command = new Command<BotItemDescriptionsControl>((commandParam) =>
+                                {
+                                    ItemCommand = command;
+                                    if (ItemOnCommand == null) return;
+                                    if (ItemOnCommand.CanExecute(commandParam))
+                                    {
+                                        ItemOnCommand.Execute(commandParam);
+                                    }
+                                }),
+                            });
+                        }
+                        itemEntry.SpanDescriptionIds.Add(commandSpan.Id);
+                        descriptionSpans.Add(commandSpan);
+                        lastIndex--;
+                        if (lastIndex > 0)
+                        {
+                            var spacerSpan = new Span() { Text = ", " };
+                            itemEntry.SpanDescriptionIds.Add(spacerSpan.Id);
+                            descriptionSpans.Add(spacerSpan);
+                        }
+                    });
+                }
+            }
+            void BuildDescription()
+            {
+                BuildPrefix();
                 var textSpan = new Span
                 {
                     Text = (itemEntry.Item.GetProperty<VisibleItemProperty>()?.Description ??
@@ -351,14 +414,24 @@ namespace BeforeOurTime.MobileApp.Controls
                     TextColor = (itemEntry.Selected) ? Color.White : Color.White,
                     FontAttributes = (itemEntry.Selected) ? FontAttributes.Bold : FontAttributes.None
                 };
-                itemEntry.SpanDescriptionIds.Add(prefixSpan.Id);
                 itemEntry.SpanDescriptionIds.Add(textSpan.Id);
-                descriptionSpans.Add(prefixSpan);
                 descriptionSpans.Add(textSpan);
             }
-            var suffixSpan = new Span() { Text = (ItemNewLine) ? "\n" : ". " };
-            itemEntry.SpanDescriptionIds.Add(suffixSpan.Id);
-            descriptionSpans.Add(suffixSpan);
+            void BuildSuffix()
+            {
+                var suffixSpan = new Span() { Text = (ItemNewLine) ? "\n" : ". " };
+                itemEntry.SpanDescriptionIds.Add(suffixSpan.Id);
+                descriptionSpans.Add(suffixSpan);
+            }
+            if (itemEntry.Selected && ItemShowCommands)
+            {
+                BuildCommands();
+            }
+            if (itemEntry.Selected || ItemShowDescriptions)
+            {
+                BuildDescription();
+            }
+            BuildSuffix();
             return descriptionSpans;
         }
         /// <summary>

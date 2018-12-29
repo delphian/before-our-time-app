@@ -134,6 +134,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <summary>
         /// Callback when an item command has been invoked by child control
         /// </summary>
+        public ICommand ItemDescriptions_ItemOnCommand
+        {
+            get { return _itemDescriptions_ItemOnCommand; }
+            set { _itemDescriptions_ItemOnCommand = value; NotifyPropertyChanged("ItemDescriptions_ItemOnCommand"); }
+        }
+        private ICommand _itemDescriptions_ItemOnCommand { set; get; }
+        /// <summary>
+        /// Callback when an item command has been invoked by child control
+        /// </summary>
         public ICommand ItemDetailControl_OnClose
         {
             get { return _itemDetailControl_OnClose; }
@@ -247,7 +256,12 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             ItemDetailControl_OnCommand = new Xamarin.Forms.Command((object itemDetailControl) =>
             {
                 var control = (BotItemDetailControl)itemDetailControl;
-                OnItemCommand(control.Item, control.ItemCommand);
+                OnItemCommand(control.ItemCommand);
+            });
+            ItemDescriptions_ItemOnCommand = new Xamarin.Forms.Command((object itemDescriptionsControl) =>
+            {
+                var control = (BotItemDescriptionsControl)itemDescriptionsControl;
+                OnItemCommand(control.ItemCommand);
             });
             ItemDescriptions_ItemOnSelect = new Xamarin.Forms.Command((object itemDescriptionsControl) =>
             {
@@ -285,21 +299,19 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                         .FirstOrDefault();
             if (exitItem != null && goCommand != null)
             {
-                await OnItemCommand(exitItem, goCommand);
+                await OnItemCommand(goCommand);
             }
         }
         /// <summary>
         /// Process an item command
         /// </summary>
-        /// <param name="item"></param>
         /// <param name="itemCommand"></param>
-        private async Task OnItemCommand(Item item, ItemCommand itemCommand)
+        private async Task OnItemCommand(ItemCommand itemCommand)
         {
             if (itemCommand.Name == ">> Edit JSON")
             {
-                var itemId = item.Id;
                 var jsonEditorPage = new JsonEditorPage(Container);
-                jsonEditorPage.ViewModel.ItemId = itemId.ToString();
+                jsonEditorPage.ViewModel.ItemId = itemCommand.ItemId.ToString();
                 jsonEditorPage.Disappearing += (disSender, disE) =>
                 {
                     MessageService.Send(new WorldReadLocationSummaryRequest() { });
@@ -331,7 +343,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             {
                 var useRequest = new CoreUseItemRequest()
                 {
-                    ItemId = item.Id,
+                    ItemId = itemCommand.ItemId,
                     Use = itemCommand
                 };
                 var result = await MessageService.SendRequestAsync<CoreUseItemResponse>(useRequest);
