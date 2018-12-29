@@ -26,10 +26,17 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// </summary>
         /// <param name="container">Dependency injection container</param>
         public ExplorePage (IContainer container)
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             Container = container;
             BindingContext = ViewModel = new VMExplorePage(Container, this);
+#if __MOBILE__
+            ItemDescriptionsExits.ItemShowDescriptions = false;
+            ItemDescriptionsOther.ItemShowDescriptions = false;
+#else
+            ItemDescriptionsExits.ItemShowDescriptions = true;
+            ItemDescriptionsOther.ItemShowDescriptions = true;
+#endif
         }
         /// <summary>
         /// Key has been pressed (N,S,E,W, etc...)

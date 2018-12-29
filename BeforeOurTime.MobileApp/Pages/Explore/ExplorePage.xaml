@@ -61,6 +61,7 @@
                             VerticalOptions="StartAndExpand"
                             HorizontalOptions="FillAndExpand">
                         <local:BotItemDescriptionsControl
+                            x:Name="ItemDescriptionsExits"
                             ItemIncludes="ExitItemProperty"
                             ItemNewLine="True"
                             ItemShowCommands="True"
@@ -72,6 +73,7 @@
                             HorizontalOptions="FillAndExpand"
                             BackgroundColor="Transparent"/>
                         <local:BotItemDescriptionsControl
+                            x:Name="ItemDescriptionsOther"
                             ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
                             ItemNewLine="True"
                             ItemShowCommands="True"
