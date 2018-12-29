@@ -148,34 +148,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             Description = Item.GetProperty<VisibleItemProperty>()?.Description ?? "**Unknown**";
             var buildingDescription = new FormattedString();
             buildingDescription.Spans.Add(new Span() { Text = $"{Description}. " });
-            //children?.ForEach(child =>
-            //{
-            //    if (child.HasProperty<VisibleItemProperty>())
-            //    {
-            //        var tcs = new TaskCompletionSource<bool>();
-            //        Device.BeginInvokeOnMainThread(async () =>
-            //        {
-            //            try
-            //            {
-            //                var visible = child.GetProperty<VisibleItemProperty>();
-            //                var desc = visible?.Description ?? "**Something hidden is here**";
-            //                var span = new Span();
-            //                await BuildItemSpan(child, span, false);
-            //                buildingDescription.Spans.Add(span);
-            //                buildingDescription.Spans.Add(new Span()
-            //                {
-            //                    Text = $": {desc}. "
-            //                });
-            //                tcs.SetResult(true);
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                tcs.SetException(e);
-            //            }
-            //        });
-            //        tcs.Task.Wait();
-            //    }
-            //});
             DescriptionFormatted = buildingDescription;
             return this;
         }
@@ -206,87 +178,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             Items.RemoveAll(x => items.Select(y => y.Id).ToList().Contains(x.Id));
             return this;
-        }
-        public Task BuildItemSpan(Item item, Span span, bool selected)
-        {
-            var visible = item.GetProperty<VisibleItemProperty>();
-            var direction = "";
-            if (item?.GetProperty<ExitItemProperty>() is ExitItemProperty exitProperty)
-            {
-                direction = (exitProperty.Direction == ExitDirection.North) ? "N" : direction;
-                direction = (exitProperty.Direction == ExitDirection.South) ? "S" : direction;
-                direction = (exitProperty.Direction == ExitDirection.East) ? "E" : direction;
-                direction = (exitProperty.Direction == ExitDirection.West) ? "W" : direction;
-                direction = (exitProperty.Direction == ExitDirection.Up) ? "U" : direction;
-                direction = (exitProperty.Direction == ExitDirection.Down) ? "D" : direction;
-                direction = $"({direction}) ";
-            }
-            var name = visible?.Name ?? "**Unknown**";
-            // Why for this particular property must be set on UI thread?
-            var tcs = new TaskCompletionSource<bool>();
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    span.Text = $"{direction}{name}";
-                    if (span.GestureRecognizers.Count() == 0)
-                    {
-                        span.GestureRecognizers.Add(new TapGestureRecognizer()
-                        {
-                            Command = new Command(async () =>
-                            {
-                                // Toggle clicked item's selected status
-                                selected = !selected;
-                                await UpdateItemSpanStyling(item, span, selected);
-                                // Invoke item select callback
-                                OnItemSelected?.Invoke((selected) ? item : null);
-                            }),
-                        });
-                    }
-                    await UpdateItemSpanStyling(item, span, selected);
-                    tcs.SetResult(true);
-                }
-                catch (Exception e)
-                {
-                    tcs.SetException(e);
-                }
-            });
-            return tcs.Task;
-        }
-        /// <summary>
-        /// Update a item span's styling depending on it's selected status
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="span"></param>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-        public Task UpdateItemSpanStyling(Item item, Span span, bool selected)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                try
-                {
-                    var color = Color.White;
-                    color = (item.HasProperty<ExitItemProperty>()) ? Color.FromHex("c0ffc0") : color;
-                    color = (item.HasProperty<CharacterItemProperty>()) ? Color.FromHex("ffc0c0") : color;
-                    span.FontAttributes = (selected) ?
-                        FontAttributes.Bold :
-                        FontAttributes.Bold;
-                    span.TextColor = (selected) ?
-                        Color.Gray :
-                        color;
-                    span.TextDecorations = (selected) ?
-                        TextDecorations.Underline :
-                        TextDecorations.Underline;
-                    tcs.SetResult(true);
-                }
-                catch (Exception e)
-                {
-                    tcs.SetException(e);
-                }
-            });
-            return tcs.Task;
         }
     }
 }

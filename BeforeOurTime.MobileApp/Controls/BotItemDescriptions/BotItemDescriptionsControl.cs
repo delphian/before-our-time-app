@@ -2,10 +2,13 @@
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
+using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -20,6 +23,8 @@ namespace BeforeOurTime.MobileApp.Controls
     ///     - Items                     In
     ///     - ItemNewLine               In
     ///     - ItemIncludes              In
+    ///     - ItemShowCommands          In
+    ///     - ItemShowDescriptions      In
     ///     - ItemOnSelect              In
     ///     - ItemsSelected             Out
     ///     - ItemSelectedLast          Out
@@ -74,7 +79,7 @@ namespace BeforeOurTime.MobileApp.Controls
         }
         public static readonly BindableProperty ItemsSelectedProperty = BindableProperty.Create(
             nameof(ItemsSelected), typeof(List<Item>), typeof(BotItemDescriptionsControl), 
-            default(List<Item>), BindingMode.TwoWay,
+            default(List<Item>), BindingMode.OneWayToSource,
             propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
             {
                 var control = (BotItemDescriptionsControl)bindable;
@@ -119,6 +124,36 @@ namespace BeforeOurTime.MobileApp.Controls
         }
         public static readonly BindableProperty ItemNewLineProperty = BindableProperty.Create(
             nameof(ItemNewLine), typeof(bool), typeof(BotItemDescriptionsControl), false,
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (BotItemDescriptionsControl)bindable;
+                BuildAll(control);
+            });
+        /// <summary>
+        /// Show item commands when item is selected
+        /// </summary>
+        public bool ItemShowCommands
+        {
+            get => (bool)GetValue(ItemShowCommandsProperty);
+            set => SetValue(ItemShowCommandsProperty, value);
+        }
+        public static readonly BindableProperty ItemShowCommandsProperty = BindableProperty.Create(
+            nameof(ItemShowCommands), typeof(bool), typeof(BotItemDescriptionsControl), false,
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (BotItemDescriptionsControl)bindable;
+                BuildAll(control);
+            });
+        /// <summary>
+        /// Show item descriptions even when item is not selected
+        /// </summary>
+        public bool ItemShowDescriptions
+        {
+            get => (bool)GetValue(ItemShowDescriptionsProperty);
+            set => SetValue(ItemShowDescriptionsProperty, value);
+        }
+        public static readonly BindableProperty ItemShowDescriptionsProperty = BindableProperty.Create(
+            nameof(ItemShowDescriptions), typeof(bool), typeof(BotItemDescriptionsControl), false,
             propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
             {
                 var control = (BotItemDescriptionsControl)bindable;
@@ -205,25 +240,22 @@ namespace BeforeOurTime.MobileApp.Controls
                     };
                     control.ItemEntries.Add(itemEntry);
                     paragraph.Spans.Add(control.BuildNameSpan(itemEntry));
-                    paragraph.Spans.Add(new Span() { Text = ": " });
-                    paragraph.Spans.Add(control.BuildDescriptionSpan(itemEntry));
-                    paragraph.Spans.Add(new Span() { Text = (control.ItemNewLine) ? ".\n" : ". " });
+                    control.BuildDescriptionSpans(itemEntry).ForEach((Span span) =>
+                    {
+                        paragraph.Spans.Add(span);
+                    });
                 }
-                // When no filter is defined then include all items
-                if (((List<string>)control.ItemIncludes).Count() == 0)
+                var build = (((List<string>)control.ItemIncludes).Count() == 0);
+                ((List<string>)control.ItemIncludes)?.ForEach((filter) =>
+                {
+                    if (!build && potentialItem.Properties.Any(x => x.Key.ToString().Contains(filter)))
+                    {
+                        build = true;
+                    }
+                });
+                if (build)
                 {
                     buildItem(potentialItem);
-                }
-                // Otherwise only include items that have one or more approved properties
-                else
-                {
-                    ((List<string>)control.ItemIncludes)?.ForEach((filter) =>
-                    {
-                        if (potentialItem.Properties.Any(x => x.Key.ToString().Contains(filter)))
-                        {
-                            buildItem(potentialItem);
-                        }
-                    });
                 }
             });
             control.Paragraph.FormattedText = paragraph;
@@ -235,36 +267,38 @@ namespace BeforeOurTime.MobileApp.Controls
         public Span BuildNameSpan(ItemEntry itemEntry)
         {
             var span = new Span();
+            itemEntry.SpanNameId = span.Id;
             UpdateNameSpan(span, itemEntry);
-            if (span.GestureRecognizers.Count == 0)
+            span.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                span.GestureRecognizers.Add(new TapGestureRecognizer()
+                Command = new Command(() =>
                 {
-                    Command = new Command(() =>
+                    ItemSelectedLast = itemEntry.Item;
+                    itemEntry.Selected = !itemEntry.Selected;
+                    ItemSelectedLastStatus = itemEntry.Selected;
+                    if (itemEntry.Selected)
                     {
-                        ItemSelectedLast = itemEntry.Item;
-                        itemEntry.Selected = !itemEntry.Selected;
-                        ItemSelectedLastStatus = itemEntry.Selected;
-                        if (itemEntry.Selected)
-                        {
-                            ItemsSelected.Add(itemEntry.Item);
-                            ItemsSelected = ItemsSelected.ToList();
-                        }
-                        else
-                        {
-                            ItemsSelected.RemoveAll(x => x.Id == itemEntry.Item.Id);
-                            ItemsSelected = ItemsSelected.ToList();
-                        }
+                        ItemsSelected.Add(itemEntry.Item);
+                        ItemsSelected = ItemsSelected.ToList();
+                    }
+                    else
+                    {
+                        ItemsSelected.RemoveAll(x => x.Id == itemEntry.Item.Id);
+                        ItemsSelected = ItemsSelected.ToList();
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
                         UpdateNameSpan(span, itemEntry);
-                        // Invoke item select callback
-                        if (ItemOnSelect == null) return;
-                        if (ItemOnSelect.CanExecute(this))
-                        {
-                            ItemOnSelect.Execute(this);
-                        }
-                    })
-                });
-            }
+                        UpdateDescriptionSpans(itemEntry);
+                    });
+                    // Invoke item select callback
+                    if (ItemOnSelect == null) return;
+                    if (ItemOnSelect.CanExecute(this))
+                    {
+                        ItemOnSelect.Execute(this);
+                    }
+                })
+            });
             return span;
         }
         /// <summary>
@@ -275,34 +309,78 @@ namespace BeforeOurTime.MobileApp.Controls
         /// <returns></returns>
         public Span UpdateNameSpan(Span span, ItemEntry itemEntry)
         {
-            // These UI elements may already be displaying
-            Device.BeginInvokeOnMainThread(() =>
+            var defaultColor = Color.White;
+                defaultColor = (itemEntry.Item.HasProperty<ExitItemProperty>()) ? Color.Green : defaultColor;
+                defaultColor = (itemEntry.Item.HasProperty<CharacterItemProperty>()) ? Color.Red : defaultColor;
+            var name = itemEntry.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
+            if (itemEntry.Item.GetProperty<ExitItemProperty>() is ExitItemProperty exitProperty)
             {
-                span.Text = itemEntry.Item.GetProperty<VisibleItemProperty>()?.Name ?? "**Unknown**";
-                span.TextDecorations = TextDecorations.Underline;
-                span.TextColor = (itemEntry.Selected) ? Color.Orange : Color.White;
-                span.FontAttributes = (itemEntry.Selected) ? FontAttributes.Bold : FontAttributes.None;
-            });
+                var direction = "";
+                    direction = (exitProperty.Direction == ExitDirection.North) ? "N" : direction;
+                    direction = (exitProperty.Direction == ExitDirection.South) ? "S" : direction;
+                    direction = (exitProperty.Direction == ExitDirection.East) ? "E" : direction;
+                    direction = (exitProperty.Direction == ExitDirection.West) ? "W" : direction;
+                    direction = (exitProperty.Direction == ExitDirection.Up) ? "U" : direction;
+                    direction = (exitProperty.Direction == ExitDirection.Down) ? "D" : direction;
+                name = $"[{direction}] {name}";
+            }
+            span.Text = name;
+            span.TextDecorations = TextDecorations.Underline;
+            span.TextColor = (itemEntry.Selected) ? Color.Orange : defaultColor;
+            span.FontAttributes = (itemEntry.Selected) ? FontAttributes.Bold : FontAttributes.None;
             return span;
         }
         /// <summary>
-        /// Build description span based on item data
+        /// Build description spans based on item data
         /// </summary>
         /// <remarks>
         /// Will always remove all trailing periods
         /// </remarks>
         /// <param name="control"></param>
-        public Span BuildDescriptionSpan(ItemEntry itemEntry)
+        public List<Span> BuildDescriptionSpans(ItemEntry itemEntry)
         {
-            var span = new Span
+            var descriptionSpans = new List<Span>();
+            if (itemEntry.Selected || ItemShowDescriptions)
             {
-                Text = (itemEntry.Item.GetProperty<VisibleItemProperty>()?.Description ?? 
-                        "**A dark fog obscures your vision**").TrimEnd(new char[] { '.' }),
-                TextDecorations = TextDecorations.None,
-                TextColor = (itemEntry.Selected) ? Color.White : Color.White,
-                FontAttributes = (itemEntry.Selected) ? FontAttributes.Bold : FontAttributes.None
-            };
-            return span;
+                var prefixSpan = new Span() { Text = ": " };
+                var textSpan = new Span
+                {
+                    Text = (itemEntry.Item.GetProperty<VisibleItemProperty>()?.Description ??
+                            "**A dark fog obscures your vision**").TrimEnd(new char[] { '.' }),
+                    TextDecorations = TextDecorations.None,
+                    TextColor = (itemEntry.Selected) ? Color.White : Color.White,
+                    FontAttributes = (itemEntry.Selected) ? FontAttributes.Bold : FontAttributes.None
+                };
+                itemEntry.SpanDescriptionIds.Add(prefixSpan.Id);
+                itemEntry.SpanDescriptionIds.Add(textSpan.Id);
+                descriptionSpans.Add(prefixSpan);
+                descriptionSpans.Add(textSpan);
+            }
+            var suffixSpan = new Span() { Text = (ItemNewLine) ? "\n" : ". " };
+            itemEntry.SpanDescriptionIds.Add(suffixSpan.Id);
+            descriptionSpans.Add(suffixSpan);
+            return descriptionSpans;
+        }
+        /// <summary>
+        /// Update existing item description spans based on it's selected status
+        /// </summary>
+        /// <param name="itemEntry">Item and meta data associated with spans</param>
+        /// <returns></returns>
+        public List<Span> UpdateDescriptionSpans(ItemEntry itemEntry)
+        {
+            Paragraph.FormattedText.Spans
+                .Where(x => itemEntry.SpanDescriptionIds.Contains(x.Id)).ToList().ForEach((span) =>
+            {
+                Paragraph.FormattedText.Spans.Remove(span);
+            });
+            var itemSpan = Paragraph.FormattedText.Spans.Where(x => x.Id == itemEntry.SpanNameId).FirstOrDefault();
+            var itemSpanIndex = Paragraph.FormattedText.Spans.IndexOf(itemSpan) + 1;
+            var spans = BuildDescriptionSpans(itemEntry);
+            spans.ForEach((span) =>
+            {
+                Paragraph.FormattedText.Spans.Insert(itemSpanIndex++, span);
+            });
+            return spans;
         }
     }
     /// <summary>
@@ -312,5 +390,10 @@ namespace BeforeOurTime.MobileApp.Controls
     {
         public Item Item { set; get; }
         public bool Selected { set; get; }
+        /// <summary>
+        /// Formatted string span gui id of name span
+        /// </summary>
+        public Guid SpanNameId { set; get; }
+        public List<Guid> SpanDescriptionIds { set; get; } = new List<Guid>();
     }
 }

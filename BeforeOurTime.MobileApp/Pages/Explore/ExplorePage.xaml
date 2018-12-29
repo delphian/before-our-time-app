@@ -33,37 +33,6 @@
                     <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped"/>
                     <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped"/>
                 </StackLayout.GestureRecognizers>
-                <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
-                   FontSize="Small" 
-                   FontFamily="Arial Narrow"
-                   HorizontalOptions="FillAndExpand" 
-                   VerticalOptions="Start"
-                   TextColor="White" />
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="FillAndExpand">
-                    <local:BotItemDescriptionsControl
-                            ItemIncludes="ExitItemProperty"
-                            ItemNewLine="True"
-                            Items="{Binding VMLocation.Items}"
-                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
-                            Margin="2"
-                            Padding="0"
-                            HorizontalOptions="FillAndExpand"/>
-                    <local:BotItemDescriptionsControl
-                            ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
-                            ItemNewLine="True"
-                            Items="{Binding VMLocation.Items}"
-                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
-                            Margin="2"
-                            Padding="0"
-                            HorizontalOptions="FillAndExpand"/>
-                </StackLayout>
-                <Label Text="{Binding EventStream.Output}" 
-                    VerticalOptions="Start" 
-                    HorizontalOptions="Start"
-                    FontSize="Small"
-                    FontFamily="Arial Narrow"
-                    FontAttributes="Italic" />
                 <ActivityIndicator 
                     IsRunning="{Binding Working}"
                     IsVisible="{Binding Working}"
@@ -71,75 +40,91 @@
                     HorizontalOptions="FillAndExpand"
                     Color="White"
                     Margin="0" />
-                <FlexLayout Direction="Row" 
-                            VerticalOptions="FillAndExpand" 
-                            HorizontalOptions="FillAndExpand" 
-                            IsClippedToBounds="True"
-                            Margin="0, 10, 0, 0">
-                    <StackLayout 
-                        VerticalOptions="FillAndExpand" 
-                        HorizontalOptions="Start"
-                        FlexLayout.Basis="50%"
-                        Padding="10">
-                        <Picker x:Name="EmotePicker" 
-                            Title="Emote"
-                            VerticalOptions="EndAndExpand"
-                            HorizontalOptions="FillAndExpand"
-                            Margin="0"
-                            ItemsSource="{Binding VMEmotes.Emotes}" 
-                            SelectedItem="{Binding VMEmotes.SelectedEmote}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
-                    </StackLayout>
-                    <StackLayout 
-                        VerticalOptions="FillAndExpand" 
-                        HorizontalOptions="StartAndExpand"
-                        FlexLayout.Basis="50%">
-                        <ScrollView
-                            IsVisible="{Binding IsItemSelected, Converter={StaticResource inverter}}"
-                            VerticalOptions="EndAndExpand"
+                <ScrollView VerticalOptions="Start"
                             HorizontalOptions="FillAndExpand">
-                            <Frame
-                                VerticalOptions="FillAndExpand"
-                                HorizontalOptions="FillAndExpand"
-                                BorderColor="LightGray"
-                                BackgroundColor="#404040"
-                                Padding="10">
-                                <StackLayout
-                                    VerticalOptions="EndAndExpand"
-                                    HorizontalOptions="FillAndExpand"
-                                    Margin="0"
-                                    Padding="0">
-                                    <Label
-                                        FontSize="18"
-                                        FontAttributes="Bold"
-                                        Text="Inventory"></Label>
-                                    <local:ItemTableControl
-                                        x:Name="ItemTableInventory"
-                                        Services="{Binding Container}"
-                                        VerticalOptions="EndAndExpand"
-                                        HorizontalOptions="FillAndExpand"
-                                        Margin="10, 0, 0, 0"
-                                        Wrap="Wrap"
-                                        Items="{Binding Inventory.Items}"
-                                        OnClicked="{Binding LocationItemTable_OnClicked}" />
-                                </StackLayout>
-                            </Frame>
-                        </ScrollView>
-                        <local:BotItemDetailControl
-                        x:Name="ItemDetailControl"
-                        Services="{Binding Container}"
-                        Item="{Binding SelectedItem}"
-                        OnCommand="{Binding ItemDetailControl_OnCommand}"
-                        OnClose="{Binding ItemDetailControl_OnClose}"
-                        IsVisible="{Binding IsItemSelected}"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        BorderColor="LightGray"
-                        BackgroundColor="#404040"
-                        Padding="10" />
+                    <StackLayout VerticalOptions="Start"
+                                 HorizontalOptions="FillAndExpand">
+                        <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
+                                FontSize="Small" 
+                                FontFamily="Arial Narrow"
+                                TextColor="White" />
+                        <Label Text="{Binding EventStream.Output}" 
+                                FontSize="Small"
+                                FontFamily="Arial Narrow"
+                                FontAttributes="Italic" />
                     </StackLayout>
-                </FlexLayout>
+                </ScrollView>
+                <ScrollView VerticalOptions="Start"
+                            HorizontalOptions="FillAndExpand">
+                    <StackLayout x:Name="ItemDescriptionContainer" 
+                            Orientation="Horizontal"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                        <local:BotItemDescriptionsControl
+                            ItemIncludes="ExitItemProperty"
+                            ItemNewLine="True"
+                            Items="{Binding VMLocation.Items}"
+                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
+                            Margin="2"
+                            Padding="0"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="Transparent"/>
+                        <local:BotItemDescriptionsControl
+                            ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
+                            ItemNewLine="True"
+                            Items="{Binding VMLocation.Items}"
+                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
+                            Margin="2"
+                            Padding="0"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="Transparent"/>
+                    </StackLayout>
+                </ScrollView>
+                <ScrollView VerticalOptions="EndAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand">
+                        <local:ItemTableControl
+                            x:Name="ItemTableInventory"
+                            Services="{Binding Container}"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="10, 0, 0, 0"
+                            Wrap="Wrap"
+                            Items="{Binding Inventory.Items}"
+                            OnClicked="{Binding LocationItemTable_OnClicked}" />
+                        <local:BotItemDetailControl
+                            x:Name="ItemDetailControl"
+                            Services="{Binding Container}"
+                            Item="{Binding SelectedItem}"
+                            OnCommand="{Binding ItemDetailControl_OnCommand}"
+                            OnClose="{Binding ItemDetailControl_OnClose}"
+                            IsVisible="{Binding IsItemSelected}"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            BorderColor="LightGray"
+                            BackgroundColor="#404040"
+                            Padding="10" />
+                    </StackLayout>
+                </ScrollView>
+                <Frame VerticalOptions="End"
+                       HorizontalOptions="FillAndExpand"
+                       Padding="0"
+                       BackgroundColor="DarkGreen"
+                       BorderColor="DarkGray"
+                       CornerRadius="10">
+                    <Picker x:Name="EmotePicker" 
+                        Title="Emote"
+                        VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="Transparent"
+                        Margin="0"
+                        ItemsSource="{Binding VMEmotes.Emotes}" 
+                        SelectedItem="{Binding VMEmotes.SelectedEmote}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
+                </Frame>
             </StackLayout>
         </AbsoluteLayout>
     </ContentPage.Content>
