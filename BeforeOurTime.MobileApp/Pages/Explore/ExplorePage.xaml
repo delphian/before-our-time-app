@@ -62,6 +62,7 @@
                             HorizontalOptions="FillAndExpand">
                         <local:BotItemDescriptionsControl
                             x:Name="ItemDescriptionsExits"
+                            Services="{Binding Container}"
                             ItemIncludes="ExitItemProperty"
                             ItemNewLine="True"
                             ItemShowCommands="True"
@@ -74,6 +75,7 @@
                             BackgroundColor="Transparent"/>
                         <local:BotItemDescriptionsControl
                             x:Name="ItemDescriptionsOther"
+                            Services="{Binding Container}"
                             ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
                             ItemNewLine="True"
                             ItemShowCommands="True"
@@ -90,46 +92,50 @@
                             HorizontalOptions="FillAndExpand">
                     <StackLayout VerticalOptions="EndAndExpand"
                                  HorizontalOptions="FillAndExpand">
-                        <local:ItemTableControl
-                            x:Name="ItemTableInventory"
+                        <local:BotItemDescriptionsControl
+                            x:Name="InventoryControl"
                             Services="{Binding Container}"
-                            VerticalOptions="End"
-                            HorizontalOptions="FillAndExpand"
-                            Margin="10, 0, 0, 0"
-                            Wrap="Wrap"
+                            ItemIncludes="VisibleItemProperty"
+                            ItemNewLine="False"
+                            ItemShowCommands="True"
+                            ItemShowDescriptions="False"
+                            ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
+                            ItemOnCommand="{Binding ItemDescriptions_ItemOnCommand}"
                             Items="{Binding Inventory.Items}"
-                            OnClicked="{Binding LocationItemTable_OnClicked}" />
-                        <local:BotItemDetailControl
-                            x:Name="ItemDetailControl"
-                            Services="{Binding Container}"
-                            Item="{Binding SelectedItem}"
-                            OnCommand="{Binding ItemDetailControl_OnCommand}"
-                            OnClose="{Binding ItemDetailControl_OnClose}"
-                            IsVisible="{Binding IsItemSelected}"
-                            VerticalOptions="End"
+                            Margin="2"
+                            Padding="0"
                             HorizontalOptions="FillAndExpand"
-                            BorderColor="LightGray"
-                            BackgroundColor="#404040"
-                            Padding="10" />
+                            BackgroundColor="Transparent"/>
                     </StackLayout>
                 </ScrollView>
-                <Frame VerticalOptions="End"
-                       HorizontalOptions="FillAndExpand"
-                       Padding="0"
-                       BackgroundColor="DarkGreen"
-                       BorderColor="DarkGray"
-                       CornerRadius="10">
+                <FlexLayout x:Name="CommandPickers" 
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand">
                     <Picker x:Name="EmotePicker" 
-                        Title="Emote"
-                        VerticalOptions="End"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="Transparent"
-                        Margin="0"
-                        ItemsSource="{Binding VMEmotes.Emotes}" 
-                        SelectedItem="{Binding VMEmotes.SelectedEmote}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
-                </Frame>
+                            FlexLayout.Basis="50%"
+                            Title="Emote"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            TextColor="White"
+                            BackgroundColor="Green"
+                            Margin="0"
+                            ItemsSource="{Binding VMEmotes.Emotes}" 
+                            SelectedItem="{Binding VMEmotes.SelectedEmote}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedIndexChanged="EmotePicker_OnSelectedIndexChanged" />
+                    <Picker x:Name="AdminPicker" 
+                            FlexLayout.Basis="50%"
+                            Title="Admin"
+                            VerticalOptions="End"
+                            HorizontalOptions="FillAndExpand"
+                            TextColor="White"
+                            BackgroundColor="Green"
+                            Margin="0"
+                            ItemsSource="{Binding VMAdminPicker.Source}" 
+                            SelectedItem="{Binding VMAdminPicker.Selected}"
+                            ItemDisplayBinding="{Binding}"
+                            SelectedIndexChanged="AdminPicker_OnSelectedIndexChanged" />
+                </FlexLayout>
             </StackLayout>
         </AbsoluteLayout>
     </ContentPage.Content>

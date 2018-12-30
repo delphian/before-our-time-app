@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
@@ -40,22 +41,24 @@ namespace BeforeOurTime.MobileApp.Controls
         public IContainer Services
         {
             get => (IContainer)GetValue(ServicesProperty);
-            set
-            {
-                SetValue(ServicesProperty, value);
-                ImageService = Services.Resolve<IImageService>();
-            }
+            set => SetValue(ServicesProperty, value);
         }
         public static readonly BindableProperty ServicesProperty = BindableProperty.Create(
             nameof(Services), typeof(IContainer), typeof(BotItemDescriptionsControl), default(IContainer),
             propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
             {
                 var control = (BotItemDescriptionsControl)bindable;
+                control.ImageService = control.Services.Resolve<IImageService>();
+                control.AccountService = control.Services.Resolve<IAccountService>();
             });
         /// <summary>
         /// Image service
         /// </summary>
         public IImageService ImageService { set; get; }
+        /// <summary>
+        /// Account service
+        /// </summary>
+        public IAccountService AccountService { set; get; }
         /// <summary>
         /// Items to display descriptions of
         /// </summary>
@@ -359,6 +362,7 @@ namespace BeforeOurTime.MobileApp.Controls
         /// <param name="control"></param>
         public List<Span> BuildDescriptionSpans(ItemEntry itemEntry)
         {
+            var admin = AccountService.GetAccount().Admin;
             var descriptionSpans = new List<Span>();
             void BuildPrefix()
             {
@@ -366,31 +370,54 @@ namespace BeforeOurTime.MobileApp.Controls
                 itemEntry.SpanDescriptionIds.Add(prefixSpan.Id);
                 descriptionSpans.Add(prefixSpan);
             }
+            Span BuildCommandSpan(ItemCommand itemCommand, ICommand callback)
+            {
+                var commandSpan = new Span() { Text = $"[{itemCommand.Name}]" };
+                if (callback != null)
+                {
+                    commandSpan.GestureRecognizers.Add(new TapGestureRecognizer()
+                    {
+                        CommandParameter = itemCommand,
+                        Command = new Command<ItemCommand>((commandParam) =>
+                        {
+                            if (callback == null) return;
+                            if (callback.CanExecute(commandParam))
+                            {
+                                callback.Execute(commandParam);
+                            }
+                        }),
+                    });
+                }
+                return commandSpan;
+            }
             void BuildCommands()
             {
                 var lastIndex = itemEntry.Item.GetProperty<CommandItemProperty>()?.Commands?.Count();
-                if (lastIndex != null)
+                if (lastIndex != null || admin)
                 {
                     BuildPrefix();
+                    if (admin)
+                    {
+                        var commandSpan = BuildCommandSpan(new ItemCommand()
+                        {
+                            Id = new Guid("0db8f80d-0ea8-4cbf-80ba-b37cab739391"),
+                            ItemId = itemEntry.Item.Id,
+                            Name = "JSON"
+                        }, ItemOnCommand);
+                        commandSpan.TextColor = Color.FromHex("fff0ff");
+                        commandSpan.FontAttributes = FontAttributes.Italic;
+                        itemEntry.SpanDescriptionIds.Add(commandSpan.Id);
+                        descriptionSpans.Add(commandSpan);
+                        if (lastIndex > 0)
+                        {
+                            var spacerSpan = new Span() { Text = ", " };
+                            itemEntry.SpanDescriptionIds.Add(spacerSpan.Id);
+                            descriptionSpans.Add(spacerSpan);
+                        }
+                    }
                     itemEntry.Item.GetProperty<CommandItemProperty>()?.Commands?.ForEach((command) =>
                     {
-                        var commandSpan = new Span() { Text = $"[{command.Name}]" };
-                        if (ItemOnCommand != null)
-                        {
-                            commandSpan.GestureRecognizers.Add(new TapGestureRecognizer()
-                            {
-                                CommandParameter = this,
-                                Command = new Command<BotItemDescriptionsControl>((commandParam) =>
-                                {
-                                    ItemCommand = command;
-                                    if (ItemOnCommand == null) return;
-                                    if (ItemOnCommand.CanExecute(commandParam))
-                                    {
-                                        ItemOnCommand.Execute(commandParam);
-                                    }
-                                }),
-                            });
-                        }
+                        var commandSpan = BuildCommandSpan(command, ItemOnCommand);
                         itemEntry.SpanDescriptionIds.Add(commandSpan.Id);
                         descriptionSpans.Add(commandSpan);
                         lastIndex--;

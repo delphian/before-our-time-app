@@ -116,6 +116,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\LocationEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Location\VMLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\Models\ItemSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMAdminPicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\VMEventStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Explore\ExplorePage.xaml.cs">
       <DependentUpon>ExplorePage.xaml</DependentUpon>

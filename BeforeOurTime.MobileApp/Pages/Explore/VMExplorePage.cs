@@ -16,16 +16,11 @@ using BeforeOurTime.Models.Modules.Core.Models.Properties;
 using System.Threading.Tasks;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Account.Models.Data;
-using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
-using BeforeOurTime.Models.Modules.Core.Models.Data;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.CreateLocation;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Locations.Messages.ReadLocationSummary;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
-using BeforeOurTime.Models.Modules.World.ItemProperties.Physicals;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.MobileApp.Services.Items;
@@ -125,30 +120,12 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <summary>
         /// Callback when an item command has been invoked by child control
         /// </summary>
-        public ICommand ItemDetailControl_OnCommand
-        {
-            get { return _itemDetailControl_OnCommand; }
-            set { _itemDetailControl_OnCommand = value; NotifyPropertyChanged("ItemDetailControl_OnCommand"); }
-        }
-        private ICommand _itemDetailControl_OnCommand { set; get; }
-        /// <summary>
-        /// Callback when an item command has been invoked by child control
-        /// </summary>
         public ICommand ItemDescriptions_ItemOnCommand
         {
             get { return _itemDescriptions_ItemOnCommand; }
             set { _itemDescriptions_ItemOnCommand = value; NotifyPropertyChanged("ItemDescriptions_ItemOnCommand"); }
         }
         private ICommand _itemDescriptions_ItemOnCommand { set; get; }
-        /// <summary>
-        /// Callback when an item command has been invoked by child control
-        /// </summary>
-        public ICommand ItemDetailControl_OnClose
-        {
-            get { return _itemDetailControl_OnClose; }
-            set { _itemDetailControl_OnClose = value; NotifyPropertyChanged("ItemDetailControl_OnClose"); }
-        }
-        private ICommand _itemDetailControl_OnClose { set; get; }
         /// <summary>
         /// Callback when an item's selected status has changed by child control
         /// </summary>
@@ -213,6 +190,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         }
         private VMEmotes _vmEmotes { set; get; }
         /// <summary>
+        /// View model to manage admin picker
+        /// </summary>
+        public VMAdminPicker VMAdminPicker
+        {
+            get { return _vmAdminPicker; }
+            set { _vmAdminPicker = value; NotifyPropertyChanged("VMAdminPicker"); }
+        }
+        private VMAdminPicker _vmAdminPicker { set; get; }
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="container">Dependency injection container</param>
@@ -253,25 +239,16 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 SelectItem(control?.SelectedItem);
 //                control.SetHighlight(SelectedItem);
             });
-            ItemDetailControl_OnCommand = new Xamarin.Forms.Command((object itemDetailControl) =>
+            ItemDescriptions_ItemOnCommand = new Xamarin.Forms.Command((object itemCommand) =>
             {
-                var control = (BotItemDetailControl)itemDetailControl;
-                OnItemCommand(control.ItemCommand);
-            });
-            ItemDescriptions_ItemOnCommand = new Xamarin.Forms.Command((object itemDescriptionsControl) =>
-            {
-                var control = (BotItemDescriptionsControl)itemDescriptionsControl;
-                OnItemCommand(control.ItemCommand);
+                OnItemCommand((ItemCommand)itemCommand);
             });
             ItemDescriptions_ItemOnSelect = new Xamarin.Forms.Command((object itemDescriptionsControl) =>
             {
                 var control = (BotItemDescriptionsControl)itemDescriptionsControl;
                 SelectItem((control.ItemSelectedLastStatus) ? control.ItemSelectedLast : null);
-            }); ItemDetailControl_OnClose = new Xamarin.Forms.Command((object itemDetailControl) =>
-            {
-                var control = (BotItemDetailControl)itemDetailControl;
-                SelectItem(null);
             });
+            VMAdminPicker = new VMAdminPicker(Container, page, VMLocation);
             MessageService.SendRequestAsync<WorldReadLocationSummaryResponse>(new WorldReadLocationSummaryRequest() { });
         }
         /// <summary>
@@ -308,7 +285,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         /// <param name="itemCommand"></param>
         private async Task OnItemCommand(ItemCommand itemCommand)
         {
-            if (itemCommand.Name == ">> Edit JSON")
+            if (itemCommand.Id == new Guid("0db8f80d-0ea8-4cbf-80ba-b37cab739391"))
             {
                 var jsonEditorPage = new JsonEditorPage(Container);
                 jsonEditorPage.ViewModel.ItemId = itemCommand.ItemId.ToString();
@@ -317,27 +294,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                     MessageService.Send(new WorldReadLocationSummaryRequest() { });
                 };
                 await Page.Navigation.PushModalAsync(jsonEditorPage);
-            }
-            else if (itemCommand.Name == ">> Edit Location")
-            {
-                var itemId = VMLocation.Item.Id;
-                var locationEditorPage = new LocationEditorPage(Container);
-                locationEditorPage.ViewModel.PreSelectLocation = itemId;
-                locationEditorPage.Disappearing += (disSender, disE) =>
-                {
-                    MessageService.Send(new WorldReadLocationSummaryRequest() { });
-                };
-                await Page.Navigation.PushModalAsync(locationEditorPage);
-            }
-            else if (itemCommand.Name == ">> Create Location")
-            {
-                await CreateFromCurrentLocation();
-                MessageService.Send(new WorldReadLocationSummaryRequest() { });
-            }
-            else if (itemCommand.Name == ">> Create Item")
-            {
-                await CreateGenericItem();
-                MessageService.Send(new WorldReadLocationSummaryRequest() { });
             }
             else
             {
@@ -425,68 +381,6 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 {
                     Inventory.Add(new List<Item>() { departureEvent.Item });
                 }
-            }
-        }
-        /// <summary>
-        /// Create new location and link through exits to current location
-        /// </summary>
-        public async Task CreateFromCurrentLocation()
-        {
-            try
-            {
-                var fromLocationItemId = VMLocation.Item.Id;
-                var result = await MessageService
-                    .SendRequestAsync<WorldCreateLocationResponse>(new WorldCreateLocationQuickRequest()
-                    {
-                        FromLocationItemId = fromLocationItemId
-                    });
-                if (!result.IsSuccess())
-                {
-                    throw new Exception(result._responseMessage);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        /// <summary>
-        /// Create new generic item at current location
-        /// </summary>
-        public async Task CreateGenericItem()
-        {
-            try
-            {
-                var fromLocationItemId = VMLocation.Item.Id;
-                var result = await MessageService
-                    .SendRequestAsync<CoreCreateItemCrudResponse>(new CoreCreateItemCrudRequest()
-                    {
-                        Item = new Item()
-                        {
-                            ParentId = fromLocationItemId,
-                            Data = new List<IItemData>()
-                            {
-                                new VisibleItemData()
-                                {
-                                    Name = "New Item",
-                                    Description = "New description"
-                                },
-                                new PhysicalItemData()
-                                {
-                                    Mobile = true,
-                                    Weight = 0
-                                }
-                            }
-                        }
-                    });
-                if (!result.IsSuccess())
-                {
-                    throw new Exception(result._responseMessage);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
             }
         }
         /// <summary>

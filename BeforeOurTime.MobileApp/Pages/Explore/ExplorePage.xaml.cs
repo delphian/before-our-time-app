@@ -102,6 +102,15 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 await DisplayAlert("Error", ex.Message, "Ok");
             }
         }
+        /// <summary>
+        /// Perform an admin command
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void AdminPicker_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            await ViewModel.VMAdminPicker.OnSelectedIndexChanged(sender, e);
+        }
     }
     public class KeyEventArgs : EventArgs
     {
