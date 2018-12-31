@@ -89,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Backup\BackupEditorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\DataTypes\JsonDataTypesPage.xaml.cs">
+      <DependentUpon>JsonDataTypesPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\JsonEditorPage.xaml.cs">
       <DependentUpon>JsonEditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -288,6 +292,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\AccountEditor\List\AccountEditorListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\DataTypes\JsonDataTypesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

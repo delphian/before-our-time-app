@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes.JsonDataTypesPage"
+             BackgroundColor="#202020">
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="10">
+                <StackLayout VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             Spacing="0">
+                    <Button Text="Copy Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                           Padding="10"
+                           BorderColor="#606060">
+                        <Label x:Name="ItemDataLabel"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand"
+                               BackgroundColor="Transparent"
+                               TextColor="White"></Label>
+                    </Frame>
+                    <Button Text="Copy Visible Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                           Padding="10"
+                           BorderColor="#606060">
+                        <Label x:Name="VisibleItemDataLabel"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand"
+                               BackgroundColor="Transparent"
+                               TextColor="White"></Label>
+                    </Frame>
+                    <Button Text="Copy Exit Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                           Padding="10"
+                           BorderColor="#606060">
+                        <Label x:Name="ExitItemDataLabel"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand"
+                               BackgroundColor="Transparent"
+                               TextColor="White"></Label>
+                    </Frame>
+                    <Button Text="Copy Location Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                           Padding="10"
+                           BorderColor="#606060">
+                        <Label x:Name="LocationItemDataLabel"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand"
+                               BackgroundColor="Transparent"
+                               TextColor="White"></Label>
+                    </Frame>
+                    <Button Text="Copy Physical Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                           Padding="10"
+                           BorderColor="#606060">
+                        <Label x:Name="PhysicalItemDataLabel"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand"
+                               BackgroundColor="Transparent"
+                               TextColor="White"></Label>
+                    </Frame>
+                    <Button Text="Copy Generator Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                            Padding="10"
+                            BorderColor="#606060">
+                        <Label x:Name="GeneratorItemDataLabel"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="Transparent"
+                                TextColor="White"></Label>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+            <Button Text="Cancel"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="ButtonCancel_OnClicked"
+                    BackgroundColor="#608060"
+                    BorderRadius="10"
+                    Margin="10"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

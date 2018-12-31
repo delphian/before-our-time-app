@@ -24,13 +24,19 @@
                             BackgroundColor="#608060"
                             Margin="0, 0, 4, 0"
                             BorderRadius="10"
-                            FlexLayout.Basis="50%"></Button>
+                            FlexLayout.Basis="33%"></Button>
                     <Button Text="Create"
                             Clicked="ButtonItemCreate_OnClicked"
                             BackgroundColor="#608060"
+                            Margin="4, 0, 4, 0"
+                            BorderRadius="10"
+                            FlexLayout.Basis="33%"></Button>
+                    <Button Text="Data Types"
+                            Clicked="ButtonDataTypes_OnClicked"
+                            BackgroundColor="#608060"
                             Margin="4, 0, 0, 0"
                             BorderRadius="10"
-                            FlexLayout.Basis="50%"></Button>
+                            FlexLayout.Basis="34%"></Button>
                 </FlexLayout>
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand"

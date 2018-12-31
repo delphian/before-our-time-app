@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
@@ -103,6 +104,22 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             {
                 await ViewModel.CreateItem();
                 await DisplayAlert("Success", "Items have been created", "Yay!");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK, Maybe Tomorrow");
+            }
+        }
+        /// <summary>
+        /// Open new page containing snippets of data type json
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonDataTypes_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new JsonDataTypesPage());
             }
             catch (Exception ex)
             {
