@@ -1,6 +1,8 @@
 ﻿using BeforeOurTime.Models.Messages;
+using BeforeOurTime.Models.Messages.Systems.Ping;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.DeleteItem;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.ReadItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemJson.UpdateItemJson;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
@@ -106,6 +108,14 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 var streamMessage = $"{what} materializes into existance";
                 Push(streamMessage);
             }
+            else if (message.IsMessageType<CoreDeleteItemCrudEvent>())
+            {
+                var messageEvent = message.GetMessageAsType<CoreDeleteItemCrudEvent>();
+                var what = messageEvent.Items.First().GetProperty<VisibleItemProperty>()?.Name ??
+                           "**Unknown**";
+                var streamMessage = $"{what} disintegrates into the ether";
+                Push(streamMessage);
+            }
             else if (message.IsMessageType<CoreReadItemJsonEvent>())
             {
                 var messageEvent = message.GetMessageAsType<CoreReadItemJsonEvent>();
@@ -118,7 +128,8 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                      message.IsMessageType<CoreUseItemResponse>() ||
                      message.IsMessageType<CoreUpdateItemJsonResponse>() ||
                      message.IsMessageType<CoreReadItemJsonResponse>() ||
-                     message.IsMessageType<WorldReadLocationSummaryResponse>())
+                     message.IsMessageType<WorldReadLocationSummaryResponse>() ||
+                     message.IsMessageType<PingSystemMessage>())
             {
                 // Sit on it
             }

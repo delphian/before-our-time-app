@@ -95,6 +95,20 @@
                                 BackgroundColor="Transparent"
                                 TextColor="White"></Label>
                     </Frame>
+                    <Button Text="Copy Garbage Item Data:" 
+                            Clicked="ItemData_OnClicked" 
+                            Margin="0, 20, 0, 0"
+                            BackgroundColor="#606060"
+                            TextColor="White"></Button>
+                    <Frame BackgroundColor="#404040"
+                            Padding="10"
+                            BorderColor="#606060">
+                        <Label x:Name="GarbageItemDataLabel"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="Transparent"
+                                TextColor="White"></Label>
+                    </Frame>
                 </StackLayout>
             </ScrollView>
             <Button Text="Cancel"

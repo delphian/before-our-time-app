@@ -5,6 +5,7 @@ using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;
+using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.DeleteItem;
 using BeforeOurTime.Models.Modules.Core.Messages.MoveItem;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Characters;
@@ -114,6 +115,13 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
             {
                 var msg = message.GetMessageAsType<CoreCreateItemCrudEvent>();
                 Add(new List<Item>() { msg.Item });
+                Set(Item, Items);
+            }
+            // Item has been deleted
+            if (message.IsMessageType<CoreDeleteItemCrudEvent>())
+            {
+                var msg = message.GetMessageAsType<CoreDeleteItemCrudEvent>();
+                Remove(msg.Items);
                 Set(Item, Items);
             }
             // Item has moved (arrived or departed)

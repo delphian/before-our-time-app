@@ -13,6 +13,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JsonDataTypesPage : ContentPage
     {
+        public string ItemData { set; get; } = @"{
+    ""parentId"": ""f4212bfe-ef65-4632-df2b-08d63af92e75"",
+    ""typeId"": ""c643456d-8566-4dfe-bd19-7862ed269c7f"",
+    ""data"": []
+}";
         public string ExitItemData { set; get; } = @"{
     ""dataType"": ""BeforeOurTime.Models.Modules.World.ItemProperties.Exits.ExitItemData"",
     ""destinationLocationId"": ""779a3a47-3048-4528-df3c-08d63af92e75"",
@@ -38,11 +43,31 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
     ""dataType"": ""BeforeOurTime.Models.Modules.World.ItemProperties.Generators.GeneratorItemData"",
     ""interval"": 10,
     ""maximum"": 1,
-    ""json"": """"
+    ""json"": ""{
+        \""parentId\"": \""6904182a-f7ac-4e49-3b5b-08d64940b4b3\"",
+        \""typeId\"": \""f1244f86-db87-47ee-8804-d5a588c1c342\"",
+        \""data\"": [
+            {
+                \""dataType\"": \""BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles.VisibleItemData\"",
+                \""name\"": \""A Generated Item\"",
+                \""description\"": \""This is a generated item that the maker has deemed undeserving of a description\"",
+                \""icon\"": null
+            },
+            {
+                \""dataType\"": \""BeforeOurTime.Models.Modules.World.ItemProperties.Physicals.PhysicalItemData\"",
+                \""mobile\"": true,
+                \""weight\"": 0
+            },
+            {
+                \""dataType\"": \""BeforeOurTime.Models.Modules.World.ItemProperties.Garbages.GarbageItemData\"",
+                \""interval\"": 10
+            }
+        ]
+    }""
 }";
-        public string ItemData { set; get; } = @"{
-    ""parentId"": ""f4212bfe-ef65-4632-df2b-08d63af92e75"",
-    ""data"": []
+        public string GarbageItemData { set; get; } = @"{
+    ""dataType"": ""BeforeOurTime.Models.Modules.World.ItemProperties.Garbages.GarbageItemData"",
+    ""interval"": 10
 }";
         /// <summary>
         /// Constructor
@@ -56,6 +81,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
             PhysicalItemDataLabel.Text = PhysicalItemData;
             LocationItemDataLabel.Text = LocationItemData;
             GeneratorItemDataLabel.Text = GeneratorItemData;
+            GarbageItemDataLabel.Text = GarbageItemData;
         }
         /// <summary>
         /// Copy desired code snippet onto the system clipboard
@@ -93,6 +119,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
             if (control.Text == "Copy Generator Item Data:")
             {
                 CrossClipboard.Current.SetText(GeneratorItemData);
+                await DisplayAlert("Ok", "Copied to clipboard", "Ok");
+            }
+            if (control.Text == "Copy Garbage Item Data:")
+            {
+                CrossClipboard.Current.SetText(GarbageItemData);
                 await DisplayAlert("Ok", "Copied to clipboard", "Ok");
             }
         }

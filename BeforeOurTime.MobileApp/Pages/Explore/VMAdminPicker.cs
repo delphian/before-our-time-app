@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
@@ -92,13 +93,13 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
                 if (Selected == "Edit Location")
                 {
                     var itemId = VMLocation.Item.Id;
-                    var locationEditorPage = new LocationEditorPage(Container);
-                    locationEditorPage.ViewModel.PreSelectLocation = itemId;
-                    locationEditorPage.Disappearing += (disSender, disE) =>
+                    var jsonEditorPage = new JsonEditorPage(Container);
+                    jsonEditorPage.ViewModel.ItemId = itemId.ToString();
+                    jsonEditorPage.Disappearing += (disSender, disE) =>
                     {
                         MessageService.Send(new WorldReadLocationSummaryRequest() { });
                     };
-                    await Page.Navigation.PushModalAsync(locationEditorPage);
+                    await Page.Navigation.PushModalAsync(jsonEditorPage);
                 }
                 else if (Selected == "Create Location")
                 {
