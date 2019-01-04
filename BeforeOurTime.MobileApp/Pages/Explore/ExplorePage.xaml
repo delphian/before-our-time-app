@@ -76,7 +76,7 @@
                         <local:BotItemDescriptionsControl
                             x:Name="ItemDescriptionsOther"
                             Services="{Binding Container}"
-                            ItemIncludes="PhysicalItemProperty,CharacterItemProperty"
+                            ItemIncludes="JavascriptItemProperty,PhysicalItemProperty,CharacterItemProperty"
                             ItemNewLine="True"
                             ItemShowCommands="True"
                             ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"

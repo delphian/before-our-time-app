@@ -32,6 +32,15 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         }
         private Guid _itemId { set; get; }
         /// <summary>
+        /// When page appears ItemId should be used to load item from server
+        /// </summary>
+        public bool PreLoad
+        {
+            get { return _preLoad; }
+            set { _preLoad = value; NotifyPropertyChanged("PreLoad"); }
+        }
+        private bool _preLoad { set; get; } = false;
+        /// <summary>
         /// Item as json data
         /// </summary>
         public string ItemJson

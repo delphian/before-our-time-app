@@ -69,6 +69,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
     ""dataType"": ""BeforeOurTime.Models.Modules.World.ItemProperties.Garbages.GarbageItemData"",
     ""interval"": 10
 }";
+        public string JavascriptItemData { set; get; } = @"{
+    ""dataType"": ""BeforeOurTime.Models.Modules.Script.ItemProperties.Javascripts.JavascriptItemData"",
+    ""script"": null,
+    ""dataBag"": null
+}";
         /// <summary>
         /// Constructor
         /// </summary>
@@ -82,6 +87,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
             LocationItemDataLabel.Text = LocationItemData;
             GeneratorItemDataLabel.Text = GeneratorItemData;
             GarbageItemDataLabel.Text = GarbageItemData;
+            JavascriptItemDataLabel.Text = JavascriptItemData;
         }
         /// <summary>
         /// Copy desired code snippet onto the system clipboard
@@ -124,6 +130,11 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
             if (control.Text == "Copy Garbage Item Data:")
             {
                 CrossClipboard.Current.SetText(GarbageItemData);
+                await DisplayAlert("Ok", "Copied to clipboard", "Ok");
+            }
+            if (control.Text == "Copy Javascript Item Data:")
+            {
+                CrossClipboard.Current.SetText(JavascriptItemData);
                 await DisplayAlert("Ok", "Copied to clipboard", "Ok");
             }
         }

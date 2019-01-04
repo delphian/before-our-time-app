@@ -13,7 +13,11 @@ namespace BeforeOurTime.MobileApp.Pages
         /// <summary>
         /// Depedency injection container
         /// </summary>
-        protected IContainer Container { set; get; }
+        public IContainer Container {
+            set { _container = value; NotifyPropertyChanged("Container"); }
+            get { return _container; }
+        }
+        protected IContainer _container { set; get; }
         /// <summary>
         /// Indicate if network request is still pending with service
         /// </summary>

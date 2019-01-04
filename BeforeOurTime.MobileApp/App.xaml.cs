@@ -7,6 +7,7 @@ using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.MobileApp.Services.Loggers;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.MobileApp.Services.Styles;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Messages;
 using Microsoft.Extensions.Logging;
@@ -50,6 +51,7 @@ namespace BeforeOurTime.MobileApp
             var characterService = new CharacterService(accountService, messageService);
             var gameService = new GameService(accountService, messageService);
             var imageService = new ImageService(messageService);
+            var styleService = new StyleService();
             // Configure Dependency Injection
             var builder = new ContainerBuilder();
             builder.RegisterInstance<ILoggerService>(loggerService).SingleInstance();
@@ -60,6 +62,7 @@ namespace BeforeOurTime.MobileApp
             builder.RegisterInstance<ICharacterService>(characterService).SingleInstance();
             builder.RegisterInstance<IGameService>(gameService).SingleInstance();
             builder.RegisterInstance<IImageService>(imageService).SingleInstance();
+            builder.RegisterInstance<IStyleService>(styleService).SingleInstance();
             Container = builder.Build();
             // Required because of UWP 'release' build runtime error when 
             // traversing GetAssemblies()

@@ -2,8 +2,13 @@
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.MobileApp.Services.Styles;
 using BeforeOurTime.Models.Messages.Responses.List;
+using BeforeOurTime.Models.Modules.Core.Models.Items;
+using BeforeOurTime.Models.Modules.Script.ItemProperties.Javascripts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +40,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
 		{
 			InitializeComponent ();
             Container = container;
+            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().PagePrimary.BackgroundColor);
             BindingContext = ViewModel = new JsonEditorPageViewModel(container, itemId);
             // Allow other page to load items into the json editor
             MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>
@@ -58,7 +64,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
         {
             try
             {
-                if (ViewModel.ItemId != null)
+                if (ViewModel.PreLoad && ViewModel.ItemId != null)
                 {
                     await ViewModel.ReadItem();
                 }
@@ -66,6 +72,34 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
             catch (Exception e)
             {
                 await DisplayAlert("Error", "Unable to load item: " + e.Message, "Sadness");
+            }
+        }
+        /// <summary>
+        /// Load script editor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void ButtonScriptEditor_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var item = JsonConvert.DeserializeObject<Item>(ViewModel.ItemJson);
+                if (item.GetData<JavascriptItemData>() is JavascriptItemData data)
+                {
+                    var scriptEditorPage = new ScriptEditorPage(Container);
+                    scriptEditorPage.ViewModel.SetScript(data.Script);
+                    scriptEditorPage.Disappearing += (disSender, disE) =>
+                    {
+                        data.Script = scriptEditorPage.ViewModel.GetScript();
+                        ViewModel.CoreItemJson.JSON = ViewModel.ItemJson = JsonConvert.SerializeObject(item, Formatting.Indented);
+                    };
+                    ViewModel.PreLoad = false;
+                    await Navigation.PushModalAsync(scriptEditorPage);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK, Maybe Tomorrow");
             }
         }
         /// <summary>
