@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes
+namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor.DataTypes
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JsonDataTypesPage : ContentPage

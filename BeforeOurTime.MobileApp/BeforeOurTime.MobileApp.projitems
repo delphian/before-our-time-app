@@ -93,15 +93,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\Backup\BackupEditorPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\DataTypes\JsonDataTypesPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\DataTypes\JsonDataTypesPage.xaml.cs">
       <DependentUpon>JsonDataTypesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\JsonEditorPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\JsonEditorPage.xaml.cs">
       <DependentUpon>JsonEditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\JsonEditorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\JsonEditorPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\EditorPage.xaml.cs">
       <DependentUpon>EditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -220,7 +220,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\JsonEditorPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\JsonEditorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -310,7 +310,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\CRUD\DataTypes\JsonDataTypesPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\DataTypes\JsonDataTypesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -1,11 +1,7 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.DataTypes;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor.DataTypes;
 using BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor;
-using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.MobileApp.Services.Styles;
-using BeforeOurTime.Models.Messages.Responses.List;
 using BeforeOurTime.Models.Modules.Core.Models.Items;
 using BeforeOurTime.Models.Modules.Script.ItemProperties.Javascripts;
 using Newtonsoft.Json;
@@ -18,7 +14,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
+namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class JsonEditorPage : ContentPage

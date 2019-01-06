@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor;
 using Plugin.Clipboard;
 using System;
 using System.Collections.Generic;

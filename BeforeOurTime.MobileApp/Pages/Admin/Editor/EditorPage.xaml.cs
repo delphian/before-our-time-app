@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Backup;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Exit;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Graph;
 using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;

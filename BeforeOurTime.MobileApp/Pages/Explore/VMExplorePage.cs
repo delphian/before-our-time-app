@@ -21,9 +21,9 @@ using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Exceptions;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.ReadItem;
 using BeforeOurTime.Models.Modules.Core.Messages.UseItem;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
 using BeforeOurTime.Models.Modules.World.ItemProperties.Exits;
 using BeforeOurTime.MobileApp.Services.Items;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor;
 
 namespace BeforeOurTime.MobileApp.Pages.Explore
 {

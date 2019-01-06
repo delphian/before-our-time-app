@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Controls.TreeView;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor;
 using BeforeOurTime.MobileApp.Services.Items;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemGraph;
 using System;

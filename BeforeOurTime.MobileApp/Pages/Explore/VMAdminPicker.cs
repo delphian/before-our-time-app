@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD;
-using BeforeOurTime.MobileApp.Pages.Admin.Editor.Location;
+using BeforeOurTime.MobileApp.Pages.Admin.JsonEditor;
 using BeforeOurTime.MobileApp.Services.Messages;
 using BeforeOurTime.Models.Modules.Core.ItemProperties.Visibles;
 using BeforeOurTime.Models.Modules.Core.Messages.ItemCrud.CreateItem;

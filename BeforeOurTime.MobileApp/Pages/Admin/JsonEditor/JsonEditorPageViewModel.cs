@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
+namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
 {
     public class JsonEditorPageViewModel : BotPageVM, System.ComponentModel.INotifyPropertyChanged
     {

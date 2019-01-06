@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD.JsonEditorPage"
+             x:Class="BeforeOurTime.MobileApp.Pages.Admin.JsonEditor.JsonEditorPage"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
              Title="JSON Item Editor">
     <ContentPage.Content>
