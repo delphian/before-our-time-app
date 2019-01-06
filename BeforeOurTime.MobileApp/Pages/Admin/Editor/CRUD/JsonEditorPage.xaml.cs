@@ -40,7 +40,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.Editor.CRUD
 		{
 			InitializeComponent ();
             Container = container;
-            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().PagePrimary.BackgroundColor);
+            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
             BindingContext = ViewModel = new JsonEditorPageViewModel(container, itemId);
             // Allow other page to load items into the json editor
             MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>

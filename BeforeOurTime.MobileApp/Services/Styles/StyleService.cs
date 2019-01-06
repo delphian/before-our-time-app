@@ -27,45 +27,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
         /// <returns></returns>
         public StyleTemplate GetTemplate(Guid? templateId = null)
         {
-            return new StyleTemplate()
-            {
-                PagePrimary = new StylePage()
-                {
-                    BackgroundColor = "#202020"
-                },
-                ButtonPrimary = new StyleButton()
-                {
-                    TextColor = "#00f000",
-                    BorderColor = "#60a060",
-                    BackgroundColor = "#408040",
-                    BorderRadius = 10
-                },
-                ButtonWarning = new StyleButton()
-                {
-                    TextColor = "#e0e000",
-                    BorderColor = "#d0d060",
-                    BackgroundColor = "#808040",
-                    BorderRadius = 2
-                },
-                ButtonDanger = new StyleButton()
-                {
-                    TextColor = "#f08080",
-                    BorderColor = "#d06060",
-                    BackgroundColor = "#804040",
-                    BorderRadius = 2
-                },
-                EntryPrimary = new StyleEntry()
-                {
-                    BackgroundColor = "#404040",
-                    TextColor = "#ffffff",
-                    PlaceholderColor = "#ffffff"
-                },
-                EditorPrimary = new StyleEditor()
-                {
-                    BackgroundColor = "#404040",
-                    TextColor = "#ffffff"
-                }
-            };
+            return new StyleTemplate();
         }
         /// <summary>
         /// Clear any caches the service may be using

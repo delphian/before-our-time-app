@@ -56,17 +56,22 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             if (message.IsMessageType<WorldEmoteEvent>())
             {
+                var emote = "A shiver runs through your spine as a cool and dark presence washes over your skin";
                 var messageEvent = message.GetMessageAsType<WorldEmoteEvent>();
                 var visible = messageEvent.Origin?.GetProperty<VisibleItemProperty>();
                 if (visible != null)
                 {
-                    var emote = "does something unexpected!";
+                    emote = $"{visible.Name} does something unexpected!";
                     if (messageEvent.EmoteType == WorldEmoteType.Smile)
-                        emote = "smiles happily";
+                        emote = $"{visible.Name} smiles happily";
                     if (messageEvent.EmoteType == WorldEmoteType.Frown)
-                        emote = "frowns in consternation";
-                    Push($"{visible.Name} {emote}");
+                        emote = $"{visible.Name} frowns in consternation";
+                    if (messageEvent.EmoteType == WorldEmoteType.Speak)
+                        emote = $"{visible.Name} says \"{messageEvent.Parameter}\"";
+                    if (messageEvent.EmoteType == WorldEmoteType.Raw)
+                        emote = $"{messageEvent.Parameter}";
                 }
+                Push(emote);
             }
             else if (message.IsMessageType<CoreMoveItemEvent>()) {
                 var messageEvent = message.GetMessageAsType<CoreMoveItemEvent>();

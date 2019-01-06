@@ -12,11 +12,11 @@ using Xamarin.Forms;
 namespace BeforeOurTime.MobileApp.Controls
 {
     /// <summary>
-    /// Display a styled button
+    /// Display a styled editor
     /// </summary>
     /// <example>
     /// </example>
-    public class BotButtonPrimary : Button
+    public class BotEditor : Editor
     {
         /// <summary>
         /// Dependency injection container
@@ -27,14 +27,36 @@ namespace BeforeOurTime.MobileApp.Controls
             set => SetValue(ServicesProperty, value);
         }
         public static readonly BindableProperty ServicesProperty = BindableProperty.Create(
-            nameof(Services), typeof(IContainer), typeof(BotButtonPrimary), null,
+            nameof(Services), typeof(IContainer), typeof(BotEditor), null,
             propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
             {
-                var control = (BotButtonPrimary)bindable;
+                var control = (BotEditor)bindable;
                 control.Services = (IContainer)newvalue;
                 control.StyleService = control.Services.Resolve<IStyleService>();
                 control.LoggerService = control.Services.Resolve<ILoggerService>();
-                control.ApplyStyle();
+                if (control.BotType != StyleType.Unknown)
+                {
+                    control.ApplyStyle(control.BotType);
+                }
+            });
+        /// <summary>
+        /// Style type
+        /// </summary>
+        public StyleType BotType
+        {
+            get => (StyleType)GetValue(BotTypeProperty);
+            set => SetValue(BotTypeProperty, value);
+        }
+        public static readonly BindableProperty BotTypeProperty = BindableProperty.Create(
+            nameof(BotType), typeof(StyleType), typeof(BotEditor), StyleType.Unknown,
+            propertyChanged: (BindableObject bindable, object oldvalue, object newvalue) =>
+            {
+                var control = (BotEditor)bindable;
+                control.BotType = (StyleType)newvalue;
+                if (control.Services != null)
+                {
+                    control.ApplyStyle(control.BotType);
+                }
             });
         /// <summary>
         /// Style service
@@ -47,21 +69,20 @@ namespace BeforeOurTime.MobileApp.Controls
         /// <summary>
         /// Constructor
         /// </summary>
-        public BotButtonPrimary()
+        public BotEditor()
         {
         }
         /// <summary>
         /// Apply the style specified by the current template
         /// </summary>
-        public void ApplyStyle()
+        /// <param name="type"></param>
+        public void ApplyStyle(StyleType type)
         {
             try
             {
-                var button = StyleService.GetTemplate()?.ButtonPrimary;
-                BackgroundColor = Color.FromHex(button.BackgroundColor);
-                BorderColor = Color.FromHex(button.BorderColor);
-                TextColor = Color.FromHex(button.TextColor);
-                CornerRadius = button.BorderRadius;
+                var editor = StyleService.GetTemplate()?.GetEditor(type);
+                BackgroundColor = Color.FromHex(editor.BackgroundColor);
+                TextColor = Color.FromHex(editor.TextColor);
             }
             catch (Exception e)
             {
