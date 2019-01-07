@@ -7,36 +7,34 @@
              BackgroundColor="#202020">
     <ContentPage.Content>
         <StackLayout>
-            <local:BotEditor x:Name="ScriptEditor"
-                             Services="{Binding Container}"
-                             BotType="Primary"
-                             VerticalOptions="FillAndExpand"
-                             HorizontalOptions="FillAndExpand"
-                             Text="{Binding Script}"
-                             Margin="10" />
-            <FlexLayout x:Name="ButtonsFlexLayout"
-                        VerticalOptions="End"
+            <StackLayout Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <local:BotEditor x:Name="ScriptEditor"
+                                 Text="{Binding Script}"
+                                 Services="{Binding Container}"
+                                 BotType="Primary"
+                                 VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <StackLayout Padding="0" Margin="0" VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                <FlexLayout x:Name="ButtonsFlexLayout"
+                        VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
-                        Margin="10, 0, 10, 10">
-                <local:BotButton x:Name="CancelButton"
+                        Margin="10, 0, 10, 10"
+                        Wrap="Wrap">
+                    <local:BotButton x:Name="CancelButton"
                                  Text="Cancel"
                                  Services="{Binding Container}"
                                  BotType="Primary"
                                  Clicked="CancelButton_Clicked"
-                                 VerticalOptions="End"
-                                 HorizontalOptions="FillAndExpand"
-                                 Margin="10"
-                                 FlexLayout.Basis="50%" />
-                <local:BotButton x:Name="UpdateButton"
+                                 FlexLayout.Basis="100" />
+                    <local:BotButton x:Name="UpdateButton"
                                  Text="Update"
                                  Services="{Binding Container}"
                                  BotType="Warning"
                                  Clicked="UpdateButton_Clicked"
-                                 VerticalOptions="End"
-                                 HorizontalOptions="FillAndExpand"
-                                 Margin="10"
-                                 FlexLayout.Basis="50%" />
-            </FlexLayout>
+                                 FlexLayout.Basis="100" />
+                </FlexLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

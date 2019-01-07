@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemIconButton\ItemIconButtonControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemTable\ItemTableControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ScrollListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\VMVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StyleType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Styles\BotEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Styles\BotEntry.cs" />
@@ -101,7 +102,7 @@
       <DependentUpon>JsonEditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\JsonEditorPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\VMJsonEditorPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\Editor\EditorPage.xaml.cs">
       <DependentUpon>EditorPage.xaml</DependentUpon>
       <SubType>Code</SubType>

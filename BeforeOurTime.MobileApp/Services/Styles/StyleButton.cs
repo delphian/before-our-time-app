@@ -13,5 +13,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
         public string TextColor { set; get; }
         public string BorderColor { set; get; }
         public int BorderRadius { set; get; }
+        public string Margin { set; get; }
+        public int FontSize { set; get; }
     }
 }

@@ -85,6 +85,12 @@ namespace BeforeOurTime.MobileApp.Controls
                 BorderColor = Color.FromHex(button.BorderColor);
                 TextColor = Color.FromHex(button.TextColor);
                 CornerRadius = button.BorderRadius;
+                Margin = new Thickness(
+                    Convert.ToDouble(button.Margin.Split(',')[0]),
+                    Convert.ToDouble(button.Margin.Split(',')[1]),
+                    Convert.ToDouble(button.Margin.Split(',')[2]),
+                    Convert.ToDouble(button.Margin.Split(',')[3]));
+                FontSize = button.FontSize;
             }
             catch (Exception e)
             {

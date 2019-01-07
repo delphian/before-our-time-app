@@ -60,22 +60,6 @@ namespace BeforeOurTime.MobileApp.UWP.Pages.Explore
                         await HandleKeyInput("w");
                         break;
                 }
-                //if (currentState.LeftThumbstickY >= 0.5)
-                //{
-                //    await HandleKeyInput("n");
-                //}
-                //if (currentState.LeftThumbstickY <= -0.5)
-                //{
-                //    await HandleKeyInput("s");
-                //}
-                //if (currentState.LeftThumbstickX >= 0.5)
-                //{
-                //    await HandleKeyInput("e");
-                //}
-                //if (currentState.LeftThumbstickX <= -0.5)
-                //{
-                //    await HandleKeyInput("w");
-                //}
             }
         }
         /// <summary>

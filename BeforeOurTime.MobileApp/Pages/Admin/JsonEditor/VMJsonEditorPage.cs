@@ -11,12 +11,18 @@ using System.Threading.Tasks;
 
 namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
 {
-    public class JsonEditorPageViewModel : BotPageVM, System.ComponentModel.INotifyPropertyChanged
+    public class VMJsonEditorPage : BotPageVM, System.ComponentModel.INotifyPropertyChanged
     {
         /// <summary>
         /// Item service for CRUD operations
         /// </summary>
         protected IItemService ItemService { set; get; }
+        public VMVisible VMVisible
+        {
+            get { return _vmVisible; }
+            set { _vmVisible = value; NotifyPropertyChanged("VMVisible"); }
+        }
+        private VMVisible _vmVisible { set; get; }
         /// <summary>
         /// Unique item identifier to operate on
         /// </summary>
@@ -69,13 +75,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
         /// </summary>
         /// <param name="container">Dependency injection controller</param>
         /// <param name="itemId">When provided automatically load this item for editing</param>
-        public JsonEditorPageViewModel(IContainer container, Guid? ItemId = null) : base(container)
+        public VMJsonEditorPage(IContainer container, Guid? ItemId = null) : base(container)
         {
             ItemService = Container.Resolve<IItemService>();
             if (ItemId != null)
             {
                 _itemId = ItemId.Value;
             }
+            VMVisible = new VMVisible();
         }
         /// <summary>
         /// Read item from server
@@ -84,6 +91,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
         public async Task ReadItem()
         {
             CoreItemJson = (await ItemService.ReadJsonAsync(new List<Guid>() { _itemId }))?.FirstOrDefault();
+            VMVisible.SetVisibility(CoreItemJson.JSON);
         }
         /// <summary>
         /// Create items from json
@@ -96,6 +104,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
             {
                 var coreItemJsons = await ItemService.CreateJsonAsync(ItemJson);
                 CoreItemJson = coreItemJsons.First();
+                VMVisible.SetVisibility(CoreItemJson.JSON);
             }
             finally
             {
@@ -119,6 +128,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
                     JSON = ItemJson
                 };
                 await ItemService.UpdateJsonAsync(new List<CoreItemJson>() { coreItemJson });
+                VMVisible.SetVisibility(coreItemJson.JSON);
             }
             finally
             {

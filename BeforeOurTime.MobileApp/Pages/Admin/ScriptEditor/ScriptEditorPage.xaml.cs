@@ -32,7 +32,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
             Container = container;
             BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
             BindingContext = ViewModel = new VMScriptEditorPage(container);
-		}
+        }
         private void UpdateButton_Clicked(object sender, EventArgs e)
         {
 

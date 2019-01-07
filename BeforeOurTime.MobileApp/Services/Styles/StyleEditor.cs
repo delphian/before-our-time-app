@@ -11,5 +11,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
     {
         public string BackgroundColor { set; get; }
         public string TextColor { set; get; }
+        public int FontSize { set; get; }
+        public int Margin { set; get; }
     }
 }

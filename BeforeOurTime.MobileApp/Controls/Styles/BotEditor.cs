@@ -83,6 +83,8 @@ namespace BeforeOurTime.MobileApp.Controls
                 var editor = StyleService.GetTemplate()?.GetEditor(type);
                 BackgroundColor = Color.FromHex(editor.BackgroundColor);
                 TextColor = Color.FromHex(editor.TextColor);
+                FontSize = editor.FontSize;
+                Margin = editor.Margin;
             }
             catch (Exception e)
             {

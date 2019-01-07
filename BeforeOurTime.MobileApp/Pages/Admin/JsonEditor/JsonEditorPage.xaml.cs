@@ -26,7 +26,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
         /// <summary>
         /// View model
         /// </summary>
-        public JsonEditorPageViewModel ViewModel { set; get; }
+        public VMJsonEditorPage ViewModel { set; get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,7 +37,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
 			InitializeComponent ();
             Container = container;
             BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
-            BindingContext = ViewModel = new JsonEditorPageViewModel(container, itemId);
+            BindingContext = ViewModel = new VMJsonEditorPage(container, itemId);
             // Allow other page to load items into the json editor
             MessagingCenter.Subscribe<ContentPage, Guid>(this, "CRUDEditorPage:Load", async (sender, guid) =>
             {

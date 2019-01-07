@@ -23,6 +23,8 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#60a060";
                 button.BackgroundColor = "#408040";
                 button.BorderRadius = 10;
+                button.Margin = "2, 2, 2, 2";
+                button.FontSize = 14;
             }
             if (type == StyleType.Warning)
             {
@@ -30,6 +32,8 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#d0d060";
                 button.BackgroundColor = "#808040";
                 button.BorderRadius = 2;
+                button.Margin = "4, 2, 4, 2";
+                button.FontSize = 14;
             }
             if (type == StyleType.Danger)
             {
@@ -37,6 +41,8 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#d06060";
                 button.BackgroundColor = "#804040";
                 button.BorderRadius = 2;
+                button.Margin = "6, 2, 6, 2";
+                button.FontSize = 14;
             }
             return button;
         }
@@ -52,6 +58,8 @@ namespace BeforeOurTime.MobileApp.Services.Styles
             {
                 editor.BackgroundColor = "#404040";
                 editor.TextColor = "#ffffff";
+                editor.FontSize = 14;
+                editor.Margin = 2;
             }
             return editor;
         }
