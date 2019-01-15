@@ -70,6 +70,7 @@ namespace BeforeOurTime.MobileApp
             {
                 loggerService.Log(LogLevel.Error, x);
             });
+            Resources = CreateStyles(styleService);
             // Setup main page
             MainPage = new NavigationPage(new ServerPage(Container))
             {
@@ -77,6 +78,23 @@ namespace BeforeOurTime.MobileApp
                 BarTextColor = Color.White,
                 BackgroundColor = Color.FromHex("202020")
             };
+        }
+        /// <summary>
+        /// Register all styles into the global resources dictionary
+        /// </summary>
+        /// <param name="styleService">Style service</param>
+        /// <returns></returns>
+        public ResourceDictionary CreateStyles(IStyleService styleService)
+        {
+            var resources = new ResourceDictionary
+            {
+                { "botButtonPrimary", styleService.GetTemplate().GetButtonStyle(StyleType.Primary) },
+                { "botButtonWarning", styleService.GetTemplate().GetButtonStyle(StyleType.Warning) },
+                { "botButtonDanger", styleService.GetTemplate().GetButtonStyle(StyleType.Danger) },
+                { "botEntryPrimary", styleService.GetTemplate().GetEntryStyle(StyleType.Primary) },
+                { "botEditorPrimary", styleService.GetTemplate().GetEditorStyle(StyleType.Primary) }
+            };
+            return resources;
         }
 
         protected override void OnStart ()

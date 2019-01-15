@@ -2,39 +2,25 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor.ScriptEditorPage"
-             xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
-             Title="Javascript Editor"
-             BackgroundColor="#202020">
+             Title="Javascript Editor">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <local:BotEditor x:Name="ScriptEditor"
-                                 Text="{Binding Script}"
-                                 Services="{Binding Container}"
-                                 BotType="Primary"
-                                 VerticalOptions="FillAndExpand"
-                                 HorizontalOptions="FillAndExpand" />
-            </StackLayout>
-            <StackLayout Padding="0" Margin="0" VerticalOptions="End" HorizontalOptions="FillAndExpand">
-                <FlexLayout x:Name="ButtonsFlexLayout"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="10, 0, 10, 10"
-                        Wrap="Wrap">
-                    <local:BotButton x:Name="CancelButton"
-                                 Text="Cancel"
-                                 Services="{Binding Container}"
-                                 BotType="Primary"
-                                 Clicked="CancelButton_Clicked"
-                                 FlexLayout.Basis="100" />
-                    <local:BotButton x:Name="UpdateButton"
-                                 Text="Update"
-                                 Services="{Binding Container}"
-                                 BotType="Warning"
-                                 Clicked="UpdateButton_Clicked"
-                                 FlexLayout.Basis="100" />
-                </FlexLayout>
-            </StackLayout>
+            <Editor Text="{Binding Script}"
+                    Style="{StaticResource botEditorPrimary}"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+            </Editor>
+            <FlexLayout VerticalOptions="End"
+                        HorizontalOptions="FillAndExpand">
+                <Button Text="Cancel"
+                        Style="{StaticResource botButtonPrimary}"
+                        Clicked="CancelButton_Clicked"
+                        FlexLayout.Basis="100"></Button>
+                <Button Text="Update"
+                        Style="{StaticResource botButtonWarning}"
+                        Clicked="UpdateButton_Clicked"
+                        FlexLayout.Basis="100"></Button>
+            </FlexLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

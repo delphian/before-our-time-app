@@ -83,11 +83,14 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.JsonEditor
                 if (item.GetData<JavascriptItemData>() is JavascriptItemData data)
                 {
                     var scriptEditorPage = new ScriptEditorPage(Container);
-                    scriptEditorPage.ViewModel.SetScript(data.Script);
                     scriptEditorPage.Disappearing += (disSender, disE) =>
                     {
                         data.Script = scriptEditorPage.ViewModel.GetScript();
                         ViewModel.CoreItemJson.JSON = ViewModel.ItemJson = JsonConvert.SerializeObject(item, Formatting.Indented);
+                    };
+                    scriptEditorPage.Appearing += (appSender, appE) =>
+                    {
+                        scriptEditorPage.ViewModel.SetScript(data.Script);
                     };
                     ViewModel.PreLoad = false;
                     await Navigation.PushModalAsync(scriptEditorPage);

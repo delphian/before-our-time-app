@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace BeforeOurTime.MobileApp.Services.Styles
 {
@@ -23,7 +24,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#60a060";
                 button.BackgroundColor = "#408040";
                 button.BorderRadius = 10;
-                button.Margin = "2, 2, 2, 2";
+                button.Margin = "10, 10, 10, 10";
                 button.FontSize = 14;
             }
             if (type == StyleType.Warning)
@@ -32,7 +33,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#d0d060";
                 button.BackgroundColor = "#808040";
                 button.BorderRadius = 2;
-                button.Margin = "4, 2, 4, 2";
+                button.Margin = "20, 10, 10, 10";
                 button.FontSize = 14;
             }
             if (type == StyleType.Danger)
@@ -41,10 +42,37 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#d06060";
                 button.BackgroundColor = "#804040";
                 button.BorderRadius = 2;
-                button.Margin = "6, 2, 6, 2";
+                button.Margin = "20, 10, 10, 10";
                 button.FontSize = 14;
             }
             return button;
+        }
+        /// <summary>
+        /// Get button style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetButtonStyle(StyleType type)
+        {
+            var button = GetButton(type);
+            var buttonStyle = new Style(typeof(Button))
+            {
+                Setters =
+                {
+                    new Setter { Property = Button.TextColorProperty, Value = Color.FromHex(button.TextColor) },
+                    new Setter { Property = Button.BorderColorProperty, Value = Color.FromHex(button.BorderColor) },
+                    new Setter { Property = Button.BackgroundColorProperty, Value = Color.FromHex(button.BackgroundColor) },
+                    new Setter { Property = Button.CornerRadiusProperty, Value = button.BorderRadius },
+                    new Setter { Property = Button.PaddingProperty, Value = 0 },
+                    new Setter { Property = Button.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(button.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(button.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(button.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(button.Margin.Split(',')[3].Trim())) },
+                    new Setter { Property = Button.FontSizeProperty, Value = button.FontSize }
+                }
+            };
+            return buttonStyle;
         }
         /// <summary>
         /// Get specified style editor from current template
@@ -59,9 +87,33 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 editor.BackgroundColor = "#404040";
                 editor.TextColor = "#ffffff";
                 editor.FontSize = 14;
-                editor.Margin = 2;
+                editor.Margin = "10, 10, 10, 10";
             }
             return editor;
+        }
+        /// <summary>
+        /// Get editor style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetEditorStyle(StyleType type)
+        {
+            var editor = GetEditor(type);
+            var editorStyle = new Style(typeof(Editor))
+            {
+                Setters =
+                {
+                    new Setter { Property = Editor.TextColorProperty, Value = Color.FromHex(editor.TextColor) },
+                    new Setter { Property = Editor.BackgroundColorProperty, Value = Color.FromHex(editor.BackgroundColor) },
+                    new Setter { Property = Editor.FontSizeProperty, Value = editor.FontSize },
+                    new Setter { Property = Button.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(editor.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(editor.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(editor.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(editor.Margin.Split(',')[3].Trim())) }
+                 }
+            };
+            return editorStyle;
         }
         /// <summary>
         /// Get specified style entry from current template
@@ -76,8 +128,33 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 entry.BackgroundColor = "#404040";
                 entry.TextColor = "#ffffff";
                 entry.PlaceholderColor = "#ffffff";
+                entry.Margin = "10, 10, 10, 10";
             }
             return entry;
+        }
+        /// <summary>
+        /// Get entry style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetEntryStyle(StyleType type)
+        {
+            var entry = GetEntry(type);
+            var entryStyle = new Style(typeof(Entry))
+            {
+                Setters =
+                {
+                    new Setter { Property = Editor.TextColorProperty, Value = Color.FromHex(entry.TextColor) },
+                    new Setter { Property = Editor.BackgroundColorProperty, Value = Color.FromHex(entry.BackgroundColor) },
+                    new Setter { Property = Editor.PlaceholderColorProperty, Value = Color.FromHex(entry.PlaceholderColor) },
+                    new Setter { Property = Button.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(entry.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(entry.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(entry.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(entry.Margin.Split(',')[3].Trim())) }
+                }
+            };
+            return entryStyle;
         }
         /// <summary>
         /// Get specified style page from current template

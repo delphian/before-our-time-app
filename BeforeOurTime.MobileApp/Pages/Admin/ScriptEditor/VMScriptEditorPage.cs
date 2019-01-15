@@ -14,8 +14,8 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         /// </summary>
         public string Script
         {
-            set { _script = value; NotifyPropertyChanged("Script"); }
             get { return _script; }
+            set { _script = value; NotifyPropertyChanged("Script"); }
         }
         private string _script { set; get; }
         /// <summary>
@@ -35,6 +35,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
                 IndentSize = 4
             });
             Script = beautifier.Beautify(script);
+            NotifyPropertyChanged("Script");
         }
         /// <summary>
         /// Get the script string
