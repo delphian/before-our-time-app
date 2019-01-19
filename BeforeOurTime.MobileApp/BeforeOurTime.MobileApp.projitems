@@ -28,6 +28,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemTable\ItemTableControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ScrollListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\JsonEditor\VMVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\ScriptEditor\JavascriptHelp\JavascriptHelpPage.xaml.cs">
+      <DependentUpon>JavascriptHelpPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StylePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StyleType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TreeView\TreeViewCustomTitle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TreeView\TreeViewControl.cs" />
@@ -315,6 +320,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\ScriptEditor\ScriptEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\ScriptEditor\JavascriptHelp\JavascriptHelpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

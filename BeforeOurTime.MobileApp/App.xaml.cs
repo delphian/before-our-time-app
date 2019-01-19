@@ -92,7 +92,8 @@ namespace BeforeOurTime.MobileApp
                 { "botButtonWarning", styleService.GetTemplate().GetButtonStyle(StyleType.Warning) },
                 { "botButtonDanger", styleService.GetTemplate().GetButtonStyle(StyleType.Danger) },
                 { "botEntryPrimary", styleService.GetTemplate().GetEntryStyle(StyleType.Primary) },
-                { "botEditorPrimary", styleService.GetTemplate().GetEditorStyle(StyleType.Primary) }
+                { "botEditorPrimary", styleService.GetTemplate().GetEditorStyle(StyleType.Primary) },
+                { "botPickerPrimary", styleService.GetTemplate().GetPickerStyle(StyleType.Primary) }
             };
             return resources;
         }

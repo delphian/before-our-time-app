@@ -18,35 +18,30 @@
                         HorizontalOptions="FillAndExpand"
                         Wrap="Wrap"
                         Margin="0, 0, 0, 10"
-                        Padding="0">
+                        Padding="0"
+                        FlexLayout.Grow="0" JustifyContent="Start" AlignItems="Start" AlignContent="Start">
                 <Button Text="Read"
                         Style="{StaticResource botButtonPrimary}"
                         Clicked="ButtonItemRead_OnClicked"></Button>
                 <Button Text="Cancel"
                         Style="{StaticResource botButtonPrimary}"
-                        Clicked="ButtonItemCancel_OnClicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="ButtonItemCancel_OnClicked"></Button>
                 <Button Text="Data Types"
                         Style="{StaticResource botButtonPrimary}"
-                        Clicked="ButtonDataTypes_OnClicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="ButtonDataTypes_OnClicked"></Button>
                 <Button Text="Javascript"
                         Style="{StaticResource botButtonPrimary}"
                         Clicked="ButtonScriptEditor_OnClicked"
-                        IsVisible="{Binding VMVisible.Javascript}"
-                        FlexLayout.Basis="100"></Button>
+                        IsVisible="{Binding VMVisible.Javascript}"></Button>
                 <Button Text="Create"
                         Style="{StaticResource botButtonWarning}"
-                        Clicked="ButtonItemCreate_OnClicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="ButtonItemCreate_OnClicked"></Button>
                 <Button Text="Update"
                         Style="{StaticResource botButtonWarning}"
-                        Clicked="ButtonItemUpdate_OnClicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="ButtonItemUpdate_OnClicked"></Button>
                 <Button Text="Delete"
                         Style="{StaticResource botButtonDanger}"
-                        Clicked="ButtonItemDelete_OnClicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="ButtonItemDelete_OnClicked"></Button>
             </FlexLayout>
         </StackLayout>
     </ContentPage.Content>

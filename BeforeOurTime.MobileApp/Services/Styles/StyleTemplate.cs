@@ -11,6 +11,47 @@ namespace BeforeOurTime.MobileApp.Services.Styles
     public class StyleTemplate
     {
         /// <summary>
+        /// Get specified style of picker from current template
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public StylePicker GetPicker(StyleType type)
+        {
+            var picker = new StylePicker();
+            if (type == StyleType.Primary)
+            {
+                picker.TextColor = "#00f000";
+                picker.BackgroundColor = "#408040";
+                picker.Margin = "10, 10, 10, 10";
+                picker.FontSize = 14;
+            }
+            return picker;
+        }
+        /// <summary>
+        /// Get picker style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetPickerStyle(StyleType type)
+        {
+            var picker = GetPicker(type);
+            var pickerStyle = new Style(typeof(Picker))
+            {
+                Setters =
+                {
+                    new Setter { Property = Picker.TextColorProperty, Value = Color.FromHex(picker.TextColor) },
+                    new Setter { Property = Picker.BackgroundColorProperty, Value = Color.FromHex(picker.BackgroundColor) },
+                    new Setter { Property = Picker.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(picker.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(picker.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(picker.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(picker.Margin.Split(',')[3].Trim())) },
+                    new Setter { Property = Picker.FontSizeProperty, Value = picker.FontSize }
+                }
+            };
+            return pickerStyle;
+        }
+        /// <summary>
         /// Get specified style of button from current template
         /// </summary>
         /// <param name="type"></param>
@@ -33,7 +74,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.BorderColor = "#d0d060";
                 button.BackgroundColor = "#808040";
                 button.BorderRadius = 2;
-                button.Margin = "20, 10, 10, 10";
+                button.Margin = "10, 10, 10, 10";
                 button.FontSize = 14;
             }
             if (type == StyleType.Danger)
@@ -41,8 +82,8 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 button.TextColor = "#f08080";
                 button.BorderColor = "#d06060";
                 button.BackgroundColor = "#804040";
-                button.BorderRadius = 2;
-                button.Margin = "20, 10, 10, 10";
+                button.BorderRadius = 0;
+                button.Margin = "10, 10, 10, 10";
                 button.FontSize = 14;
             }
             return button;
@@ -128,7 +169,7 @@ namespace BeforeOurTime.MobileApp.Services.Styles
                 entry.BackgroundColor = "#404040";
                 entry.TextColor = "#ffffff";
                 entry.PlaceholderColor = "#ffffff";
-                entry.Margin = "10, 10, 10, 10";
+                entry.Margin = "10, 2, 10, 2";
             }
             return entry;
         }

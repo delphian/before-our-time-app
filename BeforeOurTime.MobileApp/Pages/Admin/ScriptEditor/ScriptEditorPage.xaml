@@ -14,12 +14,19 @@
                         HorizontalOptions="FillAndExpand">
                 <Button Text="Cancel"
                         Style="{StaticResource botButtonPrimary}"
-                        Clicked="CancelButton_Clicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="CancelButton_Clicked"></Button>
+                <Button Text="Help"
+                        Style="{StaticResource botButtonPrimary}"
+                        Clicked="ButtonJavascriptHelp_OnClicked"></Button>
                 <Button Text="Update"
                         Style="{StaticResource botButtonWarning}"
-                        Clicked="UpdateButton_Clicked"
-                        FlexLayout.Basis="100"></Button>
+                        Clicked="UpdateButton_Clicked"></Button>
+                <Picker Title="Code Snippets" 
+                        ItemsSource="{Binding CodeNames}" 
+                        ItemDisplayBinding="{Binding .}"
+                        SelectedItem="{Binding CodeName}"
+                        SelectedIndexChanged="CodePicker_OnSelectedIndexChanged"
+                        Style="{StaticResource botPickerPrimary}"></Picker>
             </FlexLayout>
         </StackLayout>
     </ContentPage.Content>
