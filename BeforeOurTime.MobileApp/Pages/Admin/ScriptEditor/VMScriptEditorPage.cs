@@ -50,6 +50,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
             CodeNames.Add("void BotLog(string message, int level)");
             CodeNames.Add("string BotStringify(object obj)");
             CodeNames.Add("Item BotReadItem(Guid id)");
+            CodeNames.Add("void BotMoveItem(Guid itemId, Guid destinationId, Guid originId)");
         }
         /// <summary>
         /// Remove escape characters and set script string
@@ -132,6 +133,11 @@ var count = BotListCount(item.children);" + $"\n{Script}";
                 Script = @"// Opportunity to execute code at regular interval
 var onTick = function() {
 };" + $"\n{Script}";
+            }
+            if (snippetName == "void BotMoveItem(Guid itemId, Guid destinationId, Guid originId)")
+            {
+                Script = @"// Move this item to new location
+BotMoveItem(me.Id, ""07f91a80-a9d3-4d97-b696-40ce0e95df91"", me.Id);" + $"\n{Script}";
             }
         }
     }
