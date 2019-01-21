@@ -4,7 +4,6 @@
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              xmlns:local="clr-namespace:BeforeOurTime.MobileApp.Controls"
              x:Class="BeforeOurTime.MobileApp.Pages.Explore.ExplorePage"
-             BackgroundColor="#202020"
              Title="{Binding VMLocation.Name}">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
@@ -33,33 +32,26 @@
                     <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped"/>
                     <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped"/>
                 </StackLayout.GestureRecognizers>
-                <ActivityIndicator 
-                    IsRunning="{Binding Working}"
-                    IsVisible="{Binding Working}"
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"
-                    Color="White"
-                    Margin="0" />
                 <ScrollView VerticalOptions="Start"
                             HorizontalOptions="FillAndExpand">
                     <StackLayout VerticalOptions="Start"
                                  HorizontalOptions="FillAndExpand">
                         <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
-                                FontSize="Small" 
-                                FontFamily="Arial Narrow"
-                                TextColor="White" />
+                               Style="{StaticResource botLabelPrimary}" />
                         <Label Text="{Binding EventStream.Output}" 
-                                FontSize="Small"
-                                FontFamily="Arial Narrow"
-                                FontAttributes="Italic" />
+                               Style="{StaticResource botLabelPrimary}"
+                               FontSize="Small"
+                               FontAttributes="Italic" />
                     </StackLayout>
                 </ScrollView>
                 <ScrollView VerticalOptions="Start"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0">
                     <StackLayout x:Name="ItemDescriptionContainer" 
                             Orientation="Horizontal"
                             VerticalOptions="StartAndExpand"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0">
                         <local:BotItemDescriptionsControl
                             x:Name="ItemDescriptionsExits"
                             Services="{Binding Container}"
@@ -69,7 +61,6 @@
                             ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
                             ItemOnCommand="{Binding ItemDescriptions_ItemOnCommand}"
                             Items="{Binding VMLocation.Items}"
-                            Margin="2"
                             Padding="0"
                             HorizontalOptions="FillAndExpand"
                             BackgroundColor="Transparent"/>
@@ -82,12 +73,18 @@
                             ItemOnSelect="{Binding ItemDescriptions_ItemOnSelect}"
                             ItemOnCommand="{Binding ItemDescriptions_ItemOnCommand}"
                             Items="{Binding VMLocation.Items}"
-                            Margin="2"
                             Padding="0"
                             HorizontalOptions="FillAndExpand"
                             BackgroundColor="Transparent"/>
                     </StackLayout>
                 </ScrollView>
+                <ActivityIndicator 
+                    IsRunning="{Binding Working}"
+                    IsVisible="{Binding Working}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    Color="White"
+                    Margin="0" />
                 <ScrollView VerticalOptions="EndAndExpand"
                             HorizontalOptions="FillAndExpand">
                     <StackLayout VerticalOptions="EndAndExpand"

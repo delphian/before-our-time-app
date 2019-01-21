@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BeforeOurTime.MobileApp.Services.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace BeforeOurTime.MobileApp.Pages.Explore
         {
             InitializeComponent();
             Container = container;
+            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
             BindingContext = ViewModel = new VMExplorePage(Container, this);
 #if __MOBILE__
             ItemDescriptionsExits.ItemShowDescriptions = false;

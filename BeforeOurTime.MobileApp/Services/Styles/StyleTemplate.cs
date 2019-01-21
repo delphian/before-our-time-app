@@ -11,6 +11,49 @@ namespace BeforeOurTime.MobileApp.Services.Styles
     public class StyleTemplate
     {
         /// <summary>
+        /// Get specified style of label from current template
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public StyleLabel GetLabel(StyleType type)
+        {
+            var label = new StyleLabel();
+            if (type == StyleType.Primary)
+            {
+                label.TextColor = "#f0f0f0";
+                label.BackgroundColor = null;
+                label.Margin = "0, 0, 0, 0";
+                label.FontSize = 14;
+            }
+            return label;
+        }
+        /// <summary>
+        /// Get label style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetLabelStyle(StyleType type)
+        {
+            var label = GetLabel(type);
+            var labelStyle = new Style(typeof(Label))
+            {
+                Setters =
+                {
+                    new Setter { Property = Label.TextColorProperty, Value = Color.FromHex(label.TextColor) },
+                    new Setter { Property = Label.BackgroundColorProperty, Value = (label.BackgroundColor != null) ?
+                        Color.FromHex(label.BackgroundColor) :
+                        Color.Transparent },
+                    new Setter { Property = Label.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(label.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(label.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(label.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(label.Margin.Split(',')[3].Trim())) },
+                    new Setter { Property = Label.FontSizeProperty, Value = label.FontSize }
+                }
+            };
+            return labelStyle;
+        }
+        /// <summary>
         /// Get specified style of picker from current template
         /// </summary>
         /// <param name="type"></param>

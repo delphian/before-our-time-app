@@ -32,6 +32,7 @@
       <DependentUpon>JavascriptHelpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StyleLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StylePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Styles\StyleType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TreeView\TreeViewCustomTitle.cs" />

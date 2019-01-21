@@ -42,11 +42,13 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         /// <param name="container"></param>
         public VMScriptEditorPage(IContainer container) : base(container)
         {
-            CodeNames.Add("OnUse");
+            CodeNames.Add("OnUse(Item item, ItemCommand itemCommand, Item origin)");
             CodeNames.Add("OnItemRead");
-            CodeNames.Add("BotEmote");
-            CodeNames.Add("BotLog");
-            CodeNames.Add("BotReadItem");
+            CodeNames.Add("void BotEmote(string message, int? level)");
+            CodeNames.Add("int BotListCount(IList list)");
+            CodeNames.Add("void BotLog(string message, int level)");
+            CodeNames.Add("string BotStringify(object obj)");
+            CodeNames.Add("Item BotReadItem(Guid id)");
         }
         /// <summary>
         /// Remove escape characters and set script string
@@ -73,25 +75,25 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         /// </summary>
         public void InsertSnippet(string snippetName)
         {
-            if (snippetName == "OnUse")
+            if (snippetName == "OnUse(Item item, ItemCommand itemCommand, Item origin)")
             {
-                Script = @"// Respond to a command
+                Script = @"// Respond to a javascript callback command
 var onUse = function(item, itemCommand, origin) {
     botEmote(300, ""I like "" + itemCommand.data.like);
 };" + $"\n{Script}";
             }
             if (snippetName == "OnItemRead")
             {
-                Script = @"// Add command to item
+                Script = @"// Add javascript (onUse) command to item
 var onItemRead = function(item) {
     botAddProperty(""BeforeOurTime.Models.Modules.Core.Models.Properties.CommandItemProperty"", {
         ""commands"": [{
             ""itemId"": item.Id,
-            ""id"": ""c558c1f9-7d01-45f3-bc35-dcab52b5a37c"",
+            ""id"": ""22a73822-6655-4b7b-aa2d-100b5c4a00a7"",
             ""data"": {
                 ""like"": 5
             },
-            ""name"": ""Go Now""
+            ""name"": ""Run Javascript Callback""
         }]
     });
 };" + $"\n{Script}";
@@ -102,7 +104,7 @@ var onItemRead = function(item) {
 // 100 = Smile, 200 = Frown, 300 = Speak, 400 = Raw
 botEmote(300, ""Hello World"");" + $"\n{Script}";
             }
-            if (snippetName == "BotLog")
+            if (snippetName == "void BotLog(string message, int level)")
             {
                 Script = @"// Write to log file
 botLog(""Testing log file"");" + $"\n{Script}";
@@ -112,6 +114,17 @@ botLog(""Testing log file"");" + $"\n{Script}";
                 Script = @"// Read an item
 var item = botReadItem(c558c1f9-7d01-45f3-bc35-dcab52b5a37c);
 botEmote(300, ""I just read item "" + item.id);" + $"\n{Script}";
+            }
+            if (snippetName == "string BotStringify(object obj)")
+            {
+                Script = @"
+var json = botStringify(object obj);
+" + $"\n{Script}";
+            }
+            if (snippetName == "int BotListCount(IList list)")
+            {
+                Script = @"// Count the number of items in a list
+var count = BotListCount(item.children);" + $"\n{Script}";
             }
         }
     }
