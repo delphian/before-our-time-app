@@ -35,12 +35,12 @@
                 <ScrollView VerticalOptions="Start"
                             HorizontalOptions="FillAndExpand">
                     <StackLayout VerticalOptions="Start"
-                                 HorizontalOptions="FillAndExpand">
+                                 HorizontalOptions="FillAndExpand"
+                                 Margin="0">
                         <Label FormattedText="{Binding VMLocation.DescriptionFormatted}" 
                                Style="{StaticResource botLabelPrimary}" />
                         <Label Text="{Binding EventStream.Output}" 
                                Style="{StaticResource botLabelPrimary}"
-                               FontSize="Small"
                                FontAttributes="Italic" />
                     </StackLayout>
                 </ScrollView>

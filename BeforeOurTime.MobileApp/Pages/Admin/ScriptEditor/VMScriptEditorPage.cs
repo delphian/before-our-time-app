@@ -42,6 +42,7 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         /// <param name="container"></param>
         public VMScriptEditorPage(IContainer container) : base(container)
         {
+            CodeNames.Add("OnTick()");
             CodeNames.Add("OnUse(Item item, ItemCommand itemCommand, Item origin)");
             CodeNames.Add("OnItemRead");
             CodeNames.Add("void BotEmote(string message, int? level)");
@@ -125,6 +126,12 @@ var json = botStringify(object obj);
             {
                 Script = @"// Count the number of items in a list
 var count = BotListCount(item.children);" + $"\n{Script}";
+            }
+            if (snippetName == "OnTick()")
+            {
+                Script = @"// Opportunity to execute code at regular interval
+var onTick = function() {
+};" + $"\n{Script}";
             }
         }
     }

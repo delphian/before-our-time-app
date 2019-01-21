@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor.JavascriptHelp;
 using BeforeOurTime.MobileApp.Services.Styles;
 using System;
 using System.Collections.Generic;
@@ -41,22 +40,6 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         private async void CancelButton_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
-        }
-        /// <summary>
-        /// Open new page containing snippets of data type json
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void ButtonJavascriptHelp_OnClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                await Navigation.PushModalAsync(new JavascriptHelpPage(Container));
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "OK, Maybe Tomorrow");
-            }
         }
         /// <summary>
         /// For now, do nothing
