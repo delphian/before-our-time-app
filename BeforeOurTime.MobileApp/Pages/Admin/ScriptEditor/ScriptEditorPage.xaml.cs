@@ -46,9 +46,9 @@ namespace BeforeOurTime.MobileApp.Pages.Admin.ScriptEditor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CodePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+        public void FunctionPicker_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            ViewModel.InsertSnippet(ViewModel.CodeName);
+            ViewModel.InsertFunction(ViewModel.SelectedFunction);
         }
     }
 }

@@ -18,11 +18,11 @@
                 <Button Text="Update"
                         Style="{StaticResource botButtonWarning}"
                         Clicked="UpdateButton_Clicked"></Button>
-                <Picker Title="Code Snippets" 
-                        ItemsSource="{Binding CodeNames}" 
-                        ItemDisplayBinding="{Binding .}"
-                        SelectedItem="{Binding CodeName}"
-                        SelectedIndexChanged="CodePicker_OnSelectedIndexChanged"
+                <Picker Title="Function Snippet" 
+                        ItemsSource="{Binding Functions}" 
+                        ItemDisplayBinding="{Binding Prototype}"
+                        SelectedItem="{Binding SelectedFunction}"
+                        SelectedIndexChanged="FunctionPicker_OnSelectedIndexChanged"
                         Style="{StaticResource botPickerPrimary}"></Picker>
             </FlexLayout>
         </StackLayout>
