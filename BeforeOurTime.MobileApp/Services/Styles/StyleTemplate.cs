@@ -11,6 +11,45 @@ namespace BeforeOurTime.MobileApp.Services.Styles
     public class StyleTemplate
     {
         /// <summary>
+        /// Get specified style of list from current template
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public StyleList GetList(StyleType type)
+        {
+            var list = new StyleList();
+            if (type == StyleType.Primary)
+            {
+                list.BackgroundColor = null;
+                list.Margin = "0, 0, 0, 0";
+            }
+            return list;
+        }
+        /// <summary>
+        /// Get list style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetListStyle(StyleType type)
+        {
+            var list = GetList(type);
+            var listStyle = new Style(typeof(ListView))
+            {
+                Setters =
+                {
+                    new Setter { Property = ListView.BackgroundColorProperty, Value = (list.BackgroundColor != null) ?
+                        Color.FromHex(list.BackgroundColor) :
+                        Color.Transparent },
+                    new Setter { Property = ListView.MarginProperty, Value = new Thickness(
+                        Convert.ToDouble(list.Margin.Split(',')[0].Trim()),
+                        Convert.ToDouble(list.Margin.Split(',')[1].Trim()),
+                        Convert.ToDouble(list.Margin.Split(',')[2].Trim()),
+                        Convert.ToDouble(list.Margin.Split(',')[3].Trim())) }
+                }
+            };
+            return listStyle;
+        }
+        /// <summary>
         /// Get specified style of label from current template
         /// </summary>
         /// <param name="type"></param>

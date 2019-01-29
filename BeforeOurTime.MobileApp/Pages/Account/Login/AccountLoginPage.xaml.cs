@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BeforeOurTime.MobileApp.Pages.Account.Login.Update;
+using BeforeOurTime.MobileApp.Services.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace BeforeOurTime.MobileApp.Pages.Account.Login
 		{
 			InitializeComponent ();
             Container = container;
+            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
             BindingContext = ViewModel = new AccountLoginPageViewModel(container);
         }
         /// <summary>

@@ -37,15 +37,6 @@ namespace BeforeOurTime.MobileApp.Pages.Server
         /// Local storage settings
         /// </summary>
         public Settings Settings { set; get; }
-        /// <summary>
-        /// All available servers to choose from
-        /// </summary>
-        public List<string> ConnectionStrings { set; get; } = new List<string>()
-        {
-            "ws://10.0.2.2:2024/ws",
-            "ws://localhost:2024/ws",
-            "ws://beforeourtime.world:2024/ws"
-        };
         public bool ShowAdvanced
         {
             get { return _showAdvanced; }

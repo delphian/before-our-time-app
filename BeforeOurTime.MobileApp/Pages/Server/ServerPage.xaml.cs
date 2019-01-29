@@ -4,6 +4,7 @@ using BeforeOurTime.MobileApp.Services.Accounts;
 using BeforeOurTime.MobileApp.Services.Characters;
 using BeforeOurTime.MobileApp.Services.Games;
 using BeforeOurTime.MobileApp.Services.Messages;
+using BeforeOurTime.MobileApp.Services.Styles;
 using BeforeOurTime.MobileApp.Services.WebSockets;
 using BeforeOurTime.Models.Exceptions;
 using Newtonsoft.Json;
@@ -37,6 +38,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
 		{
 			InitializeComponent ();
             Container = container;
+            BackgroundColor = Color.FromHex(Container.Resolve<IStyleService>().GetTemplate().GetPage(StyleType.Primary).BackgroundColor);
             BindingContext = ViewModel = new ServerPageViewModel(Container);
         }
         /// <summary>
@@ -81,7 +83,7 @@ namespace BeforeOurTime.MobileApp.Pages.Server
             try
             {
                 ViewModel.Working = true;
-                var connectionString = ServerPicker.Items[ServerPicker.SelectedIndex];
+                var connectionString = ViewModel.ConnectionString;
                 if (connectionString != null)
                 {
                     await ViewModel.ConnectAsync(connectionString);

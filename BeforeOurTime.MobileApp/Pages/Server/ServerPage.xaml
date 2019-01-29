@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
              x:Class="BeforeOurTime.MobileApp.Pages.Server.ServerPage"
-             Title="Connect to World"
-             BackgroundColor="#202020">
+             Title="Connect to World">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
@@ -19,67 +18,54 @@
                          Padding="0">
                 <Label Text="{Binding Error}" 
                        TextColor="Red" 
-                       Margin="0"
+                       Style="{StaticResource botLabelPrimary}"
                        IsVisible="{Binding IsError}"/>
                 <FlexLayout HorizontalOptions="FillAndExpand">
                     <Button Text="No Account Required. Just Play!"
-                        FlexLayout.Basis="90%"
-                        Clicked="ButtonConnect_OnClicked"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0"
-                        CornerRadius="10"
-                        BackgroundColor="#608060"
-                        TextColor="White"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                            FlexLayout.Basis="80%"
+                            Clicked="ButtonConnect_OnClicked"
+                            Style="{StaticResource botButtonPrimary}"
+                            IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
                     <Button Text="..."
-                        FlexLayout.Basis="10%"
-                        Clicked="ButtonAdvanced_OnClicked"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="5, 0, 0, 0"
-                        CornerRadius="20"
-                        BackgroundColor="#606060"
-                        TextColor="White"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
+                            FlexLayout.Basis="20%"
+                            Clicked="ButtonAdvanced_OnClicked"
+                            Style="{StaticResource botButtonWarning}"
+                            IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Button>
                 </FlexLayout>
                 <ActivityIndicator IsRunning="{Binding Working}"
+                                   IsVisible="{Binding Working}"
                                    HorizontalOptions="FillAndExpand"
                                    Color="White"
                                    Margin="0, 10, 0, 0" />
                 <StackLayout IsVisible="{Binding ShowAdvanced}">
-                    <Picker x:Name="ServerPicker"
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0"
-                        ItemsSource="{Binding ConnectionStrings}" 
-                        ItemDisplayBinding="{Binding .}"
-                        SelectedItem="{Binding ConnectionString}"
-                        SelectedIndexChanged="ServerPicker_OnSelectedIndexChanged"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}" />
+                    <Entry Text="{Binding ConnectionString}"
+                           Style="{StaticResource botEntryPrimary}"
+                           Margin="0"
+                           IsEnabled="{Binding Working, Converter={StaticResource inverter}}" />
                     <Entry Text="{Binding LoginEmail}" 
-                        Placeholder="Login Email"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"
-                        BackgroundColor="#404040"
-                        TextColor="White"></Entry>
+                           Placeholder="Login Email"
+                           Style="{StaticResource botEntryPrimary}"
+                           Margin="0"
+                           IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
                     <Entry Text="{Binding LoginPassword}" 
-                        Placeholder="Login Password"
-                        IsPassword="true"
-                        IsEnabled="{Binding Working, Converter={StaticResource inverter}}"
-                        BackgroundColor="#404040"
-                        TextColor="White"></Entry>
+                           Placeholder="Login Password"
+                           IsPassword="true"
+                           Style="{StaticResource botEntryPrimary}"
+                           Margin="0"
+                           IsEnabled="{Binding Working, Converter={StaticResource inverter}}"></Entry>
                 </StackLayout>
             </StackLayout>
             <StackLayout VerticalOptions="End"
                          HorizontalOptions="FillAndExpand"
                          Margin="4">
                 <Button Text="Error Logs" 
-                        Clicked="ButtonErrorLog_OnClicked"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="#808060"
-                        TextColor="White"></Button>
+                        Style="{StaticResource botButtonWarning}"
+                        Margin="0"
+                        Clicked="ButtonErrorLog_OnClicked"></Button>
                 <Button Text="Clear Cache" 
-                        Clicked="ButtonClearCache_OnClicked"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="#806060"
-                        TextColor="White"></Button>
+                        Style="{StaticResource botButtonDanger}"
+                        Margin="0"
+                        Clicked="ButtonClearCache_OnClicked"></Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

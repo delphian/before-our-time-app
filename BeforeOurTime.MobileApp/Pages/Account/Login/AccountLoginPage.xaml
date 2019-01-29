@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BeforeOurTime.MobileApp.Converters"
-             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.AccountLoginPage"
-             BackgroundColor="#202020">
+             x:Class="BeforeOurTime.MobileApp.Pages.Account.Login.AccountLoginPage">
     <ContentPage.Resources>
         <converters:NotBooleanConverter x:Key="inverter" />
     </ContentPage.Resources>
@@ -17,9 +16,8 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand">
                 <Label Text="You are using a temporary account. Edit account and choose a name to make permanent. Temporary accounts are subject to termination after evaluation period has expired."
+                       Style="{StaticResource botLabelPrimary}"
                        IsVisible="{Binding LoggedInAccount.Temporary}"
-                       FontSize="Medium"
-                       TextColor="White"
                        Margin="10"/>
                 <ListView 
                     x:Name="AccountListView"
@@ -49,12 +47,11 @@
                                             Padding="0" Margin="2" 
                                             VerticalOptions="CenterAndExpand" 
                                             HorizontalOptions="Start">
-                                            <Label 
-                                                FontAttributes="Bold" 
-                                                Text="{Binding Account.Name}"
-                                                TextColor="White"></Label>
+                                            <Label Text="{Binding Account.Name}"
+                                                   Style="{StaticResource botLabelPrimary}"
+                                                   FontAttributes="Bold"></Label>
                                             <Label Text="{Binding Id}"
-                                                   TextColor="White"></Label>
+                                                   Style="{StaticResource botLabelPrimary}"></Label>
                                         </StackLayout>
                                         <StackLayout IsVisible="{Binding IsSelected}" 
                                                      Orientation="Horizontal"
