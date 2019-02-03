@@ -11,6 +11,43 @@ namespace BeforeOurTime.MobileApp.Services.Styles
     public class StyleTemplate
     {
         /// <summary>
+        /// Get specified style of span from current template
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public StyleSpan GetSpan(StyleType type)
+        {
+            var span = new StyleSpan();
+            if (type == StyleType.Primary)
+            {
+                span.TextColor = "#e0e0ff";
+                span.BackgroundColor = null;
+                span.FontSize = 16;
+            }
+            return span;
+        }
+        /// <summary>
+        /// Get span style in xamarin form format
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Style GetSpanStyle(StyleType type)
+        {
+            var span = GetSpan(type);
+            var spanStyle = new Style(typeof(Span))
+            {
+                Setters =
+                {
+                    new Setter { Property = Span.TextColorProperty, Value = Color.FromHex(span.TextColor) },
+                    new Setter { Property = Span.FontSizeProperty, Value = span.FontSize },
+                    new Setter { Property = Span.BackgroundColorProperty, Value = (span.BackgroundColor != null) ?
+                        Color.FromHex(span.BackgroundColor) :
+                        Color.Transparent }
+                }
+            };
+            return spanStyle;
+        }
+        /// <summary>
         /// Get specified style of list from current template
         /// </summary>
         /// <param name="type"></param>

@@ -372,7 +372,10 @@ namespace BeforeOurTime.MobileApp.Controls
             }
             Span BuildCommandSpan(ItemCommand itemCommand, ICommand callback)
             {
-                var commandSpan = new Span() { Text = $"[{itemCommand.Name}]" };
+                var commandSpan = new Span() {
+                    Text = $"[{itemCommand.Name}]",
+                    Style = App.Current.Resources["botSpanPrimary"] as Xamarin.Forms.Style
+                };
                 if (callback != null)
                 {
                     commandSpan.GestureRecognizers.Add(new TapGestureRecognizer()
