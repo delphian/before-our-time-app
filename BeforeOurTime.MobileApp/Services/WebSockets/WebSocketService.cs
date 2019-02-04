@@ -148,9 +148,11 @@ namespace BeforeOurTime.MobileApp.Services.WebSockets
                             OnData?.Invoke(messageJson);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        LoggerService.Log(LogLevel.Error, $"While distributing websocket message: {messageJson}");
+                        LoggerService.Log(
+                            LogLevel.Error, 
+                            $"{e.Message}: While distributing websocket message: {messageJson}");
                     }
                 }
             }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
